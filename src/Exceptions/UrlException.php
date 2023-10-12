@@ -2,7 +2,9 @@
 
 namespace Idynsys\BillingSdk\Exceptions;
 
-class UrlException extends \Exception
+use Exception;
+
+class UrlException extends RequestException
 {
 
 }
