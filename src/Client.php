@@ -10,42 +10,27 @@ use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
 use Idynsys\BillingSdk\Exceptions\MethodException;
 use Idynsys\BillingSdk\Exceptions\NotFoundException;
-use Idynsys\BillingSdk\Exceptions\RequestMethodException;
+use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
 use Idynsys\BillingSdk\Exceptions\UrlException;
 
 class Client
 {
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    private RequestData $data;
-    private string $method;
-
     private string $content;
     private ?Exception $error = null;
 
-    public function __construct(RequestData $data, string $method = self::METHOD_GET)
+    public function __construct()
     {
-        $this->data = $data;
-        $this->setMethod($method);
+        //
     }
 
-    private function setMethod(string $method): void
-    {
-        if (!in_array($method, [self::METHOD_GET, self::METHOD_POST])) {
-            throw new RequestMethodException();
-        }
-
-        $this->method = $method;
-    }
-
-    public function send(): self
+    public function send(RequestData $data, bool $throwException = true): self
     {
         $this->error = null;
 
         $client = new \GuzzleHttp\Client();
 
         try {
-            $res = $client->request($this->method, $this->data->getUrl(), $this->data->getData());
+            $res = $client->request($data->getMethod(), $data->getUrl(), $data->getData());
 
             $this->content = $res->getBody()->getContents();
         } catch (ClientException $exception) {
@@ -54,7 +39,11 @@ class Client
 
             switch ($response->getStatusCode()) {
                 case 401:
-                    $this->error = new AuthException($responseBody, $response->getStatusCode());
+                    if ($responseBody) {
+                        $this->error = new AuthException($responseBody, $response->getStatusCode());
+                    } else {
+                        $this->error = new UnauthorizedException($response->getStatusCode());
+                    }
                     break;
                 case 404:
                     $this->error = new NotFoundException($responseBody, $response->getStatusCode());
@@ -72,11 +61,19 @@ class Client
             $this->error = new UrlException(['error' => $exception->getHandlerContext()['error']], 503);
         }
 
+        if ($this->error && $throwException) {
+            throw $this->error;
+        }
+
         return $this;
     }
 
-    public function getResult(?string $key = null): array
+    public function getResult(?string $key = null): ?array
     {
+        if ($this->hasError()) {
+            return null;
+        }
+
         $data = json_decode($this->content, true);
 
         if ($key) {

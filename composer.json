@@ -13,6 +13,8 @@
             "email": "a.tarkhanov@idynsys.org"
         }
     ],
-    "require": {},
+    "require": {
+      "ext-openssl": "*"
+    },
     "minimum-stability": "dev"
 }

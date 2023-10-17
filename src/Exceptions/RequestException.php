@@ -29,4 +29,9 @@ abstract class RequestException extends Exception
     {
         return $this->originalError ?: ['error' => $this->getMessage()];
     }
+
+    public function getOriginalMessage()
+    {
+        return $this->originalError;
+    }
 }

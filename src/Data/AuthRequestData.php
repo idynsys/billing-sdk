@@ -4,18 +4,8 @@ namespace Idynsys\BillingSdk\Data;
 
 use Idynsys\BillingSdk\Config\Config;
 
-final class AuthRequestData implements RequestData
+final class AuthRequestData extends RequestData
 {
-    public string $userName;
-    public string $password;
-    public string $clientId;
-
-    public function __construct(string $userName, string $password)
-    {
-        $this->userName = $userName;
-        $this->password = $password;
-        $this->clientId = $this->getClientId();
-    }
 
     private function getClientId(): string
     {
@@ -27,18 +17,13 @@ final class AuthRequestData implements RequestData
         return getenv('BILLING_SDK_MODE') === 'PRODUCTION' ? Config::PROD_AUTH_URL : Config::PREPROD_AUTH_URL;
     }
 
-    public function getData(): array
+    protected function getRequestData(): array
     {
         return [
-            'headers'     => [
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ],
-            'form_params' => [
-                'client_id'  => $this->clientId,
-                'username'   => $this->userName,
-                'password'   => $this->password,
-                'grant_type' => 'password'
-            ]
+            'client_id' => $this->getClientId(),
+            'grant_type' => 'password',
+            'username' => 'admin@test.com',
+            'password' => '123456'
         ];
     }
 }
