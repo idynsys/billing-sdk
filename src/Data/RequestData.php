@@ -8,23 +8,18 @@ abstract class RequestData
 {
     protected string $requestMethod;
 
-    public function __construct(string $requestMethod = RequestMethod::METHOD_POST)
-    {
-        $this->requestMethod = $requestMethod;
-    }
-
     abstract public function getUrl(): string;
 
     abstract protected function getRequestData(): array;
 
     public function getMethod(): string
     {
-        return $this->requestMethod;
+        return $this->requestMethod ?: RequestMethod::METHOD_GET;
     }
 
     public function getData(): array
     {
-        $paramsType = $this->requestMethod === RequestMethod::METHOD_POST ? 'form_params' : 'query';
+        $paramsType = $this->getMethod() === RequestMethod::METHOD_POST ? 'form_params' : 'query';
 
         return [
             'headers'  => $this->getHeadersData(),
@@ -47,7 +42,7 @@ abstract class RequestData
             )
         ];
 
-        if ($this->requestMethod === RequestMethod::METHOD_POST) {
+        if ($this->getMethod() === RequestMethod::METHOD_POST) {
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 

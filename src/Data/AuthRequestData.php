@@ -3,9 +3,11 @@
 namespace Idynsys\BillingSdk\Data;
 
 use Idynsys\BillingSdk\Config\Config;
+use Idynsys\BillingSdk\Enums\RequestMethod;
 
 final class AuthRequestData extends RequestData
 {
+    protected string $requestMethod = RequestMethod::METHOD_POST;
 
     private function getClientId(): string
     {

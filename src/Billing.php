@@ -2,8 +2,12 @@
 
 namespace Idynsys\BillingSdk;
 
+use Idynsys\BillingSdk\Data\AuthorisationTokenInclude;
 use Idynsys\BillingSdk\Data\AuthRequestData;
+use Idynsys\BillingSdk\Data\PayInRequestData;
 use Idynsys\BillingSdk\Data\PaymentMethodListRequestData;
+use Idynsys\BillingSdk\Data\PayoutRequestData;
+use Idynsys\BillingSdk\Data\RequestData;
 use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
 
 class Billing
@@ -49,13 +53,37 @@ class Billing
         }
     }
 
+    private function addToken(RequestData $data): void
+    {
+        if ($data instanceof AuthorisationTokenInclude) {
+            $this->getTokenForRequest();
+            $data->setToken($this->token);
+        }
+    }
+
+    private function sendRequest(RequestData $data): void
+    {
+        $this->addToken($data);
+        $this->client->send($data);
+    }
+
     public function getPaymentMethods(): array
     {
-        $this->getTokenForRequest();
+        $this->sendRequest(new PaymentMethodListRequestData());
 
-        $data = new PaymentMethodListRequestData($this->token);
+        return $this->client->getResult('items');
+    }
 
-        $this->client->send($data);
+    public function payIn(): array
+    {
+        $this->sendRequest(new PayInRequestData());
+
+        return $this->client->getResult('items');
+    }
+
+    public function payout(): array
+    {
+        $this->sendRequest(new PayoutRequestData());
 
         return $this->client->getResult('items');
     }
