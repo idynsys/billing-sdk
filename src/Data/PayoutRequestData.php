@@ -13,7 +13,7 @@ class PayoutRequestData extends RequestData implements AuthorisationTokenInclude
     public function getUrl(): string
     {
         return getenv('BILLING_SDK_MODE') === 'PRODUCTION'
-            ? Config::PROD_PAY_IN_URL : Config::PREPROD_PAY_IN_URL;
+            ? Config::PROD_PAYOUT_URL : Config::PREPROD_PAYOUT_URL;
     }
 
     protected function getRequestData(): array

@@ -22,10 +22,7 @@ final class AuthRequestData extends RequestData
     protected function getRequestData(): array
     {
         return [
-            'client_id' => $this->getClientId(),
-            'grant_type' => 'password',
-            'username' => 'admin@test.com',
-            'password' => '123456'
+            'clientId' => $this->getClientId(),
         ];
     }
 }

@@ -29,8 +29,8 @@ class Billing
 
         $this->client->send($data, $throwException);
 
-        $result = $this->client->getResult('access_token');
-        $this->token = ($result && array_key_exists('access_token', $result)) ? $result['access_token'] : null;
+        $result = $this->client->getResult('data');
+        $this->token = ($result && array_key_exists('data', $result)) ? $result['data'] : null;
 
         return $this->token;
     }
