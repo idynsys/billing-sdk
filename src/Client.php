@@ -13,9 +13,15 @@ use Idynsys\BillingSdk\Exceptions\NotFoundException;
 use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
 use Idynsys\BillingSdk\Exceptions\UrlException;
 
+/**
+ * Класс для выполнения запросов к B2B backoffice
+ */
 class Client
 {
+    // Содержимое ответа выполненного запроса
     private string $content;
+
+    // Exception возникший при выполнении запроса
     private ?Exception $error = null;
 
     public function __construct()
@@ -23,6 +29,19 @@ class Client
         //
     }
 
+    /**
+     * Отправить запрос на B2B Backoffice
+     *
+     * @param RequestData $data - DTO запроса
+     * @param bool $throwException - нужно ли вызывать исключительную ситуацию, если запрос выполнился с ошибкой
+     * @return $this
+     * @throws AnotherException
+     * @throws AuthException
+     * @throws MethodException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws UrlException
+     */
     public function send(RequestData $data, bool $throwException = true): self
     {
         $this->error = null;
@@ -35,7 +54,7 @@ class Client
             $this->content = $res->getBody()->getContents();
         } catch (ClientException $exception) {
             $response = $exception->getResponse();
-            $responseBody = json_decode($response->getBody()->getContents(), true);
+            $responseBody = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
             switch ($response->getStatusCode()) {
                 case 401:
@@ -68,13 +87,19 @@ class Client
         return $this;
     }
 
+    /**
+     * Получить результат запроса. Если произошла ошибка, то вернется null
+     *
+     * @param string|null $key
+     * @return string[]|null
+     */
     public function getResult(?string $key = null): ?array
     {
         if ($this->hasError()) {
             return null;
         }
 
-        $data = json_decode($this->content, true);
+        $data = json_decode($this->content, true, 512, JSON_THROW_ON_ERROR);
 
         if ($key) {
             $data = [$key => array_key_exists($key, $data) ? $data[$key] : ''];
@@ -83,11 +108,21 @@ class Client
         return $data;
     }
 
-    public function hasError()
+    /**
+     * Проверить наличие ошибки в запросе
+     *
+     * @return bool
+     */
+    public function hasError(): bool
     {
         return !is_null($this->error);
     }
 
+    /**
+     * Получить ошибку запроса, если она произошла
+     *
+     * @return array|null
+     */
     public function getError(): ?array
     {
         if (!$this->hasError()) {
@@ -97,12 +132,4 @@ class Client
         return $this->error->getError();
     }
 
-    public function getErrorStatus()
-    {
-        if (!$this->hasError()) {
-            return null;
-        }
-
-        return $this->error->getErrorStatus();
-    }
 }

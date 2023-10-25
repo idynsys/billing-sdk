@@ -1,20 +1,23 @@
 {
-    "name": "idynsys/billing-sdk",
-    "description": "SDK для интеграции с B2B backoffice",
-    "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Idynsys\\BillingSdk\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Alexander Tarkhanov",
-            "email": "a.tarkhanov@idynsys.org"
-        }
-    ],
-    "require": {
-      "ext-openssl": "*"
-    },
-    "minimum-stability": "dev"
+  "name": "idynsys/billing-sdk",
+  "description": "SDK для интеграции с B2B backoffice.Billing.",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Idynsys\\BillingSdk\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Alexander Tarkhanov",
+      "email": "a.tarkhanov@idynsys.org"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "ext-openssl": "*",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "minimum-stability": "dev"
 }
