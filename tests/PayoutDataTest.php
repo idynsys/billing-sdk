@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 class PayoutDataTest extends TestCase
 {
     use CallIProtectedMethodsTrait;
+
     private Generator $faker;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
@@ -23,10 +24,11 @@ class PayoutDataTest extends TestCase
         return new PayoutRequestData(
             $this->faker->uuid,
             $this->faker->shuffleString,
-            $this->faker->email, $this->faker->numberBetween(1, 200),
+            $this->faker->numberBetween(1, 200),
             $this->faker->randomElement(['USD', 'EUR', 'RUB', 'KZT']),
-            $this->faker->randomNumber(),
-            $this->faker->realText
+            $this->faker->creditCardNumber(),
+            $this->faker->creditCardExpirationDateString(),
+            $this->faker->name()
         );
     }
 

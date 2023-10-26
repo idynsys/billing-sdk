@@ -19,11 +19,6 @@ class AuthDataTest extends TestCase
         return $method;
     }
 
-    public function testAssertSuccess(): void
-    {
-        $this->assertTrue(true);
-    }
-
     public function testGetUrlForAuthData(): void
     {
         $dto = new AuthRequestData();

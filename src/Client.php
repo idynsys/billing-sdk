@@ -89,13 +89,13 @@ class Client extends GuzzleClient
      */
     public function getResult(?string $key = null): ?array
     {
-        if ($this->hasError()) {
+        if ($this->hasError() || !isset($this->content)) {
             return null;
         }
 
         $data = json_decode($this->content, true, 512, JSON_THROW_ON_ERROR);
 
-        if ($key) {
+        if ($key && is_array($data)) {
             $data = [$key => array_key_exists($key, $data) ? $data[$key] : ''];
         }
 

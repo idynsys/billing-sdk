@@ -20,7 +20,7 @@ abstract class RequestException extends Exception
         return json_encode($this->originalError);
     }
 
-    public function getErrorStatus(): int
+    public function getErrorCode(): int
     {
         return $this->getCode();
     }
