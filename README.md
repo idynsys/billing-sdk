@@ -33,7 +33,9 @@ composer require idynsys/billing-sdk
 
 1. Создать экземпляр класса 
 
-```
+```php
+<?php
+
 use Idynsys\BillingSdk\Billing;
 ...
 
@@ -41,12 +43,16 @@ $billing = new Billing();
 ```
 
 2.1. Получить список доступных платежных методов
-```
+```php
+<?php
+
 $result = $billing->getPaymentMethods();
 ```
 
 2.2. Создать транзакцию для пополнения счета
-```
+```php
+<?php
+
 use Idynsys\BillingSdk\Data\DepositRequestData;
 
 // Созадть DTO для запроса на создание транзакции для пополнения счета
@@ -64,7 +70,7 @@ $requestParams = new DepositRequestData(
 $result = $billing->createDeposit($requestParams);
 ```
 Если операция выполнена успешно, то ответ придет в формате ассоциативного массива:
-```
+```php
 [
   "payment_status"      => "SUCCESS",
   "payment_type"        => "PAYMENT_PAGE",
@@ -77,7 +83,9 @@ $result = $billing->createDeposit($requestParams);
 ```
 
 2.3. Создать транзакцию для вывода денежных средств со счета
-```
+```php
+<?php
+
 use Idynsys\BillingSdk\Data\PayoutRequestData;
 
 // Созадть DTO для запроса на создание транзакции для вывода средств со счета
@@ -95,7 +103,7 @@ $requestParams = new PayoutRequestData(
 $result = $billing->createPayout($requestParams);
 ```
 Если операция выполнена успешно, то ответ придет в формате ассоциативного массива:
-```
+```php
 [
   "transactionId": "идентификатор транзакции"
 ]
@@ -103,7 +111,8 @@ $result = $billing->createPayout($requestParams);
 3. Обработка исключительных ситуаций
 При запросе к системе могут возникнуть ошибки, связанные с некорректно отправленными данными
 или невозможностью выполнить операцию. Обработать ошибки можно следующим образом:
-```
+```php
+<?php
 use Idynsys\BillingSdk\Exceptions\RequestException;
 use Throwable;
 

@@ -22,7 +22,7 @@ final class PayoutRequestData extends RequestData implements AuthorisationTokenI
     private string $paymentMethodName;
 
     // Сумма депозита
-    private string $payoutAmount;
+    private float $payoutAmount;
 
     // Код валюты депозита
     private string $payoutCurrency;
@@ -37,13 +37,13 @@ final class PayoutRequestData extends RequestData implements AuthorisationTokenI
     private string $cardRecipientInfo;
 
     public function __construct(
-        $paymentMethodId,
-        $paymentMethodName,
-        $payoutAmount,
-        $payoutCurrency,
-        $cardNumber,
-        $cardExpiration,
-        $cardRecipientInfo
+        string $paymentMethodId,
+        string $paymentMethodName,
+        float $payoutAmount,
+        string $payoutCurrency,
+        string $cardNumber,
+        string $cardExpiration,
+        string $cardRecipientInfo
     ) {
         $this->paymentMethodId = $paymentMethodId;
         $this->paymentMethodName = $paymentMethodName;

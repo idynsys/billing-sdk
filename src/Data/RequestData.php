@@ -67,15 +67,13 @@ abstract class RequestData
      */
     protected function getHeadersData(): array
     {
-        $headers = [
+        return [
             'X-Authorization-Sign' => hash_hmac(
                 'sha512',
                 json_encode($this->getRequestData()),
                 $this->getSecretApplicationKey()
             )
         ];
-
-        return $headers;
     }
 
 }

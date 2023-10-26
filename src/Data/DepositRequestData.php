@@ -28,7 +28,7 @@ final class DepositRequestData extends RequestData implements AuthorisationToken
     private string $merchantOrderDescription;
 
     // email пользователя совершающего операцию
-    private string $customerEmail;
+    private float $customerEmail;
 
     // Сумма депозита
     private string $paymentAmount;
@@ -42,7 +42,7 @@ final class DepositRequestData extends RequestData implements AuthorisationToken
         string $merchantOrderId,
         string $merchantOrderDescription,
         string $customerEmail,
-        string $paymentAmount,
+        float $paymentAmount,
         string $paymentCurrencyCode
     ) {
         $this->paymentMethodId = $paymentMethodId;
