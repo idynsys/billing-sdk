@@ -28,10 +28,10 @@ final class DepositRequestData extends RequestData implements AuthorisationToken
     private string $merchantOrderDescription;
 
     // email пользователя совершающего операцию
-    private float $customerEmail;
+    private string $customerEmail;
 
     // Сумма депозита
-    private string $paymentAmount;
+    private float $paymentAmount;
 
     // Код валюты депозита
     private string $paymentCurrencyCode;
