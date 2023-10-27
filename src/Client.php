@@ -71,7 +71,7 @@ class Client extends GuzzleClient
                     break;
             }
         } catch (ConnectException $exception) {
-            $this->error = new UrlException(['error' => $exception->getHandlerContext()['error']], 503);
+            $this->error = new UrlException(['error' => $exception->getHandlerContext()['error'] ?? 'url incorrect'], 503);
         }
 
         if ($this->error && $throwException) {
