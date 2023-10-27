@@ -45,7 +45,7 @@ final class Billing
     {
         $data = new AuthRequestData();
 
-        $this->client->send($data, $throwException);
+        $this->client->sendRequestToSystem($data, $throwException);
 
         $result = $this->client->getResult('data');
         $this->token = ($result && array_key_exists('data', $result)) ? $result['data'] : null;
@@ -107,7 +107,7 @@ final class Billing
     private function sendRequest(RequestData $data): void
     {
         $this->addToken($data);
-        $this->client->send($data);
+        $this->client->sendRequestToSystem($data);
     }
 
     /**

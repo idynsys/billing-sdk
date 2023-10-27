@@ -3,6 +3,7 @@
 namespace Idynsys\BillingSdk;
 
 use Exception;
+use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use Idynsys\BillingSdk\Data\RequestData;
@@ -16,18 +17,13 @@ use Idynsys\BillingSdk\Exceptions\UrlException;
 /**
  * Класс для выполнения запросов к B2B backoffice
  */
-class Client
+class Client extends GuzzleClient
 {
     // Содержимое ответа выполненного запроса
     private string $content;
 
     // Exception возникший при выполнении запроса
     private ?Exception $error = null;
-
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Отправить запрос на B2B Backoffice
@@ -42,19 +38,17 @@ class Client
      * @throws UnauthorizedException
      * @throws UrlException
      */
-    public function send(RequestData $data, bool $throwException = true): self
+    public function sendRequestToSystem(RequestData $data, bool $throwException = true): self
     {
         $this->error = null;
 
-        $client = new \GuzzleHttp\Client();
-
         try {
-            $res = $client->request($data->getMethod(), $data->getUrl(), $data->getData());
+            $res = $this->request($data->getMethod(), $data->getUrl(), $data->getData());
 
             $this->content = $res->getBody()->getContents();
         } catch (ClientException $exception) {
             $response = $exception->getResponse();
-            $responseBody = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            $responseBody = json_decode($response->getBody()->getContents() ?: '{}', true, 512, JSON_THROW_ON_ERROR);
 
             switch ($response->getStatusCode()) {
                 case 401:

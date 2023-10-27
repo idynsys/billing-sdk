@@ -17,7 +17,7 @@ final class Config
     public const PREPROD_PAYMENT_METHODS_URL = 'https://api-gateway.preprod.idynsys.org/api/billing-settings/payment-methods-by-app';
 
     // url для получения списка платежных методов на продакшн
-    public const PROD_PAYMENT_METHODS_URL = 'https://api-gateway.idynsys.org/api/billing-settings/application-payment-methods';
+    public const PROD_PAYMENT_METHODS_URL = 'https://api-gateway.idynsys.org/api/billing-settings/application-payment-methods-by-app';
 
     // url для создания депозита на продакшн
     public const PROD_DEPOSIT_URL = 'http://api-gateway.idynsys.org/api/payment-gateway/api/payments';
