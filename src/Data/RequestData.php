@@ -6,6 +6,7 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
  * DTO для запроса. От этого класса наследуются все DTO для запросов
+ * @codeCoverageIgnore
  */
 abstract class RequestData
 {

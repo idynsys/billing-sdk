@@ -71,7 +71,7 @@ class Client extends GuzzleClient
                     break;
             }
         } catch (ConnectException $exception) {
-            $this->error = new UrlException(['error' => $exception->getHandlerContext()['error']], 503);
+            $this->error = new UrlException(['error' => $exception->getHandlerContext()['error'] ?? 'url incorrect'], 503);
         }
 
         if ($this->error && $throwException) {
@@ -89,13 +89,13 @@ class Client extends GuzzleClient
      */
     public function getResult(?string $key = null): ?array
     {
-        if ($this->hasError()) {
+        if ($this->hasError() || !isset($this->content)) {
             return null;
         }
 
         $data = json_decode($this->content, true, 512, JSON_THROW_ON_ERROR);
 
-        if ($key) {
+        if ($key && is_array($data)) {
             $data = [$key => array_key_exists($key, $data) ? $data[$key] : ''];
         }
 

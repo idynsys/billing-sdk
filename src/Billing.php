@@ -65,15 +65,18 @@ final class Billing
             return;
         }
 
-        $attempt++;
-        $result = $this->getToken($attempt === $this->requestAttempts);
+        if (++$attempt <= $this->requestAttempts) {
+            $result = $this->getToken($attempt === $this->requestAttempts);
+
+            if (!$result) {
+                $this->getTokenForRequest($attempt);
+            }
+        } else {
+            $result = false;
+        }
 
         if (!$result) {
-            if ($attempt < $this->requestAttempts) {
-                $this->getTokenForRequest($attempt);
-            } else {
-                throw new UnauthorizedException();
-            }
+            throw new UnauthorizedException();
         }
     }
 

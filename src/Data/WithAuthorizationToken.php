@@ -4,6 +4,7 @@ namespace Idynsys\BillingSdk\Data;
 
 /**
  * Трейт для запросов с токенм аутентификации
+ * @codeCoverageIgnore
  */
 trait WithAuthorizationToken
 {
