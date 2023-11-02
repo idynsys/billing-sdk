@@ -36,6 +36,9 @@ final class DepositRequestData extends RequestData implements AuthorisationToken
     // Код валюты депозита
     private string $paymentCurrencyCode;
 
+    // URL для передачи результата создания транзакции в B2B backoffice
+    private string $callbackUrl;
+
     public function __construct(
         string $paymentMethodId,
         string $paymentMethodName,

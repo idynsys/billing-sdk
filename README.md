@@ -63,7 +63,8 @@ $requestParams = new DepositRequestData(
     $merchantOrderDescription,  // описание документа, на основе которого созадется транзакция
     $customerEmail,             // email пользователя, совершающего операцию
     $amount,                    // сумма попоплнения
-    $currencyCode               // валюта суммы пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
 );
 
 // Создать транзакцию и получить результат
@@ -78,7 +79,7 @@ $result = $billing->createDeposit($requestParams);
   "payment_id"          => "string",
   "destination_card"    => "string",
   "amount"              => "string",
-  "currency"            => "string"
+  "currency"            => "string",
 ]
 ```
 
@@ -96,7 +97,8 @@ $requestParams = new PayoutRequestData(
     $currencyCode,      // валюта суммы пополнения
     $cardNumber,        // Номер банковской карты, на которую выводятся деньги
     $cardExpiration,    // Месяц и год оконччания действия карты (как написано на карте)
-    $cardRecipientInfo  // Данные владельца карты (Имя Фамилия, как написано на карте)
+    $cardRecipientInfo, // Данные владельца карты (Имя Фамилия, как написано на карте)
+    $callbackUrl        // URL для передачи результата создания транзакции в B2B backoffice
 );
 
 // Создать транзакцию и получить результат

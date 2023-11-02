@@ -36,6 +36,9 @@ final class PayoutRequestData extends RequestData implements AuthorisationTokenI
     // Имя и Фамилия держателя карты
     private string $cardRecipientInfo;
 
+    // URL для передачи результата создания транзакции в B2B backoffice
+    private string $callbackUrl;
+
     public function __construct(
         string $paymentMethodId,
         string $paymentMethodName,
@@ -43,7 +46,8 @@ final class PayoutRequestData extends RequestData implements AuthorisationTokenI
         string $payoutCurrency,
         string $cardNumber,
         string $cardExpiration,
-        string $cardRecipientInfo
+        string $cardRecipientInfo,
+        string $callbackUrl
     ) {
         $this->paymentMethodId = $paymentMethodId;
         $this->paymentMethodName = $paymentMethodName;
@@ -52,6 +56,7 @@ final class PayoutRequestData extends RequestData implements AuthorisationTokenI
         $this->cardNumber = $cardNumber;
         $this->cardExpiration = $cardExpiration;
         $this->cardRecipientInfo = $cardRecipientInfo;
+        $this->callbackUrl = $callbackUrl;
     }
 
     /**
@@ -83,8 +88,8 @@ final class PayoutRequestData extends RequestData implements AuthorisationTokenI
                 'pan'           => $this->cardNumber,
                 'expiration'    => $this->cardExpiration,
                 'recipientInfo' => $this->cardRecipientInfo
-            ]
-
+            ],
+            'callbackUrl' => $this->callbackUrl
         ];
     }
 }

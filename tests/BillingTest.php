@@ -185,6 +185,7 @@ class BillingTest extends TestCase
             '1234123412341234',
             '12/30',
             'Mikhael Rich',
+            'https://test.site.com/callback-for-deposit'
         );
 
         $this->billing->createPayout($data);

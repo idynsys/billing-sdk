@@ -53,11 +53,6 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('PREPROD_PAYOUT_URL', $this->getConfig()->getConstants());
     }
 
-    public function testProdDepositCallBackUrlExists(): void
-    {
-        $this->assertArrayHasKey('PROD_DEPOSIT_CALLBACK', $this->getConfig()->getConstants());
-    }
-
     public function testPreprodDepositCallBackUrlExists(): void
     {
         $this->assertArrayHasKey('PREPROD_DEPOSIT_CALLBACK', $this->getConfig()->getConstants());

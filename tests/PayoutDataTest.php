@@ -28,7 +28,8 @@ class PayoutDataTest extends TestCase
             $this->faker->randomElement(['USD', 'EUR', 'RUB', 'KZT']),
             $this->faker->creditCardNumber(),
             $this->faker->creditCardExpirationDateString(),
-            $this->faker->name()
+            $this->faker->name(),
+            $this->faker->url()
         );
     }
 
@@ -43,7 +44,18 @@ class PayoutDataTest extends TestCase
         $method = $this->getMethod(PayoutRequestData::class, 'getRequestData');
 
         $dto = $this->getDataObject();
+        $data = $method->invoke($dto);
 
-        $this->assertNotEmpty($method->invoke($dto));
+        $this->assertNotEmpty($data);
+        $this->assertArrayHasKey('paymentMethodId', $data);
+        $this->assertArrayHasKey('paymentMethodName', $data);
+        $this->assertArrayHasKey('payoutData', $data);
+        $this->assertArrayHasKey('amount', $data['payoutData']);
+        $this->assertArrayHasKey('currency', $data['payoutData']);
+        $this->assertArrayHasKey('cardData', $data);
+        $this->assertArrayHasKey('pan', $data['cardData']);
+        $this->assertArrayHasKey('expiration', $data['cardData']);
+        $this->assertArrayHasKey('recipientInfo', $data['cardData']);
+        $this->assertArrayHasKey('callbackUrl', $data);
     }
 }
