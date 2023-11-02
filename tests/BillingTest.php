@@ -164,7 +164,8 @@ class BillingTest extends TestCase
             'create deposit',
             'test@test.com',
             100,
-            'EUR'
+            'EUR',
+            'https://test.site.com/callback-for-deposit'
         );
 
         $this->billing->createDeposit($data);

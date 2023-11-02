@@ -33,7 +33,4 @@ final class Config
 
     // url для возврата на страницу, когда депозит выполнен на продакшн
     public const PREPROD_DEPOSIT_CALLBACK = 'https://admin-panel.preprod.idynsys.org/billing/organization-balance-deposit-success';
-
-    // url для возврата на страницу, когда депозит выполнен на препродакшн для тестирования
-    public const PROD_DEPOSIT_CALLBACK = 'https://admin-panel.idynsys.org/billing/organization-balance-deposit-success';
 }

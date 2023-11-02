@@ -43,7 +43,8 @@ final class DepositRequestData extends RequestData implements AuthorisationToken
         string $merchantOrderDescription,
         string $customerEmail,
         float $paymentAmount,
-        string $paymentCurrencyCode
+        string $paymentCurrencyCode,
+        string $callbackUrl
     ) {
         $this->paymentMethodId = $paymentMethodId;
         $this->paymentMethodName = $paymentMethodName;
@@ -52,6 +53,7 @@ final class DepositRequestData extends RequestData implements AuthorisationToken
         $this->customerEmail = $customerEmail;
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
+        $this->callbackUrl = $callbackUrl;
     }
 
     /**
@@ -78,18 +80,7 @@ final class DepositRequestData extends RequestData implements AuthorisationToken
             'merchant_order'      => ['id' => $this->merchantOrderId, 'description' => $this->merchantOrderDescription],
             'customer_data'       => ['email' => $this->customerEmail],
             'payment_data'        => ['amount' => $this->paymentAmount, 'currency' => $this->paymentCurrencyCode],
-            'callback_url'        => $this->getCallBackUrl()
+            'callback_url'        => $this->callbackUrl
         ];
-    }
-
-    /**
-     * Получить url для возврата после оформления депозита
-     *
-     * @return string
-     */
-    private function getCallBackUrl(): string
-    {
-        return getenv('BILLING_SDK_MODE') === 'PRODUCTION'
-            ? Config::PROD_DEPOSIT_CALLBACK : Config::PREPROD_DEPOSIT_CALLBACK;
     }
 }

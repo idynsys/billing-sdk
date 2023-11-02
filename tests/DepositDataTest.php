@@ -39,15 +39,9 @@ class DepositDataTest extends TestCase
             $this->faker->randomNumber(),
             $this->faker->realText,
             $this->faker->email, $this->faker->numberBetween(1, 200),
-            $this->faker->randomElement(['USD', 'EUR', 'RUB', 'KZT'])
+            $this->faker->randomElement(['USD', 'EUR', 'RUB', 'KZT']),
+            $this->faker->url()
         );
-    }
-
-    public function testGetUrlForDepositData(): void
-    {
-        $dto = $this->getDataObject();
-
-        $this->assertNotEmpty($dto->getUrl());
     }
 
     public function testGetRequestData():void
@@ -55,16 +49,14 @@ class DepositDataTest extends TestCase
         $method = $this->getMethod(DepositRequestData::class, 'getRequestData');
 
         $dto = $this->getDataObject();
+        $data = $method->invoke($dto);
 
-        $this->assertNotEmpty($method->invoke($dto));
-    }
-
-    public function testGetCallBackUrl():void
-    {
-        $method = $this->getMethod(DepositRequestData::class, 'getCallBackUrl');
-
-        $dto = $this->getDataObject();
-
-        $this->assertNotEmpty($method->invoke($dto));
+        $this->assertNotEmpty($data);
+        $this->assertArrayHasKey('payment_method_id', $data);
+        $this->assertArrayHasKey('payment_method_name', $data);
+        $this->assertArrayHasKey('merchant_order', $data);
+        $this->assertArrayHasKey('customer_data', $data);
+        $this->assertArrayHasKey('payment_data', $data);
+        $this->assertArrayHasKey('callback_url', $data);
     }
 }
