@@ -29,6 +29,15 @@
 composer require idynsys/billing-sdk
 ```
 
+В переменных окружения приложения, где устанавливается этот пакет, необходимо создать 
+переменные окружения:
+```dotenv
+BILLING_SDK_CLIENT_ID=<clientId>
+BILLING_SDK_APPLICATION_SECRET_KEY=<secret>
+```
+где clientId и secret будут переданы Вашей компании после регистрации внешнего 
+приложения в B2B Backoffice для возможности выполнения запросов через ЫВЛ.
+
 ## Использование
 
 1. Создать экземпляр класса 
