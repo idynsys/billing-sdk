@@ -23,7 +23,7 @@ final class Config
     public const PROD_DEPOSIT_URL = 'http://api-gateway.idynsys.org/api/payment-gateway/api/payments';
 
     // url для создания депозита на препродакшн для тестирования
-    public const PREPROD_DEPOSIT_URL = 'https://api-gateway-dev-11546.dev.idynsys.org/api/accounts/api/payments';
+    public const PREPROD_DEPOSIT_URL = 'https://api-gateway.preprod.idynsys.org/api/accounts/api/payments';
 
     // url для создания запроса на вывод средств на продакшн
     public const PROD_PAYOUT_URL = 'https://api-gateway.idynsys.org/api/accounts/api/payouts';
