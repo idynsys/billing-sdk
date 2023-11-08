@@ -9,10 +9,11 @@
   },
   "authors": [
     {
-      "name": "Alexander Tarkhanov",
-      "email": "a.tarkhanov@idynsys.org"
+      "name": "Idynsys",
+      "email": "tech@idynsys.org"
     }
   ],
+  "license": "MIT",
   "require": {
     "php": "^7.4",
     "ext-openssl": "*",
