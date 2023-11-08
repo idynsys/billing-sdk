@@ -36,7 +36,7 @@ BILLING_SDK_CLIENT_ID=<clientId>
 BILLING_SDK_APPLICATION_SECRET_KEY=<secret>
 ```
 где clientId и secret будут переданы Вашей компании после регистрации внешнего 
-приложения в B2B Backoffice для возможности выполнения запросов через ЫВЛ.
+приложения в B2B Backoffice для возможности выполнения запросов через B2B.
 
 !!! Для версии на Production необходимо установить переменную окружения:
 ```dotenv
