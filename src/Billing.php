@@ -3,7 +3,7 @@
 namespace Idynsys\BillingSdk;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Idynsys\BillingSdk\Data\AuthorisationTokenInclude;
+use Idynsys\BillingSdk\Data\AuthenticationTokenInclude;
 use Idynsys\BillingSdk\Data\AuthRequestData;
 use Idynsys\BillingSdk\Data\DepositRequestData;
 use Idynsys\BillingSdk\Data\PaymentMethodListRequestData;
@@ -21,6 +21,9 @@ use Idynsys\BillingSdk\Exceptions\UrlException;
  */
 final class Billing
 {
+    // Настройки для текущего приложения
+    private Application $application;
+
     // Сохраняет токен для выполнения операций по счету
     private ?string $token = null;
 
@@ -30,9 +33,10 @@ final class Billing
     // Объект-клиент, через который выполняется запрос и обрабатывается результат
     private Client $client;
 
-    public function __construct()
+    public function __construct(?string $clientId = null, ?string $clientSecret = null)
     {
         $this->client = new Client();
+        $this->application = new Application($clientId, $clientSecret);
     }
 
     /**
@@ -44,6 +48,7 @@ final class Billing
     public function getToken(bool $throwException = true): ?string
     {
         $data = new AuthRequestData();
+        $data->setClientId($this->application->getClientId());
 
         $this->client->sendRequestToSystem($data, $throwException);
 
@@ -88,7 +93,7 @@ final class Billing
      */
     private function addToken(RequestData $data): void
     {
-        if ($data instanceof AuthorisationTokenInclude) {
+        if ($data instanceof AuthenticationTokenInclude) {
             $this->getTokenForRequest();
             $data->setToken($this->token);
         }

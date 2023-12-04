@@ -8,20 +8,12 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
 /**
  * Класс DTO для запроса на получение токена аутентификации
  */
-final class AuthRequestData extends RequestData
+final class AuthRequestData extends RequestData implements ClientIdInclude
 {
+    use WithClientId;
+
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
-
-    /**
-     * Получить ID клиента
-     *
-     * @return string
-     */
-    private function getClientId(): string
-    {
-        return getenv('BILLING_SDK_CLIENT_ID') ?: '';
-    }
 
     /**
      * Получить url API для запроса

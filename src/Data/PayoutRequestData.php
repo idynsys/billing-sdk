@@ -8,7 +8,7 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
 /**
  * DTO для запроса на создание транзакции на вывод средств
  */
-final class PayoutRequestData extends RequestData implements AuthorisationTokenInclude
+final class PayoutRequestData extends RequestData implements AuthenticationTokenInclude
 {
     use WithAuthorizationToken;
 

@@ -58,6 +58,7 @@ abstract class RequestData
      */
     protected function getSecretApplicationKey(): string
     {
+        dd('stop');
         return getenv('BILLING_SDK_APPLICATION_SECRET_KEY') ?: '';
     }
 

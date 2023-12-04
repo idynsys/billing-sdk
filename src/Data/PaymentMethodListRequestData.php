@@ -9,7 +9,7 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
 /**
  * Класс DTO для отправки запроса на получение списка платежных методов
  */
-final class PaymentMethodListRequestData extends RequestData implements AuthorisationTokenInclude
+final class PaymentMethodListRequestData extends RequestData implements AuthenticationTokenInclude
 {
     use WithAuthorizationToken;
 
