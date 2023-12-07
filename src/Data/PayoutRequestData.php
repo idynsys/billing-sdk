@@ -2,7 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data;
 
-use Idynsys\BillingSdk\Config\Config;
+use Idynsys\BillingSdk\Config;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
@@ -14,6 +14,8 @@ final class PayoutRequestData extends RequestData implements AuthenticationToken
 
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
+
+    protected string $urlConfigKeyForRequest = 'PAYOUT_URL';
 
     // ID платежного метода
     private string $paymentMethodId;
@@ -57,17 +59,6 @@ final class PayoutRequestData extends RequestData implements AuthenticationToken
         $this->cardExpiration = $cardExpiration;
         $this->cardRecipientInfo = $cardRecipientInfo;
         $this->callbackUrl = $callbackUrl;
-    }
-
-    /**
-     * Получить API url для создания транзакции на вывод средств
-     *
-     * @return string
-     */
-    public function getUrl(): string
-    {
-        return getenv('BILLING_SDK_MODE') === 'PRODUCTION'
-            ? Config::PROD_PAYOUT_URL : Config::PREPROD_PAYOUT_URL;
     }
 
     /**

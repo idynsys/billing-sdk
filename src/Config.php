@@ -4,20 +4,40 @@ namespace Idynsys\BillingSdk;
 
 class Config
 {
+    private static $instance;
+
     private array $config;
 
-    public function __construct()
+    private function __construct()
     {
         $this->loadConfig();
     }
 
     private function loadConfig(): void
     {
-        $this->config = require './Config/Config.php';
+        $this->config = require __DIR__ . '/Config/config.php';
     }
 
-    public function get(string $key, $default = null)
+    private static function getInstance(): self
     {
-        return array_key_exists($key, $this->config) ? $this->config[$key] : $default;
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    public static function get(string $key, $default = null)
+    {
+        $instance = self::getInstance();
+
+        return array_key_exists($key, $instance->config) ? $instance->config[$key] : $default;
+    }
+
+    public static function set(string $key, $value): void
+    {
+        $instance = self::getInstance();
+
+        $instance->config[$key] = $value;
     }
 }

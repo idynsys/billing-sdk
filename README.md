@@ -24,21 +24,34 @@
 
 ## Установка
 
-В каталоге Вашего проекта, где расположен файл composer.json,  выполните команду:
+1. В каталоге Вашего проекта, где расположен файл composer.json,  выполните команду:
 ```
 composer require idynsys/billing-sdk
 ```
+2. Настройка Вашего приложения для выполнения запроса к B2B Backoffice.<br>  
+    Для выполнения запроса необходимо в запросах передавать информацию об идентификаторе
+    приложения с использованием секретного ключа для подписи параметров запрос. Это 
+    можно сделать двумя способами.<br>  
+    2.1. Через переменные окружения:<br>  
+    В переменных окружения приложения, где устанавливается этот пакет, необходимо создать 
+    переменные окружения:
+    ```dotenv
+    BILLING_SDK_CLIENT_ID=<clientId>
+    BILLING_SDK_APPLICATION_SECRET_KEY=<secret>
+    ```
+   <br>  
 
-В переменных окружения приложения, где устанавливается этот пакет, необходимо создать 
-переменные окружения:
-```dotenv
-BILLING_SDK_CLIENT_ID=<clientId>
-BILLING_SDK_APPLICATION_SECRET_KEY=<secret>
-```
-где clientId и secret будут переданы Вашей компании после регистрации внешнего 
-приложения в B2B Backoffice для возможности выполнения запросов через B2B.
+    2.2. Через создание объекта от класса Billing:
+    ```php
+    $billing = new \Idynsys\BillingSdk\Billing('<clientId>', '<secret>');
+    ```
+    
+    где "clientId" и "secret" будут переданы Вашей компании после регистрации внешнего 
+    приложения в B2B Backoffice для возможности выполнения запросов через B2B.
 
-!!! Для версии на Production необходимо установить переменную окружения:
+<br>
+3. !!! Для версии на Production необходимо установить переменную окружения:
+
 ```dotenv
 BILLING_SDK_MODE=PRODUCTION
 ```
@@ -47,7 +60,7 @@ BILLING_SDK_MODE=PRODUCTION
 
 ## Использование
 
-1. Создать экземпляр класса 
+1. Создать экземпляр класса Billing: 
 
 ```php
 <?php
@@ -55,15 +68,33 @@ BILLING_SDK_MODE=PRODUCTION
 use Idynsys\BillingSdk\Billing;
 ...
 
+// Если "clientId" и "secret" установлены через переменные окружения (см. п.2.1.)
 $billing = new Billing();
-```
+...
 
-2.1. Получить список доступных платежных методов
-```php
-<?php
-
-$result = $billing->getPaymentMethods();
+// или через прямое указание через параметры (см. п.2.2.)
+$billing = new Billing('applicationName', 'applicationSecret');
+...
 ```
+2. Описание методов класса Billing:
+
+    2.1. Получить список доступных платежных методов
+    ```php
+    <?php
+    
+    use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
+   
+    /** @var PaymentMethodsCollection $result */
+    $result = $billing->getPaymentMethods();
+    ```
+    Ответ (response) для данного запроса будет объект класса
+    _\Idynsys\BillingSdk\Collections\PaymentMethodsCollection_. Этот класс реализует интерфейс _Iterator_.
+    Элементами этой коллекции будут объекты класса _\Idynsys\BillingSdk\Data\Entities\PaymentMethodData_.
+    ```php
+   // получить список объектов коллекции
+   
+   $result->all();
+   ```
 
 2.2. Создать транзакцию для пополнения счета
 ```php

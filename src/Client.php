@@ -11,6 +11,7 @@ use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
 use Idynsys\BillingSdk\Exceptions\MethodException;
 use Idynsys\BillingSdk\Exceptions\NotFoundException;
+use Idynsys\BillingSdk\Exceptions\ResponseException;
 use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
 use Idynsys\BillingSdk\Exceptions\UrlException;
 
@@ -48,8 +49,9 @@ class Client extends GuzzleClient
             $this->content = $res->getBody()->getContents();
         } catch (ClientException $exception) {
             $response = $exception->getResponse();
-            $responseBody = json_decode($response->getBody()->getContents() ?: '{}', true, 512, JSON_THROW_ON_ERROR);
-
+            //$responseBody = json_decode($response->getBody()->getContents() ?: '{}', true, 512, JSON_THROW_ON_ERROR);
+            //dd($response->getStatusCode(), $response->getBody()->getContents(), $response->getBody()->getContents());
+            throw new ResponseException($response->getBody()->getContents(), $response->getStatusCode());
             switch ($response->getStatusCode()) {
                 case 401:
                     if ($responseBody) {

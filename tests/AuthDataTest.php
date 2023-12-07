@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Idynsys\BillingSdk\Data\AuthRequestData;
+use Idynsys\BillingSdk\Data\Requests\AuthRequestData;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;

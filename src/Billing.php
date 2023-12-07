@@ -3,12 +3,18 @@
 namespace Idynsys\BillingSdk;
 
 use GuzzleHttp\Exception\GuzzleException;
+use Idynsys\BillingSdk\Collections\Collection;
+use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
 use Idynsys\BillingSdk\Data\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\AuthRequestData;
 use Idynsys\BillingSdk\Data\DepositRequestData;
-use Idynsys\BillingSdk\Data\PaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\PayoutRequestData;
 use Idynsys\BillingSdk\Data\RequestData;
+use Idynsys\BillingSdk\Data\Requests\AuthRequestData;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethodListRequestData;
+use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
+use Idynsys\BillingSdk\Data\Responses\TokenData;
+use Idynsys\BillingSdk\Data\Responses\TransactionData;
+use Idynsys\BillingSdk\Data\TransactionRequestData;
 use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
 use Idynsys\BillingSdk\Exceptions\MethodException;
@@ -21,9 +27,6 @@ use Idynsys\BillingSdk\Exceptions\UrlException;
  */
 final class Billing
 {
-    // Настройки для текущего приложения
-    private Application $application;
-
     // Сохраняет токен для выполнения операций по счету
     private ?string $token = null;
 
@@ -36,7 +39,14 @@ final class Billing
     public function __construct(?string $clientId = null, ?string $clientSecret = null)
     {
         $this->client = new Client();
-        $this->application = new Application($clientId, $clientSecret);
+
+        if ($clientId) {
+            Config::set('clientId', $clientId);
+        }
+
+        if ($clientSecret) {
+            Config::set('clientSecret', $clientSecret);
+        }
     }
 
     /**
@@ -45,17 +55,16 @@ final class Billing
      * @param bool $throwException
      * @return string|null
      */
-    public function getToken(bool $throwException = true): ?string
+    public function getToken(bool $throwException = true): TokenData
     {
         $data = new AuthRequestData();
-        $data->setClientId($this->application->getClientId());
 
         $this->client->sendRequestToSystem($data, $throwException);
 
         $result = $this->client->getResult('data');
-        $this->token = ($result && array_key_exists('data', $result)) ? $result['data'] : null;
+        $this->token = ($result && array_key_exists('data', $result)) ? $result['data'] : '';
 
-        return $this->token;
+        return new TokenData($this->token);
     }
 
     /**
@@ -130,11 +139,13 @@ final class Billing
      * @throws UnauthorizedException
      * @throws UrlException
      */
-    public function getPaymentMethods(): array
+    public function getPaymentMethods(): Collection
     {
         $this->sendRequest(new PaymentMethodListRequestData());
+        $collection = new PaymentMethodsCollection();
+        $collection->addItems($this->client->getResult('items'), 'items');
 
-        return $this->client->getResult('items');
+        return $collection;
     }
 
     /**
@@ -150,11 +161,11 @@ final class Billing
      * @throws UnauthorizedException
      * @throws UrlException
      */
-    public function createDeposit(DepositRequestData $data): array
+    public function createDeposit(DepositRequestData $data): DepositResponseData
     {
         $this->sendRequest($data);
 
-        return $this->client->getResult();
+        return DepositResponseData::from($this->client->getResult());
     }
 
     /**
@@ -175,5 +186,12 @@ final class Billing
         $this->sendRequest($data);
 
         return $this->client->getResult();
+    }
+
+    public function getTransactionData(TransactionRequestData $requestParams)
+    {
+        $this->sendRequest($requestParams);
+
+        return TransactionData::from($this->client->getResult());
     }
 }
