@@ -1,6 +1,6 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data;
+namespace Idynsys\BillingSdk\Data\Requests;
 
 use Idynsys\BillingSdk\Config;
 use Idynsys\BillingSdk\Enums\RequestMethod;
@@ -82,4 +82,8 @@ abstract class RequestData
         ];
     }
 
+    protected function roundAmount(float $number): string
+    {
+        return number_format((float)$number, 2, '.', '');
+    }
 }

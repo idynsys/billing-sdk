@@ -6,7 +6,7 @@ use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
-use Idynsys\BillingSdk\Data\RequestData;
+use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
 use Idynsys\BillingSdk\Exceptions\MethodException;
@@ -49,6 +49,7 @@ class Client extends GuzzleClient
             $this->content = $res->getBody()->getContents();
         } catch (ClientException $exception) {
             $response = $exception->getResponse();
+            dd($response);
             //$responseBody = json_decode($response->getBody()->getContents() ?: '{}', true, 512, JSON_THROW_ON_ERROR);
             //dd($response->getStatusCode(), $response->getBody()->getContents(), $response->getBody()->getContents());
             throw new ResponseException($response->getBody()->getContents(), $response->getStatusCode());
@@ -74,6 +75,8 @@ class Client extends GuzzleClient
             }
         } catch (ConnectException $exception) {
             $this->error = new UrlException(['error' => $exception->getHandlerContext()['error'] ?? 'url incorrect'], 503);
+        } catch (\Throwable $exception) {
+            dd($exception);
         }
 
         if ($this->error && $throwException) {

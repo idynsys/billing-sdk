@@ -1,10 +1,10 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\Requests;
+namespace Idynsys\BillingSdk\Data\Requests\PaymentMethods;
 
-use Idynsys\BillingSdk\Data\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\RequestData;
-use Idynsys\BillingSdk\Data\WithAuthorizationToken;
+use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
+use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
+use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**

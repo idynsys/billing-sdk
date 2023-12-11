@@ -1,9 +1,9 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\Requests;
+namespace Idynsys\BillingSdk\Data\Requests\Auth;
 
 use Idynsys\BillingSdk\Config;
-use Idynsys\BillingSdk\Data\RequestData;
+use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**

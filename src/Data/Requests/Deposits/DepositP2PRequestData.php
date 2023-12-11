@@ -1,36 +1,36 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data;
+namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
-class DepositMCommerceRequestData extends DepositRequestData
+use Idynsys\BillingSdk\Enums\PaymentMethod;
+
+class DepositP2PRequestData extends DepositRequestData
 {
-    public string $phoneNumber;
+    // ID платежного метода
+    protected string $paymentMethodId = PaymentMethod::P2P_id;
+
+    // Наименование платежного метода
+    protected string $paymentMethodName = PaymentMethod::P2P_name;
 
     /**
-     * @param string $paymentMethodId
-     * @param string $paymentMethodName
      * @param string $merchantOrderId
      * @param string $merchantOrderDescription
-     * @param string $phoneNumber
+     * @param string $customerEmail
      * @param float $paymentAmount
      * @param string $paymentCurrencyCode
      * @param string $callbackUrl
      */
     public function __construct(
-        string $paymentMethodId,
-        string $paymentMethodName,
         string $merchantOrderId,
         string $merchantOrderDescription,
-        string $phoneNumber,
+        string $customerEmail,
         float $paymentAmount,
         string $paymentCurrencyCode,
         string $callbackUrl
     ) {
-        $this->paymentMethodId = $paymentMethodId;
-        $this->paymentMethodName = $paymentMethodName;
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
-        $this->phoneNumber = $phoneNumber;
+        $this->customerEmail = $customerEmail;
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->callbackUrl = $callbackUrl;
@@ -46,9 +46,15 @@ class DepositMCommerceRequestData extends DepositRequestData
         return [
             'payment_method_id'   => $this->paymentMethodId,
             'payment_method_name' => $this->paymentMethodName,
-            'merchant_order'      => ['id' => $this->merchantOrderId, 'description' => $this->merchantOrderDescription],
-            'customer_data'       => ['phoneNumber' => $this->phoneNumber, 'email' => 'test@mail.com'],
-            'payment_data'        => ['amount' => $this->paymentAmount, 'currency' => $this->paymentCurrencyCode],
+            'merchant_order'      => [
+                'id'          => $this->merchantOrderId,
+                'description' => $this->merchantOrderDescription
+            ],
+            'customer_data'       => ['email' => $this->customerEmail],
+            'payment_data'        => [
+                'amount'   => $this->roundAmount($this->paymentAmount),
+                'currency' => $this->paymentCurrencyCode
+            ],
             'callback_url'        => $this->callbackUrl
         ];
     }

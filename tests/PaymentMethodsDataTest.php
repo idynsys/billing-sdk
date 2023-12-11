@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Idynsys\BillingSdk\Data\Requests\PaymentMethodListRequestData;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
 use PHPUnit\Framework\TestCase;
 
 class PaymentMethodsDataTest extends TestCase

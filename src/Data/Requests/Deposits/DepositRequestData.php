@@ -1,8 +1,10 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data;
+namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
-use Idynsys\BillingSdk\Config;
+use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
+use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
+use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
@@ -12,33 +14,33 @@ abstract class DepositRequestData extends RequestData implements AuthenticationT
 {
     use WithAuthorizationToken;
 
+    // ID платежного метода
+    protected string $paymentMethodId;
+
+    // Наименование платежного метода
+    protected string $paymentMethodName;
+
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
 
     protected string $urlConfigKeyForRequest = 'DEPOSIT_URL';
 
-    // ID платежного метода
-    private string $paymentMethodId;
-
-    // Наименование платежного метода
-    private string $paymentMethodName;
-
     // ID документа для создания депозита
-    private string $merchantOrderId;
+    protected string $merchantOrderId;
 
     // описание документа для создания депозита
-    private string $merchantOrderDescription;
+    protected string $merchantOrderDescription;
 
     // email пользователя совершающего операцию
-    private string $customerEmail;
+    protected string $customerEmail;
 
     // Сумма депозита
-    private float $paymentAmount;
+    protected float $paymentAmount;
 
     // Код валюты депозита
-    private string $paymentCurrencyCode;
+    protected string $paymentCurrencyCode;
 
     // URL для передачи результата создания транзакции в B2B backoffice
-    private string $callbackUrl;
+    protected string $callbackUrl;
 
 }

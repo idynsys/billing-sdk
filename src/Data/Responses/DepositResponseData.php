@@ -33,7 +33,6 @@ class DepositResponseData
 
     public static function from(array $responseData): self
     {
-        dd($responseData);
         return new self(
             $responseData['transaction_id'] ?? 'n/a',
             $responseData['payment_status'],

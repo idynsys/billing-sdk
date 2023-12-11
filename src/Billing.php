@@ -5,16 +5,17 @@ namespace Idynsys\BillingSdk;
 use GuzzleHttp\Exception\GuzzleException;
 use Idynsys\BillingSdk\Collections\Collection;
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
-use Idynsys\BillingSdk\Data\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\DepositRequestData;
-use Idynsys\BillingSdk\Data\PayoutRequestData;
-use Idynsys\BillingSdk\Data\RequestData;
-use Idynsys\BillingSdk\Data\Requests\AuthRequestData;
-use Idynsys\BillingSdk\Data\Requests\PaymentMethodListRequestData;
+use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
+use Idynsys\BillingSdk\Data\Requests\Auth\AuthRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
+use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 use Idynsys\BillingSdk\Data\Responses\TokenData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
-use Idynsys\BillingSdk\Data\TransactionRequestData;
 use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
 use Idynsys\BillingSdk\Exceptions\MethodException;
@@ -181,11 +182,11 @@ final class Billing
      * @throws UnauthorizedException
      * @throws UrlException
      */
-    public function createPayout(PayoutRequestData $data): array
+    public function createPayout(PayoutRequestData $data): PayoutResponseData
     {
         $this->sendRequest($data);
 
-        return $this->client->getResult();
+        return PayoutResponseData::from($this->client->getResult());
     }
 
     public function getTransactionData(TransactionRequestData $requestParams)

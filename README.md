@@ -60,7 +60,7 @@ BILLING_SDK_MODE=PRODUCTION
 
 ## Использование
 
-1. Создать экземпляр класса Billing: 
+### Создать экземпляр класса Billing: 
 
 ```php
 <?php
@@ -76,40 +76,42 @@ $billing = new Billing();
 $billing = new Billing('applicationName', 'applicationSecret');
 ...
 ```
-2. Описание методов класса Billing:
+### Описание методов класса Billing:
 
-    2.1. Получить список доступных платежных методов
-    ```php
-    <?php
-    
-    use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
-   
-    /** @var PaymentMethodsCollection $result */
-    $result = $billing->getPaymentMethods();
-    ```
-    Ответ (response) для данного запроса будет объект класса
-    _\Idynsys\BillingSdk\Collections\PaymentMethodsCollection_. Этот класс реализует интерфейс _Iterator_.
-    Элементами этой коллекции будут объекты класса _\Idynsys\BillingSdk\Data\Entities\PaymentMethodData_.
-    ```php
-   // получить список объектов коллекции
-   
-   $result->all();
-   ```
-
-2.2. Создать транзакцию для пополнения счета
+#### Получить список доступных платежных методов
 ```php
 <?php
 
-use Idynsys\BillingSdk\Data\DepositRequestData;
+use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
 
-// Созадть DTO для запроса на создание транзакции для пополнения счета
+/** @var PaymentMethodsCollection $result */
+$result = $billing->getPaymentMethods();
+```
+Ответ (response) для данного запроса будет объект класса
+_\Idynsys\BillingSdk\Collections\PaymentMethodsCollection_. Этот класс реализует интерфейс _Iterator_.
+Элементами этой коллекции будут объекты класса _\Idynsys\BillingSdk\Data\Entities\PaymentMethodData_.
+```php
+// получить список объектов коллекции
+
+$result->all();
+```
+
+#### Создать транзакцию для пополнения счета
+1. _Создание транзакции для платежного метода P2P_
+
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
 $requestParams = new DepositRequestData(
     $paymentMethodId,           // идентификатор платежного метода из списка доступных платежных методов
     $paymentMethodName,         // наименование платежного метода из списка доступных платежных методов
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription,  // описание документа, на основе которого созадется транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
     $customerEmail,             // email пользователя, совершающего операцию
-    $amount,                    // сумма попоплнения
+    $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
     $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
 );
@@ -131,10 +133,11 @@ $result = $billing->createDeposit($requestParams);
 ```
 
 2.3. Создать транзакцию для вывода денежных средств со счета
+
 ```php
 <?php
 
-use Idynsys\BillingSdk\Data\PayoutRequestData;
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 
 // Созадть DTO для запроса на создание транзакции для вывода средств со счета
 $requestParams = new PayoutRequestData(
