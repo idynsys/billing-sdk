@@ -76,7 +76,7 @@ $billing = new Billing();
 ...
 
 // или через прямое указание через параметры (см. п.2.2.)
-$billing = new Billing('applicationName', 'applicationSecret');
+$billing = new Billing('clientId', 'secret');
 ...
 ```
 ### Описание методов класса Billing:
