@@ -4,15 +4,15 @@ namespace Idynsys\BillingSdk\Enums;
 
 class PaymentMethod
 {
-    const P2P_name = 'P2P';
+    const P2P_NAME = 'P2P';
 
-    const P2P_id = 'ee8f772f-0e43-4b40-bcc4-e3768290248e';
+    const P2P_ID = 'ee8f772f-0e43-4b40-bcc4-e3768290248e';
 
-    const Bankcard_id = '0a9f8c59-20a4-47a1-9ac2-4ca2048a728a';
+    const BANKCARD_ID = '0a9f8c59-20a4-47a1-9ac2-4ca2048a728a';
 
-    const Bankcard_name = 'Bankcard';
+    const BANKCARD_NAME = 'Bankcard';
 
-    const MobileCommerce_id = '99803784-7ace-49e1-8ab7-18e4d0f9d58b';
+    const M_COMMERCE_ID = '99803784-7ace-49e1-8ab7-18e4d0f9d58b';
 
-    const MobileCommerce_mame = 'MCommerce';
+    const M_COMMERCE_NAME = 'MCommerce';
 }

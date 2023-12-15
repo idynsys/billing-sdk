@@ -4,9 +4,11 @@ namespace Idynsys\BillingSdk;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Idynsys\BillingSdk\Collections\Collection;
+use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
 use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
 use Idynsys\BillingSdk\Data\Requests\Auth\AuthRequestData;
+use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
@@ -189,10 +191,20 @@ final class Billing
         return PayoutResponseData::from($this->client->getResult());
     }
 
-    public function getTransactionData(TransactionRequestData $requestParams)
+    public function getTransactionData(TransactionRequestData $requestParams): TransactionData
     {
         $this->sendRequest($requestParams);
 
         return TransactionData::from($this->client->getResult());
+    }
+
+    public function getPaymentMethodCurrencies(PaymentMethodCurrenciesRequestData $requestParams): Collection
+    {
+        $this->sendRequest($requestParams);
+        $collection = new PaymentMethodCurrenciesCollection();
+
+        $collection->addItems($this->client->getResult('items'), 'items');
+
+        return $collection;
     }
 }

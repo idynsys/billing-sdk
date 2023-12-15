@@ -6,9 +6,9 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 class PayoutP2PRequestData extends PayoutRequestData
 {
-    protected string $paymentMethodId = PaymentMethod::P2P_id;
+    protected string $paymentMethodId = PaymentMethod::P2P_ID;
 
-    protected string $paymentMethodName = PaymentMethod::P2P_name;
+    protected string $paymentMethodName = PaymentMethod::P2P_NAME;
 
     /**
      * Получить данные для запроса

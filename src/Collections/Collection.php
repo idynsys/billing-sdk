@@ -2,10 +2,10 @@
 
 namespace Idynsys\BillingSdk\Collections;
 
-use Idynsys\BillingSdk\Exceptions\KeyNotExistsException;
+use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Iterator;
 
-class Collection implements Iterator
+abstract class Collection implements Iterator
 {
     private array $items = [];
     private int $position = 0;
@@ -57,8 +57,21 @@ class Collection implements Iterator
 
         if (!empty($missingKeys)) {
             $missingKeysString = implode(', ', $missingKeys);
-            throw new KeyNotExistsException("Keys are not found: $missingKeysString");
+            throw new BillingSdkException("Keys are not found: $missingKeysString", 422);
         }
     }
+    public function addItems(array $items, ?string $key = null): Collection
+    {
+        if ($key) {
+            $items = array_key_exists($key, $items) ? $items[$key] : [];
+        }
 
+        foreach ($items as $item) {
+            $this->addItem($this->itemConvert($item));
+        }
+
+        return $this;
+    }
+
+    abstract protected function itemConvert($item): object;
 }

@@ -6,9 +6,9 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 class DepositMCommerceRequestData extends DepositRequestData
 {
-    protected string $paymentMethodId = PaymentMethod::MobileCommerce_id;
+    protected string $paymentMethodId = PaymentMethod::M_COMMERCE_ID;
 
-    protected string $paymentMethodName = PaymentMethod::MobileCommerce_mame;
+    protected string $paymentMethodName = PaymentMethod::M_COMMERCE_NAME;
 
     public string $phoneNumber;
 

@@ -7,10 +7,10 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
 class DepositP2PRequestData extends DepositRequestData
 {
     // ID платежного метода
-    protected string $paymentMethodId = PaymentMethod::P2P_id;
+    protected string $paymentMethodId = PaymentMethod::P2P_ID;
 
     // Наименование платежного метода
-    protected string $paymentMethodName = PaymentMethod::P2P_name;
+    protected string $paymentMethodName = PaymentMethod::P2P_NAME;
 
     /**
      * @param string $merchantOrderId

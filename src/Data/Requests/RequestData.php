@@ -76,7 +76,7 @@ abstract class RequestData
         return [
             'X-Authorization-Sign' => hash_hmac(
                 'sha512',
-                json_encode($this->getRequestData()),
+                json_encode($this->requestMethod === RequestMethod::METHOD_GET ? [] : $this->getRequestData()),
                 Config::get('clientSecret')
             )
         ];

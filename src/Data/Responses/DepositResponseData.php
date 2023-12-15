@@ -9,7 +9,7 @@ class DepositResponseData
     public float $amount;
     public string $currency;
     public ?string $redirectUrl;
-    public ?array $card;
+    public ?BankCardData $card;
     public ?array $destinationCard;
 
     public function __construct(
@@ -18,7 +18,7 @@ class DepositResponseData
         float $amount,
         string $currency,
         ?string $redirectUrl = null,
-        ?array $card = null,
+        ?BankCardData $card = null,
         ?array $destinationCard = null
     )
     {
@@ -35,11 +35,11 @@ class DepositResponseData
     {
         return new self(
             $responseData['transaction_id'] ?? 'n/a',
-            $responseData['payment_status'],
+            $responseData['payment_status'] ?? 'n/a',
             $responseData['amount'] ?? 0,
             $responseData['currency'] ?? 'n/a',
             $responseData['redirect_url'] ?? null,
-            $responseData['card'] ?? null,
+            array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData($responseData['card']) : null,
             $responseData['destination_card'] ?? null,
         );
     }

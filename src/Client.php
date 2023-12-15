@@ -9,6 +9,8 @@ use GuzzleHttp\Exception\ConnectException;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
+use Idynsys\BillingSdk\Exceptions\BillingSdkException;
+use Idynsys\BillingSdk\Exceptions\ExceptionHandler;
 use Idynsys\BillingSdk\Exceptions\MethodException;
 use Idynsys\BillingSdk\Exceptions\NotFoundException;
 use Idynsys\BillingSdk\Exceptions\ResponseException;
@@ -27,17 +29,10 @@ class Client extends GuzzleClient
     private ?Exception $error = null;
 
     /**
-     * Отправить запрос на B2B Backoffice
-     *
-     * @param RequestData $data - DTO запроса
-     * @param bool $throwException - нужно ли вызывать исключительную ситуацию, если запрос выполнился с ошибкой
+     * @param RequestData $data
+     * @param bool $throwException
      * @return $this
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @throws BillingSdkException
      */
     public function sendRequestToSystem(RequestData $data, bool $throwException = true): self
     {
@@ -47,36 +42,9 @@ class Client extends GuzzleClient
             $res = $this->request($data->getMethod(), $data->getUrl(), $data->getData());
 
             $this->content = $res->getBody()->getContents();
-        } catch (ClientException $exception) {
-            $response = $exception->getResponse();
-            dd($response);
-            //$responseBody = json_decode($response->getBody()->getContents() ?: '{}', true, 512, JSON_THROW_ON_ERROR);
-            //dd($response->getStatusCode(), $response->getBody()->getContents(), $response->getBody()->getContents());
-            throw new ResponseException($response->getBody()->getContents(), $response->getStatusCode());
-            switch ($response->getStatusCode()) {
-                case 401:
-                    if ($responseBody) {
-                        $this->error = new AuthException($responseBody, $response->getStatusCode());
-                    } else {
-                        $this->error = new UnauthorizedException($response->getStatusCode());
-                    }
-                    break;
-                case 404:
-                    $this->error = new NotFoundException($responseBody, $response->getStatusCode());
-                    break;
-                case 405:
-                    $this->error = new MethodException($responseBody, $response->getStatusCode());
-                    break;
-                default:
-                    $this->error = new AnotherException(
-                        ['error' => $exception->getMessage()], $response->getStatusCode(), $exception
-                    );
-                    break;
-            }
-        } catch (ConnectException $exception) {
-            $this->error = new UrlException(['error' => $exception->getHandlerContext()['error'] ?? 'url incorrect'], 503);
         } catch (\Throwable $exception) {
-            dd($exception);
+            $handler = new ExceptionHandler($exception);
+            $this->error = $handler->handle();
         }
 
         if ($this->error && $throwException) {

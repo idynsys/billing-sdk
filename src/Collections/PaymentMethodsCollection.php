@@ -6,22 +6,10 @@ use Idynsys\BillingSdk\Data\Entities\PaymentMethodData;
 
 class PaymentMethodsCollection extends Collection
 {
-    public function addItems(array $items, ?string $key = null): Collection
+    protected function itemConvert($item): object
     {
-        if ($key) {
-            $items = array_key_exists($key, $items) ? $items[$key] : [];
-        }
+        $this->checkKeysExists($item, 'paymentMethodName', 'paymentMethodDescription');
 
-        foreach ($items as $item) {
-            $this->checkKeysExists($item, 'id', 'paymentMethodName', 'paymentMethodDescription');
-
-            $this->addItem(
-                new PaymentMethodData($item['id'], $item['paymentMethodName'], $item['paymentMethodDescription'])
-            );
-        }
-
-        return $this;
+        return new PaymentMethodData($item['paymentMethodName'], $item['paymentMethodDescription']);
     }
-
-
 }
