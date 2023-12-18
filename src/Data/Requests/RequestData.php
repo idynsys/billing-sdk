@@ -1,7 +1,8 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data;
+namespace Idynsys\BillingSdk\Data\Requests;
 
+use Idynsys\BillingSdk\Config;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
@@ -13,18 +14,38 @@ abstract class RequestData
     // метод запроса
     protected string $requestMethod;
 
+    // URL из конфигурации для выполнения запрос, заполняется в конкретном классе-наследнике
+    protected string $urlConfigKeyForRequest;
+
+    /**
+     * Получить полный URL для выполнения запроса с учетом режима работы приложения
+     *
+     * @return string
+     */
+    protected function getRequestUrlConfigKey(): string
+    {
+        return Config::get(Config::get('mode', 'DEVELOPMENT') === 'PRODUCTION' ? 'prod_host' : 'preprod_host')
+            . Config::get($this->urlConfigKeyForRequest);
+    }
+
     /**
      * Получить API url для выполнения запроса
      *
      * @return string
      */
-    abstract public function getUrl(): string;
+    public function getUrl(): string
+    {
+        return $this->getRequestUrlConfigKey();
+    }
 
     /**
      * Получить данные, отправляемые в запросе
      * @return array
      */
-    abstract protected function getRequestData(): array;
+    protected function getRequestData(): array
+    {
+        return [];
+    }
 
     /**
      * Подучить метод запроса
@@ -46,19 +67,9 @@ abstract class RequestData
         $paramsType = $this->getMethod() === RequestMethod::METHOD_POST ? 'json' : 'query';
 
         return [
-            'headers'   => $this->getHeadersData(),
+            'headers' => $this->getHeadersData(),
             $paramsType => $this->getRequestData()
         ];
-    }
-
-    /**
-     * Получить секретный ключ для приложения (Client ID)
-     *
-     * @return string
-     */
-    protected function getSecretApplicationKey(): string
-    {
-        return getenv('BILLING_SDK_APPLICATION_SECRET_KEY') ?: '';
     }
 
     /**
@@ -71,10 +82,20 @@ abstract class RequestData
         return [
             'X-Authorization-Sign' => hash_hmac(
                 'sha512',
-                json_encode($this->getRequestData()),
-                $this->getSecretApplicationKey()
+                json_encode($this->requestMethod === RequestMethod::METHOD_GET ? [] : $this->getRequestData()),
+                Config::get('clientSecret')
             )
         ];
     }
 
+    /**
+     * Преобразование float в строку с двумя знаками после запятой
+     *
+     * @param float $number
+     * @return string
+     */
+    protected function roundAmount(float $number): string
+    {
+        return number_format((float) $number, 2, '.', '');
+    }
 }

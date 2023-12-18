@@ -3,14 +3,26 @@
 namespace Idynsys\BillingSdk;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Idynsys\BillingSdk\Data\AuthorisationTokenInclude;
-use Idynsys\BillingSdk\Data\AuthRequestData;
-use Idynsys\BillingSdk\Data\DepositRequestData;
-use Idynsys\BillingSdk\Data\PaymentMethodListRequestData;
-use Idynsys\BillingSdk\Data\PayoutRequestData;
-use Idynsys\BillingSdk\Data\RequestData;
+use Idynsys\BillingSdk\Collections\Collection;
+use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
+use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
+use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
+use Idynsys\BillingSdk\Data\Requests\Auth\AuthRequestData;
+use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
+use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
+use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
+use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+use Idynsys\BillingSdk\Data\Responses\TokenData;
+use Idynsys\BillingSdk\Data\Responses\TransactionData;
 use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
+use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Idynsys\BillingSdk\Exceptions\MethodException;
 use Idynsys\BillingSdk\Exceptions\NotFoundException;
 use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
@@ -30,9 +42,17 @@ final class Billing
     // Объект-клиент, через который выполняется запрос и обрабатывается результат
     private Client $client;
 
-    public function __construct()
+    public function __construct(?string $clientId = null, ?string $clientSecret = null)
     {
         $this->client = new Client();
+
+        if ($clientId) {
+            Config::set('clientId', $clientId);
+        }
+
+        if ($clientSecret) {
+            Config::set('clientSecret', $clientSecret);
+        }
     }
 
     /**
@@ -41,16 +61,16 @@ final class Billing
      * @param bool $throwException
      * @return string|null
      */
-    public function getToken(bool $throwException = true): ?string
+    public function getToken(bool $throwException = true): TokenData
     {
         $data = new AuthRequestData();
 
         $this->client->sendRequestToSystem($data, $throwException);
 
         $result = $this->client->getResult('data');
-        $this->token = ($result && array_key_exists('data', $result)) ? $result['data'] : null;
+        $this->token = ($result && array_key_exists('data', $result)) ? $result['data'] : '';
 
-        return $this->token;
+        return new TokenData($this->token);
     }
 
     /**
@@ -88,24 +108,18 @@ final class Billing
      */
     private function addToken(RequestData $data): void
     {
-        if ($data instanceof AuthorisationTokenInclude) {
+        if ($data instanceof AuthenticationTokenInclude) {
             $this->getTokenForRequest();
             $data->setToken($this->token);
         }
     }
 
     /**
-     * Отправить запрос в B2B Backoffice
+     *  Отправить запрос в B2B Backoffice
      *
      * @param RequestData $data
      * @return void
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @throws BillingSdkException
      */
     private function sendRequest(RequestData $data): void
     {
@@ -116,59 +130,94 @@ final class Billing
     /**
      * Получить список доступных платежных методов
      *
-     * @return array
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @return Collection
+     * @throws BillingSdkException
+     * @throws \JsonException
      */
-    public function getPaymentMethods(): array
+    public function getPaymentMethods(): Collection
     {
         $this->sendRequest(new PaymentMethodListRequestData());
+        $collection = new PaymentMethodsCollection();
+        $collection->addItems($this->client->getResult('items'), 'items');
 
-        return $this->client->getResult('items');
+        return $collection;
     }
 
     /**
      * Создать транзакцию для пополнения счета через Billing в B2B Backoffice
      *
      * @param DepositRequestData $data
-     * @return array
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @return DepositResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
      */
-    public function createDeposit(DepositRequestData $data): array
+    public function createDeposit(DepositRequestData $data): DepositResponseData
     {
         $this->sendRequest($data);
 
-        return $this->client->getResult();
+        return DepositResponseData::from($this->client->getResult());
     }
 
     /**
      * Создать транзакцию для вывода средств со счета через Billing в B2B Backoffice
      *
      * @param PayoutRequestData $data
-     * @return array
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @return PayoutResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
      */
-    public function createPayout(PayoutRequestData $data): array
+    public function createPayout(PayoutRequestData $data): PayoutResponseData
     {
         $this->sendRequest($data);
 
-        return $this->client->getResult();
+        return PayoutResponseData::from($this->client->getResult());
+    }
+
+    /**
+     * Получить информацию о транзакции и з биллинга
+     *
+     * @param TransactionRequestData $requestParams
+     * @return TransactionData
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
+    public function getTransactionData(TransactionRequestData $requestParams): TransactionData
+    {
+        $this->sendRequest($requestParams);
+
+        return TransactionData::from($this->client->getResult());
+    }
+
+    /**
+     * Получить список валют для платежного метода
+     *
+     * @param PaymentMethodCurrenciesRequestData $requestParams
+     * @return Collection
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
+    public function getPaymentMethodCurrencies(PaymentMethodCurrenciesRequestData $requestParams): Collection
+    {
+        $this->sendRequest($requestParams);
+        $collection = new PaymentMethodCurrenciesCollection();
+
+        $collection->addItems($this->client->getResult('items'), 'items');
+
+        return $collection;
+    }
+
+    /**
+     * Подтверждение транзакции через код для депозита по платежному методу M-Commerce
+     *
+     * @param DepositMCommerceConfirmRequestData $requestParams
+     * @return DepositMCommerceConfirmedResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
+    public function confirmMCommerceDeposit(DepositMCommerceConfirmRequestData $requestParams
+    ): DepositMCommerceConfirmedResponseData {
+        $this->sendRequest($requestParams);
+
+        return DepositMCommerceConfirmedResponseData::from($this->client->getResult());
     }
 }

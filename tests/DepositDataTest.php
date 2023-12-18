@@ -4,7 +4,8 @@ namespace Tests;
 
 use Faker\Factory;
 use Faker\Generator;
-use Idynsys\BillingSdk\Data\DepositRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositP2PRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -33,12 +34,12 @@ class DepositDataTest extends TestCase
 
     private function getDataObject(): DepositRequestData
     {
-        return new DepositRequestData(
-            $this->faker->uuid,
-            $this->faker->shuffleString,
+        return new DepositP2PRequestData(
             $this->faker->randomNumber(),
+            $this->faker->shuffleString,
             $this->faker->realText,
-            $this->faker->email, $this->faker->numberBetween(1, 200),
+            $this->faker->email,
+            $this->faker->numberBetween(1, 200),
             $this->faker->randomElement(['USD', 'EUR', 'RUB', 'KZT']),
             $this->faker->url()
         );

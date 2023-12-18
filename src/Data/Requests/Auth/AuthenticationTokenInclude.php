@@ -1,11 +1,11 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data;
+namespace Idynsys\BillingSdk\Data\Requests\Auth;
 
 /**
- * Интерфейс для запросов с аутентификацищнным токеном
+ * Интерфейс для запросов с токеном аутентификации
  */
-interface AuthorisationTokenInclude
+interface AuthenticationTokenInclude
 {
     /**
      * Установить аутентификационный токен

@@ -4,7 +4,7 @@ namespace Tests;
 
 use Faker\Factory;
 use Faker\Generator;
-use Idynsys\BillingSdk\Data\PayoutRequestData;
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 use PHPUnit\Framework\TestCase;
 
 class PayoutDataTest extends TestCase
