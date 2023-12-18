@@ -4,10 +4,15 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
+/**
+ * DTO запроса для создания транзакции на вывод средств через платежный метод P2P
+ */
 class PayoutP2PRequestData extends PayoutRequestData
 {
+    // Параметр ID платежного метода
     protected string $paymentMethodId = PaymentMethod::P2P_ID;
 
+    // Параметр наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::P2P_NAME;
 
     /**

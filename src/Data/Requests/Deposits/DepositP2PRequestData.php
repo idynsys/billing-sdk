@@ -4,6 +4,9 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
+/**
+ * DTO запроса для создания депозита через платежный метод P2P
+ */
 class DepositP2PRequestData extends DepositRequestData
 {
     // ID платежного метода

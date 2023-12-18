@@ -9,17 +9,20 @@ use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
 use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
 use Idynsys\BillingSdk\Data\Requests\Auth\AuthRequestData;
 use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
+use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 use Idynsys\BillingSdk\Data\Responses\TokenData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
 use Idynsys\BillingSdk\Exceptions\AnotherException;
 use Idynsys\BillingSdk\Exceptions\AuthException;
+use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Idynsys\BillingSdk\Exceptions\MethodException;
 use Idynsys\BillingSdk\Exceptions\NotFoundException;
 use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
@@ -112,17 +115,11 @@ final class Billing
     }
 
     /**
-     * Отправить запрос в B2B Backoffice
+     *  Отправить запрос в B2B Backoffice
      *
      * @param RequestData $data
      * @return void
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @throws BillingSdkException
      */
     private function sendRequest(RequestData $data): void
     {
@@ -133,14 +130,9 @@ final class Billing
     /**
      * Получить список доступных платежных методов
      *
-     * @return array
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @return Collection
+     * @throws BillingSdkException
+     * @throws \JsonException
      */
     public function getPaymentMethods(): Collection
     {
@@ -155,14 +147,9 @@ final class Billing
      * Создать транзакцию для пополнения счета через Billing в B2B Backoffice
      *
      * @param DepositRequestData $data
-     * @return array
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @return DepositResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
      */
     public function createDeposit(DepositRequestData $data): DepositResponseData
     {
@@ -175,14 +162,9 @@ final class Billing
      * Создать транзакцию для вывода средств со счета через Billing в B2B Backoffice
      *
      * @param PayoutRequestData $data
-     * @return array
-     * @throws AnotherException
-     * @throws AuthException
-     * @throws GuzzleException
-     * @throws MethodException
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws UrlException
+     * @return PayoutResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
      */
     public function createPayout(PayoutRequestData $data): PayoutResponseData
     {
@@ -191,6 +173,14 @@ final class Billing
         return PayoutResponseData::from($this->client->getResult());
     }
 
+    /**
+     * Получить информацию о транзакции и з биллинга
+     *
+     * @param TransactionRequestData $requestParams
+     * @return TransactionData
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
     public function getTransactionData(TransactionRequestData $requestParams): TransactionData
     {
         $this->sendRequest($requestParams);
@@ -198,6 +188,14 @@ final class Billing
         return TransactionData::from($this->client->getResult());
     }
 
+    /**
+     * Получить список валют для платежного метода
+     *
+     * @param PaymentMethodCurrenciesRequestData $requestParams
+     * @return Collection
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
     public function getPaymentMethodCurrencies(PaymentMethodCurrenciesRequestData $requestParams): Collection
     {
         $this->sendRequest($requestParams);
@@ -206,5 +204,20 @@ final class Billing
         $collection->addItems($this->client->getResult('items'), 'items');
 
         return $collection;
+    }
+
+    /**
+     * Подтверждение транзакции через код для депозита по платежному методу M-Commerce
+     *
+     * @param DepositMCommerceConfirmRequestData $requestParams
+     * @return DepositMCommerceConfirmedResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
+    public function confirmMCommerceDeposit(DepositMCommerceConfirmRequestData $requestParams
+    ): DepositMCommerceConfirmedResponseData {
+        $this->sendRequest($requestParams);
+
+        return DepositMCommerceConfirmedResponseData::from($this->client->getResult());
     }
 }

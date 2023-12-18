@@ -4,18 +4,9 @@ namespace Idynsys\BillingSdk;
 
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
-use Idynsys\BillingSdk\Exceptions\AnotherException;
-use Idynsys\BillingSdk\Exceptions\AuthException;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Idynsys\BillingSdk\Exceptions\ExceptionHandler;
-use Idynsys\BillingSdk\Exceptions\MethodException;
-use Idynsys\BillingSdk\Exceptions\NotFoundException;
-use Idynsys\BillingSdk\Exceptions\ResponseException;
-use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
-use Idynsys\BillingSdk\Exceptions\UrlException;
 
 /**
  * Класс для выполнения запросов к B2B backoffice

@@ -15,4 +15,17 @@ class PaymentMethod
     const M_COMMERCE_ID = '99803784-7ace-49e1-8ab7-18e4d0f9d58b';
 
     const M_COMMERCE_NAME = 'MCommerce';
+
+    /**
+     * Получить список имен доступных платежных методов
+     * @return string[]
+     */
+    public static function getNames(): array
+    {
+        return [
+            self::P2P_NAME,
+            self::BANKCARD_NAME,
+            self::M_COMMERCE_NAME
+        ];
+    }
 }

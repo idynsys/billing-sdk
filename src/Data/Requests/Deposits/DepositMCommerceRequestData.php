@@ -4,12 +4,18 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
+/**
+ * DTO запроса для создания депозита через платежный метод MCommerce
+ */
 class DepositMCommerceRequestData extends DepositRequestData
 {
+    // Параметр ID платежного метода
     protected string $paymentMethodId = PaymentMethod::M_COMMERCE_ID;
 
+    // Параметр наименования платежного метода
     protected string $paymentMethodName = PaymentMethod::M_COMMERCE_NAME;
 
+    // Параметр телефонный номер
     public string $phoneNumber;
 
     /**
@@ -54,7 +60,7 @@ class DepositMCommerceRequestData extends DepositRequestData
             ],
             'customer_data'       => [
                 'phoneNumber' => $this->phoneNumber,
-                'email'       => 'test@mail.com'
+                //'email'       => 'test@mail.com'
             ],
             'payment_data'        => [
                 'amount'   => $this->roundAmount($this->paymentAmount),

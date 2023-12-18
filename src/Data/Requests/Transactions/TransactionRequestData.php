@@ -7,19 +7,32 @@ use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
+/**
+ * DTO для запроса для получения информации по транзакции
+ */
 class TransactionRequestData extends RequestData implements AuthenticationTokenInclude
 {
     use WithAuthorizationToken;
 
+    // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
-    public string $transactionId;
+
+    // URL из конфигурации для выполнения запроса
     protected string $urlConfigKeyForRequest = 'TRANSACTION_DATA_URL';
+
+    // Параметр ID транзакции
+    public string $transactionId;
 
     public function __construct(string $transactionId)
     {
         $this->transactionId = $transactionId;
     }
 
+    /**
+     * Модификация URL запроса
+     *
+     * @return string
+     */
     public function getUrl(): string
     {
         return parent::getUrl() . '/' . $this->transactionId;

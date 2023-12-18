@@ -11,6 +11,7 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
  */
 final class AuthRequestData extends RequestData
 {
+    // Код конфигурации, на урл запроса
     protected string $urlConfigKeyForRequest = 'AUTH_URL';
 
     // Метод запроса

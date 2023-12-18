@@ -8,7 +8,7 @@ use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
- * DTO для запроса на создание транзакции на вывод средств
+ * Абстрактный класс DTO для запроса на создание транзакции на вывод средств
  */
 abstract class PayoutRequestData extends RequestData implements AuthenticationTokenInclude
 {
@@ -23,8 +23,8 @@ abstract class PayoutRequestData extends RequestData implements AuthenticationTo
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
 
+    // URL из конфигурации для выполнения запроса
     protected string $urlConfigKeyForRequest = 'PAYOUT_URL';
-
 
     // Сумма депозита
     protected float $payoutAmount;

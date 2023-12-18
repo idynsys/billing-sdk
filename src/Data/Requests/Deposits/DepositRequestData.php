@@ -8,7 +8,7 @@ use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
- * DTO для запроса на создание транзакции на пополнение счета
+ * Абстрактный класс DTO для всех запроса на создание транзакции депозита
  */
 abstract class DepositRequestData extends RequestData implements AuthenticationTokenInclude
 {
@@ -23,6 +23,7 @@ abstract class DepositRequestData extends RequestData implements AuthenticationT
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
 
+    // URL из конфигурации для выполнения запроса
     protected string $urlConfigKeyForRequest = 'DEPOSIT_URL';
 
     // ID документа для создания депозита

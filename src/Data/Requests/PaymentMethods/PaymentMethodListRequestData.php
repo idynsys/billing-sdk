@@ -14,8 +14,10 @@ final class PaymentMethodListRequestData extends RequestData implements Authenti
 {
     use WithAuthorizationToken;
 
+    // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
 
+    // URL из конфигурации для выполнения запроса
     protected string $urlConfigKeyForRequest = 'PAYMENT_METHODS_URL';
 
 }

@@ -181,6 +181,9 @@ $result = $billing->createDeposit($requestParams);
 <?php
 
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceRequestData;
+use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
+use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 
 // Создать DTO для запроса на создание транзакции для пополнения счета
 $requestParams = new DepositMCommerceRequestData(
@@ -193,7 +196,21 @@ $requestParams = new DepositMCommerceRequestData(
 );
 
 // Создать транзакцию и получить результат
-$result = $billing->createDeposit($requestParams);
+/** @var DepositResponseData $createdResult */
+$createdResult = $billing->createDeposit($requestParams);
+
+... 
+
+// Подтверждение транзакции через одноразовый код из смс на мобильный номер
+$requestParams = new DepositMCommerceConfirmRequestData(
+    $createdResult->transactionId,
+    'confirmationCodeFromSmsOrEmail'
+);
+
+// Отправить запрос на подтверждение транзакции
+/** @var DepositMCommerceConfirmedResponseData $confirmedResult */
+$confirmedResult = $billing->confirmMCommerceDeposit($requestParams);
+
 ```
 
 4. _Response_
@@ -201,7 +218,7 @@ $result = $billing->createDeposit($requestParams);
 Если транзакция депозита была создана успешно, то ответом (response) 
 будет объект класса \Idynsys\BillingSdk\Data\Responses\DepositResponseData:
 ```
-Idynsys\BillingSdk\Data\Responses\DepositResponseData
+Idynsys\BillingSdk\Data\Responses\DepositResponseData {
   +paymentStatus: "SUCCESS"
   +transactionId: "a45da91c-536d-4019-8c6c-1e822f417507"
   +amount: 4325.0
@@ -227,6 +244,7 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData
 <?php
 
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutP2PRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 
 // Создать DTO для запроса на создание транзакции для вывода средств со счета
 $requestParams = new PayoutP2PRequestData(
@@ -239,6 +257,7 @@ $requestParams = new PayoutP2PRequestData(
 );
 
 // Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
 $result = $billing->createPayout($requestParams);
 ```
 
@@ -247,9 +266,10 @@ $result = $billing->createPayout($requestParams);
 <?php
 
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutBankcardRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 
 // Создать DTO для запроса на создание транзакции для вывода средств со счета
-$requestParams = new PayoutP2PRequestData(
+$requestParams = new PayoutBankcardRequestData(
     $amount,            // сумма ввода
     $currencyCode,      // валюта суммы вывода
     $cardNumber,        // Номер банковской карты, на которую выводятся деньги
@@ -259,30 +279,30 @@ $requestParams = new PayoutP2PRequestData(
 );
 
 // Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
 $result = $billing->createPayout($requestParams);
 ```
 
 3. _Response_
 
-Если операция выполнена успешно, то ответ придет в формате ассоциативного массива:
-```php
-[
-  "transactionId": "идентификатор транзакции"
-]
+Если операция выполнена успешно, то ответ придет в виде объекта класса PayoutResponseData:
 ```
-3. Обработка исключительных ситуаций
+Idynsys\BillingSdk\Data\Responses\PayoutResponseData {
+  +transactionId: "338263f6-e1af-4a25-aa38-ac0ea724be02"
+}
+```
+#### Обработка исключительных ситуаций
 При запросе к системе могут возникнуть ошибки, связанные с некорректно отправленными данными
-или невозможностью выполнить операцию. Обработать ошибки можно следующим образом:
+или невозможностью выполнить операцию. Все ошибки возвращаются через объект-исключение
+\Idynsys\BillingSdk\Exceptions\ExceptionHandler. Обработать ошибки можно следующим образом:
 ```php
 <?php
-use Idynsys\BillingSdk\Exceptions\RequestException;
+use Idynsys\BillingSdk\Exceptions\BilllingSdkException;
 use Throwable;
 
 try {
-    // выполнить запрос из описанных в п. 2.
-} catch (RequestException $exception) {
-    $requestError = $exception->getOriginalMessage();
-    $requestCode = $exception->getCode());
+    // Выполнить запрос из описанных в п. 2.
+} catch (BilllingSdkException $exception) {
     // обработать ошибку
 } catch (Throwable $exception) {
     // обработать ошибку

@@ -14,8 +14,14 @@ abstract class RequestData
     // метод запроса
     protected string $requestMethod;
 
+    // URL из конфигурации для выполнения запрос, заполняется в конкретном классе-наследнике
     protected string $urlConfigKeyForRequest;
 
+    /**
+     * Получить полный URL для выполнения запроса с учетом режима работы приложения
+     *
+     * @return string
+     */
     protected function getRequestUrlConfigKey(): string
     {
         return Config::get(Config::get('mode', 'DEVELOPMENT') === 'PRODUCTION' ? 'prod_host' : 'preprod_host')
@@ -82,8 +88,14 @@ abstract class RequestData
         ];
     }
 
+    /**
+     * Преобразование float в строку с двумя знаками после запятой
+     *
+     * @param float $number
+     * @return string
+     */
     protected function roundAmount(float $number): string
     {
-        return number_format((float)$number, 2, '.', '');
+        return number_format((float) $number, 2, '.', '');
     }
 }

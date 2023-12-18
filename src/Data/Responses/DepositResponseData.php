@@ -2,14 +2,30 @@
 
 namespace Idynsys\BillingSdk\Data\Responses;
 
+/**
+ * DTO ответа после оформления транзакции депозита
+ */
 class DepositResponseData
 {
+    // Статус операции
     public string $paymentStatus;
+
+    // ID созданной транзакции
     public string $transactionId;
+
+    // Сумма транзакции
     public float $amount;
+
+    // Валюта транзакции
     public string $currency;
+
+    // URL для проведения транзакции при работе через H2C
     public ?string $redirectUrl;
+
+    // Данные банковской карты
     public ?BankCardData $card;
+
+    // Пока всегда null
     public ?array $destinationCard;
 
     public function __construct(
@@ -31,6 +47,12 @@ class DepositResponseData
         $this->destinationCard = $destinationCard;
     }
 
+    /**
+     * Создание DTO из данных, полученных после выполнения запроса
+     *
+     * @param array $responseData
+     * @return self
+     */
     public static function from(array $responseData): self
     {
         return new self(
