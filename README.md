@@ -291,6 +291,22 @@ Idynsys\BillingSdk\Data\Responses\PayoutResponseData {
   +transactionId: "338263f6-e1af-4a25-aa38-ac0ea724be02"
 }
 ```
+#### Получить данные транзакции
+Для любой созданной транзакции можно проверить статус, тип, валюту, сумму, выполнив следующие действия:
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
+use Idynsys\BillingSdk\Data\Responses\TransactionData;
+
+// Создать DTO для запроса данных транзакции
+$requestParams = new TransactionRequestData('50943073-3426-4e00-b147-1d21852c0e22');
+
+// Выполнить запрос для получения данных транзакции
+/** @var TransactionData $result */
+$result = $billing->getTransactionData($requestParams);
+
+```
+
 #### Обработка исключительных ситуаций
 При запросе к системе могут возникнуть ошибки, связанные с некорректно отправленными данными
 или невозможностью выполнить операцию. Все ошибки возвращаются через объект-исключение

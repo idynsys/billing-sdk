@@ -2,7 +2,6 @@
 
 namespace Idynsys\BillingSdk;
 
-use GuzzleHttp\Exception\GuzzleException;
 use Idynsys\BillingSdk\Collections\Collection;
 use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
@@ -20,13 +19,8 @@ use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 use Idynsys\BillingSdk\Data\Responses\TokenData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
-use Idynsys\BillingSdk\Exceptions\AnotherException;
-use Idynsys\BillingSdk\Exceptions\AuthException;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
-use Idynsys\BillingSdk\Exceptions\MethodException;
-use Idynsys\BillingSdk\Exceptions\NotFoundException;
 use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
-use Idynsys\BillingSdk\Exceptions\UrlException;
 
 /**
  * Класс для выполнения запросов к сервису Billing в B2B Backoffice

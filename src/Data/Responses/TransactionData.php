@@ -2,15 +2,38 @@
 
 namespace Idynsys\BillingSdk\Data\Responses;
 
+/**
+ * DTO данных транзакции по ответу на запрос по состоянию транзакции
+ */
 class TransactionData
 {
+    // ID транзакции
     public string $id;
+
     public ?string $externalId;
+
+    // Платежный метод транзакции
     public string $paymentMethod;
+
+    // Наименование платежной системы
     public ?string $paymentSystem;
+
+    // Тип транзакционной операции
     public string $transactionType;
+
+    // Изначально запрошенная сумма
+    public ?float $requestedAmount;
+
+    // Изначально запрошенная валюта
+    public ?string $requestedCurrency;
+
+    // Проведенная сумма по транзакции
     public ?float $amount;
+
+    // Валюта транзакции
     public ?string $currency;
+
+    // Статус транзакции
     public string $status;
 
     public function __construct(
@@ -19,6 +42,8 @@ class TransactionData
         string $paymentMethod,
         ?string $paymentSystem,
         string $transactionType,
+        float $requestedAmount,
+        string $requestedCurrency,
         ?float $amount,
         ?string $currency,
         string $status
@@ -28,11 +53,19 @@ class TransactionData
         $this->paymentMethod = $paymentMethod;
         $this->paymentSystem = $paymentSystem;
         $this->transactionType = $transactionType;
+        $this->requestedAmount = $requestedAmount;
+        $this->requestedCurrency = $requestedCurrency;
         $this->amount = $amount;
         $this->currency = $currency;
         $this->status = $status;
     }
 
+    /**
+     * Создание объекта DTO из массива полученных данных по запросу
+     *
+     * @param array $getResult
+     * @return self
+     */
     public static function from(array $getResult)
     {
         return new self(
@@ -41,6 +74,8 @@ class TransactionData
             $getResult['paymentMethod'] ?? null,
             $getResult['paymentSystem'] ?? null,
             $getResult['transactionType'] ?? null,
+            $getResult['requestedAmount'] ?? 0,
+            $getResult['requestedCurrency'] ?? 'n/a',
             array_key_exists('amount', $getResult) && is_float($getResult['amount']) ? $getResult['amount'] : null,
             $getResult['currency'] ?? null,
             $getResult['status'] ?? null
