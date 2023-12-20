@@ -60,7 +60,6 @@ class DepositMCommerceRequestData extends DepositRequestData
             ],
             'customer_data'       => [
                 'phoneNumber' => $this->phoneNumber,
-                //'email'       => 'test@mail.com'
             ],
             'payment_data'        => [
                 'amount'   => $this->roundAmount($this->paymentAmount),

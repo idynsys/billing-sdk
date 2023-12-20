@@ -28,6 +28,9 @@ class DepositResponseData
     // Пока всегда null
     public ?array $destinationCard;
 
+    // Описание ошибки, если была при создании транзакции
+    public $error;
+
     public function __construct(
         string $transactionId,
         string $paymentStatus,
@@ -35,7 +38,8 @@ class DepositResponseData
         string $currency,
         ?string $redirectUrl = null,
         ?BankCardData $card = null,
-        ?array $destinationCard = null
+        ?array $destinationCard = null,
+        $error = null
     )
     {
         $this->transactionId = $transactionId;
@@ -63,6 +67,7 @@ class DepositResponseData
             $responseData['redirect_url'] ?? null,
             array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData($responseData['card']) : null,
             $responseData['destination_card'] ?? null,
+            $responseData['error'] ?? null
         );
     }
 }
