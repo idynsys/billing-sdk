@@ -5,6 +5,7 @@ namespace Idynsys\BillingSdk;
 use Idynsys\BillingSdk\Collections\Collection;
 use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
+use Idynsys\BillingSdk\Contracts\BillingContract;
 use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
 use Idynsys\BillingSdk\Data\Requests\Auth\AuthRequestData;
 use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestData;
@@ -25,7 +26,7 @@ use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
 /**
  * Класс для выполнения запросов к сервису Billing в B2B Backoffice
  */
-final class Billing
+final class Billing implements BillingContract
 {
     // Сохраняет токен для выполнения операций по счету
     private ?string $token = null;
