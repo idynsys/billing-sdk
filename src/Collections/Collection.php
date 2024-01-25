@@ -43,7 +43,7 @@ abstract class Collection implements Iterator
     // Метод интерфейса Iterator
     public function valid()
     {
-        return isset($this->people[$this->position]);
+        return isset($this->items[$this->position]);
     }
 
     /**

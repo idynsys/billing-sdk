@@ -49,6 +49,7 @@ class DepositResponseData
         $this->redirectUrl = $redirectUrl;
         $this->card = $card;
         $this->destinationCard = $destinationCard;
+        $this->error = $error;
     }
 
     /**
