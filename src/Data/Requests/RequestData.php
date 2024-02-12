@@ -80,6 +80,7 @@ abstract class RequestData
     protected function getHeadersData(): array
     {
         return [
+            'X-Client-Id' => Config::get('clientId'),
             'X-Authorization-Sign' => hash_hmac(
                 'sha512',
                 json_encode($this->requestMethod === RequestMethod::METHOD_GET ? [] : $this->getRequestData()),
