@@ -2,8 +2,6 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Currencies;
 
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 use Idynsys\BillingSdk\Enums\RequestMethod;
@@ -12,10 +10,8 @@ use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 /**
  * DTO для запроса списка валют платежных методов
  */
-class PaymentMethodCurrenciesRequestData extends RequestData implements AuthenticationTokenInclude
+class PaymentMethodCurrenciesRequestData extends RequestData
 {
-    use WithAuthorizationToken;
-
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
 

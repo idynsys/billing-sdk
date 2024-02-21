@@ -2,15 +2,11 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
-class DepositMCommerceConfirmRequestData extends RequestData implements AuthenticationTokenInclude
+class DepositMCommerceConfirmRequestData extends RequestData
 {
-    use WithAuthorizationToken;
-
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
 

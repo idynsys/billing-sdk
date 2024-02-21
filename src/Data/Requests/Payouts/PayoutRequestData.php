@@ -2,18 +2,14 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
  * Абстрактный класс DTO для запроса на создание транзакции на вывод средств
  */
-abstract class PayoutRequestData extends RequestData implements AuthenticationTokenInclude
+abstract class PayoutRequestData extends RequestData
 {
-    use WithAuthorizationToken;
-
     // ID платежного метода
     protected string $paymentMethodId;
 

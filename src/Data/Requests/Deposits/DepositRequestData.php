@@ -2,18 +2,14 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
  * Абстрактный класс DTO для всех запроса на создание транзакции депозита
  */
-abstract class DepositRequestData extends RequestData implements AuthenticationTokenInclude
+abstract class DepositRequestData extends RequestData
 {
-    use WithAuthorizationToken;
-
     // ID платежного метода
     protected string $paymentMethodId;
 

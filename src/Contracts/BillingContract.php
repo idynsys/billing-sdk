@@ -20,14 +20,6 @@ use Idynsys\BillingSdk\Data\Responses\TransactionData;
 interface BillingContract
 {
     /**
-     * Получить токен аутентификации в B2B Backoffice
-     *
-     * @param bool $throwException
-     * @return TokenData
-     */
-    public function getToken(bool $throwException = true): TokenData;
-
-    /**
      * Получить список доступных платежных методов
      *
      * @return Collection
