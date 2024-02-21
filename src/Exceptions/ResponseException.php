@@ -2,7 +2,9 @@
 
 namespace Idynsys\BillingSdk\Exceptions;
 
-class ResponseException extends \Exception
+use Exception;
+
+class ResponseException extends Exception
 {
 
 }

@@ -7,7 +7,7 @@ use Throwable;
 
 abstract class RequestException extends Exception
 {
-    private ?array $originalError = null;
+    private ?array $originalError;
 
     public function __construct(array $errorData, $code = 0, Throwable $previous = null)
     {
@@ -30,7 +30,7 @@ abstract class RequestException extends Exception
         return $this->originalError ?: ['error' => $this->getMessage()];
     }
 
-    public function getOriginalMessage()
+    public function getOriginalMessage(): ?array
     {
         return $this->originalError;
     }

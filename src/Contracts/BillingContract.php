@@ -11,7 +11,6 @@ use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
 use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
-use Idynsys\BillingSdk\Data\Responses\TokenData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
 
 /**

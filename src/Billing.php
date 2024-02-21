@@ -6,8 +6,6 @@ use Idynsys\BillingSdk\Collections\Collection;
 use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
 use Idynsys\BillingSdk\Contracts\BillingContract;
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthRequestData;
 use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
@@ -18,10 +16,8 @@ use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
 use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
-use Idynsys\BillingSdk\Data\Responses\TokenData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
-use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
 
 /**
  * Класс для выполнения запросов к сервису Billing в B2B Backoffice

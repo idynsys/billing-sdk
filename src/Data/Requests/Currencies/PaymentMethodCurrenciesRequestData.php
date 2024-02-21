@@ -21,6 +21,9 @@ class PaymentMethodCurrenciesRequestData extends RequestData
     // Параметр: наименование платежного метода
     public string $paymentMethodName;
 
+    /**
+     * @throws BillingSdkException
+     */
     public function __construct(string $methodName)
     {
         $this->paymentMethodName = $methodName;
@@ -44,7 +47,7 @@ class PaymentMethodCurrenciesRequestData extends RequestData
                 'The value ' . $this->paymentMethodName . ' does not exist in '
                 . implode(', ', PaymentMethod::getNames()), 422
             );
-        };
+        }
     }
 
     /**
