@@ -2,8 +2,6 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Currencies;
 
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\Requests\Auth\WithAuthorizationToken;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 use Idynsys\BillingSdk\Enums\RequestMethod;
@@ -12,10 +10,8 @@ use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 /**
  * DTO для запроса списка валют платежных методов
  */
-class PaymentMethodCurrenciesRequestData extends RequestData implements AuthenticationTokenInclude
+class PaymentMethodCurrenciesRequestData extends RequestData
 {
-    use WithAuthorizationToken;
-
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
 
@@ -25,6 +21,9 @@ class PaymentMethodCurrenciesRequestData extends RequestData implements Authenti
     // Параметр: наименование платежного метода
     public string $paymentMethodName;
 
+    /**
+     * @throws BillingSdkException
+     */
     public function __construct(string $methodName)
     {
         $this->paymentMethodName = $methodName;
@@ -48,7 +47,7 @@ class PaymentMethodCurrenciesRequestData extends RequestData implements Authenti
                 'The value ' . $this->paymentMethodName . ' does not exist in '
                 . implode(', ', PaymentMethod::getNames()), 422
             );
-        };
+        }
     }
 
     /**

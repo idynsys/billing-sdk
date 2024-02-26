@@ -6,8 +6,6 @@ use Idynsys\BillingSdk\Collections\Collection;
 use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
 use Idynsys\BillingSdk\Contracts\BillingContract;
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthenticationTokenInclude;
-use Idynsys\BillingSdk\Data\Requests\Auth\AuthRequestData;
 use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
@@ -18,22 +16,14 @@ use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
 use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
-use Idynsys\BillingSdk\Data\Responses\TokenData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
-use Idynsys\BillingSdk\Exceptions\UnauthorizedException;
 
 /**
  * Класс для выполнения запросов к сервису Billing в B2B Backoffice
  */
 final class Billing implements BillingContract
 {
-    // Сохраняет токен для выполнения операций по счету
-    private ?string $token = null;
-
-    // Количество попыток для запроса токена аутентификации
-    private int $requestAttempts = 3;
-
     // Объект-клиент, через который выполняется запрос и обрабатывается результат
     private Client $client;
 
@@ -51,65 +41,6 @@ final class Billing implements BillingContract
     }
 
     /**
-     * Получить токен аутентификации в B2B Backoffice
-     *
-     * @param bool $throwException
-     * @return string|null
-     */
-    public function getToken(bool $throwException = true): TokenData
-    {
-        $data = new AuthRequestData();
-
-        $this->client->sendRequestToSystem($data, $throwException);
-
-        $result = $this->client->getResult('data');
-        $this->token = ($result && array_key_exists('data', $result)) ? $result['data'] : '';
-
-        return new TokenData($this->token);
-    }
-
-    /**
-     * Получить токен аутентификации для выполнения запросов к сервису Billing
-     *
-     * @param int $attempt
-     * @return void
-     */
-    private function getTokenForRequest(int $attempt = 0): void
-    {
-        if ($this->token && $attempt === 0) {
-            return;
-        }
-
-        if (++$attempt <= $this->requestAttempts) {
-            $result = $this->getToken($attempt === $this->requestAttempts);
-
-            if (!$result) {
-                $this->getTokenForRequest($attempt);
-            }
-        } else {
-            $result = false;
-        }
-
-        if (!$result) {
-            throw new UnauthorizedException();
-        }
-    }
-
-    /**
-     * Добавить токен в заголовок запроса
-     *
-     * @param RequestData $data
-     * @return void
-     */
-    private function addToken(RequestData $data): void
-    {
-        if ($data instanceof AuthenticationTokenInclude) {
-            $this->getTokenForRequest();
-            $data->setToken($this->token);
-        }
-    }
-
-    /**
      *  Отправить запрос в B2B Backoffice
      *
      * @param RequestData $data
@@ -118,7 +49,6 @@ final class Billing implements BillingContract
      */
     private function sendRequest(RequestData $data): void
     {
-        $this->addToken($data);
         $this->client->sendRequestToSystem($data);
     }
 

@@ -97,6 +97,6 @@ abstract class RequestData
      */
     protected function roundAmount(float $number): string
     {
-        return number_format((float) $number, 2, '.', '');
+        return number_format($number, 2, '.', '');
     }
 }

@@ -8,8 +8,8 @@ namespace Idynsys\BillingSdk\Enums;
 final class RequestMethod
 {
     // Метод GET
-    const METHOD_GET = 'GET';
+    public const METHOD_GET = 'GET';
 
     // Метод POST
-    const METHOD_POST = 'POST';
+    public const METHOD_POST = 'POST';
 }

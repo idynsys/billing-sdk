@@ -7,6 +7,8 @@ use GuzzleHttp\Client as GuzzleClient;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Idynsys\BillingSdk\Exceptions\ExceptionHandler;
+use JsonException;
+use Throwable;
 
 /**
  * Класс для выполнения запросов к B2B backoffice
@@ -33,7 +35,7 @@ class Client extends GuzzleClient
             $res = $this->request($data->getMethod(), $data->getUrl(), $data->getData());
 
             $this->content = $res->getBody()->getContents();
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             $handler = new ExceptionHandler($exception);
             $this->error = $handler->handle();
         }
@@ -50,10 +52,11 @@ class Client extends GuzzleClient
      *
      * @param string|null $key
      * @return string[]|null
+     * @throws JsonException
      */
     public function getResult(?string $key = null): ?array
     {
-        if ($this->hasError() || !isset($this->content)) {
+        if (!isset($this->content) || $this->hasError()) {
             return null;
         }
 

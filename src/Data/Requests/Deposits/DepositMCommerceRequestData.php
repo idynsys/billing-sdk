@@ -19,8 +19,6 @@ class DepositMCommerceRequestData extends DepositRequestData
     public string $phoneNumber;
 
     /**
-     * @param string $paymentMethodId
-     * @param string $paymentMethodName
      * @param string $merchantOrderId
      * @param string $merchantOrderDescription
      * @param string $phoneNumber

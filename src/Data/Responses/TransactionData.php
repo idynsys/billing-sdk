@@ -66,7 +66,7 @@ class TransactionData
      * @param array $getResult
      * @return self
      */
-    public static function from(array $getResult)
+    public static function from(array $getResult): self
     {
         return new self(
             $getResult['id'] ?? null,
