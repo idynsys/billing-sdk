@@ -83,7 +83,7 @@ abstract class RequestData
             'X-Client-Id' => Config::get('clientId'),
             'X-Authorization-Sign' => hash_hmac(
                 'sha512',
-                json_encode($this->requestMethod === RequestMethod::METHOD_GET ? [] : $this->getRequestData()),
+                json_encode($this->getRequestData()),
                 Config::get('clientSecret')
             )
         ];
