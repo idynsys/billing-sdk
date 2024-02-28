@@ -27,7 +27,7 @@ class DepositP2PRequestData extends DepositRequestData
         string $callbackUrl,
         string $customerEmail,
         ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
+        ?string $merchantOrderDescription = null
     ) {
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
