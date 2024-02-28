@@ -37,13 +37,21 @@ abstract class PayoutRequestData extends RequestData
     // URL для передачи результата создания транзакции в B2B backoffice
     protected string $callbackUrl;
 
+    // ID документа для создания депозита
+    protected ?string $merchantOrderId;
+
+    // описание документа для создания депозита
+    protected ?string $merchantOrderDescription;
+
     public function __construct(
         float $payoutAmount,
         string $payoutCurrency,
         string $cardNumber,
         string $cardExpiration,
         string $cardRecipientInfo,
-        string $callbackUrl
+        string $callbackUrl,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
     ) {
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $payoutCurrency;
@@ -51,5 +59,7 @@ abstract class PayoutRequestData extends RequestData
         $this->cardExpiration = $cardExpiration;
         $this->cardRecipientInfo = $cardRecipientInfo;
         $this->callbackUrl = $callbackUrl;
+        $this->merchantOrderId = $merchantOrderId;
+        $this->merchantOrderDescription = $merchantOrderDescription;
     }
 }

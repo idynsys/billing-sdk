@@ -16,16 +16,16 @@ class DepositMCommerceRequestData extends DepositRequestData
     public string $phoneNumber;
 
     /**
-     * @param string $merchantOrderId
-     * @param string $merchantOrderDescription
+     * @param string|null $merchantOrderId
+     * @param string|null $merchantOrderDescription
      * @param string $phoneNumber
      * @param float $paymentAmount
      * @param string $paymentCurrencyCode
      * @param string $callbackUrl
      */
     public function __construct(
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $merchantOrderId,
+        ?string $merchantOrderDescription,
         string $phoneNumber,
         float $paymentAmount,
         string $paymentCurrencyCode,

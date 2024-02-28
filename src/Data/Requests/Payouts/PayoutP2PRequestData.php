@@ -30,7 +30,9 @@ class PayoutP2PRequestData extends PayoutRequestData
                 'expiration'    => $this->cardExpiration,
                 'recipientInfo' => $this->cardRecipientInfo
             ],
-            'callbackUrl' => $this->callbackUrl
+            'callbackUrl' => $this->callbackUrl,
+            'merchantOrderId' => $this->merchantOrderId,
+            'merchantOrderDescription' => $this->merchantOrderDescription
         ];
     }
 }

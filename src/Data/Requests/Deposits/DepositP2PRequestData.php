@@ -13,16 +13,16 @@ class DepositP2PRequestData extends DepositRequestData
     protected string $paymentMethodName = PaymentMethod::P2P_NAME;
 
     /**
-     * @param string $merchantOrderId
-     * @param string $merchantOrderDescription
+     * @param string|null $merchantOrderId
+     * @param string|null $merchantOrderDescription
      * @param string $customerEmail
      * @param float $paymentAmount
      * @param string $paymentCurrencyCode
      * @param string $callbackUrl
      */
     public function __construct(
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $merchantOrderId,
+        ?string $merchantOrderDescription,
         string $customerEmail,
         float $paymentAmount,
         string $paymentCurrencyCode,
