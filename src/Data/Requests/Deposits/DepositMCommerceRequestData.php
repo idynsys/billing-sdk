@@ -9,9 +9,6 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
  */
 class DepositMCommerceRequestData extends DepositRequestData
 {
-    // Параметр ID платежного метода
-    protected string $paymentMethodId = PaymentMethod::M_COMMERCE_ID;
-
     // Параметр наименования платежного метода
     protected string $paymentMethodName = PaymentMethod::M_COMMERCE_NAME;
 
@@ -50,7 +47,6 @@ class DepositMCommerceRequestData extends DepositRequestData
     protected function getRequestData(): array
     {
         return [
-            'payment_method_id'   => $this->paymentMethodId,
             'payment_method_name' => $this->paymentMethodName,
             'merchant_order'      => [
                 'id'          => $this->merchantOrderId,

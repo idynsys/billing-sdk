@@ -9,9 +9,6 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
  */
 class DepositP2PRequestData extends DepositRequestData
 {
-    // ID платежного метода
-    protected string $paymentMethodId = PaymentMethod::P2P_ID;
-
     // Наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::P2P_NAME;
 
@@ -47,7 +44,6 @@ class DepositP2PRequestData extends DepositRequestData
     protected function getRequestData(): array
     {
         return [
-            'payment_method_id'   => $this->paymentMethodId,
             'payment_method_name' => $this->paymentMethodName,
             'merchant_order'      => [
                 'id'          => $this->merchantOrderId,

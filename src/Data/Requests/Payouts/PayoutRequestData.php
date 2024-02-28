@@ -10,9 +10,6 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
  */
 abstract class PayoutRequestData extends RequestData
 {
-    // ID платежного метода
-    protected string $paymentMethodId;
-
     // Наименование платежного метода
     protected string $paymentMethodName;
     

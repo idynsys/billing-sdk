@@ -9,9 +9,6 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
  */
 class PayoutP2PRequestData extends PayoutRequestData
 {
-    // Параметр ID платежного метода
-    protected string $paymentMethodId = PaymentMethod::P2P_ID;
-
     // Параметр наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::P2P_NAME;
 
@@ -23,7 +20,6 @@ class PayoutP2PRequestData extends PayoutRequestData
     protected function getRequestData(): array
     {
         return [
-            'paymentMethodId'   => $this->paymentMethodId,
             "paymentMethodName" => $this->paymentMethodName,
             'payoutData'        => [
                 'amount'   => $this->roundAmount($this->payoutAmount),

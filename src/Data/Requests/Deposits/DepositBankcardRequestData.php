@@ -9,9 +9,6 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
  */
 class DepositBankcardRequestData extends DepositP2PRequestData
 {
-    // Параметр ID платежного метода
-    protected string $paymentMethodId = PaymentMethod::BANKCARD_ID;
-
     // Параметр наименования платежного метода
     protected string $paymentMethodName = PaymentMethod::BANKCARD_NAME;
 }

@@ -4,6 +4,7 @@ namespace Tests;
 
 use Faker\Factory;
 use Faker\Generator;
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutBankcardRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 use PHPUnit\Framework\TestCase;
 
@@ -21,9 +22,7 @@ class PayoutDataTest extends TestCase
     }
     private function getDataObject(): PayoutRequestData
     {
-        return new PayoutRequestData(
-            $this->faker->uuid,
-            $this->faker->shuffleString,
+        return new PayoutBankcardRequestData(
             $this->faker->numberBetween(1, 200),
             $this->faker->randomElement(['USD', 'EUR', 'RUB', 'KZT']),
             $this->faker->creditCardNumber(),
@@ -47,7 +46,6 @@ class PayoutDataTest extends TestCase
         $data = $method->invoke($dto);
 
         $this->assertNotEmpty($data);
-        $this->assertArrayHasKey('paymentMethodId', $data);
         $this->assertArrayHasKey('paymentMethodName', $data);
         $this->assertArrayHasKey('payoutData', $data);
         $this->assertArrayHasKey('amount', $data['payoutData']);
