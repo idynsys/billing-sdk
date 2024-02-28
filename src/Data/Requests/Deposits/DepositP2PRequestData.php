@@ -5,6 +5,9 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
+ * @deprecated
+ * Использовать ./v2/DepositP2PRequestData.php
+ *
  * DTO запроса для создания депозита через платежный метод P2P
  */
 class DepositP2PRequestData extends DepositRequestData
