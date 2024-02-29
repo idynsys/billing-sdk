@@ -6,13 +6,7 @@ class PaymentMethod
 {
     public const P2P_NAME = 'P2P';
 
-    public const P2P_ID = 'ee8f772f-0e43-4b40-bcc4-e3768290248e';
-
-    public const BANKCARD_ID = '0a9f8c59-20a4-47a1-9ac2-4ca2048a728a';
-
     public const BANKCARD_NAME = 'Bankcard';
-
-    public const M_COMMERCE_ID = '99803784-7ace-49e1-8ab7-18e4d0f9d58b';
 
     public const M_COMMERCE_NAME = 'MCommerce';
 

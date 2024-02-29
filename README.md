@@ -140,16 +140,16 @@ $result->all();
 ```php
 <?php
 
-use Idynsys\BillingSdk\Data\Requests\Deposits\DepositP2PRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData;
 
 // Создать DTO для запроса на создание транзакции для пополнения счета
 $requestParams = new DepositP2PRequestData(
-    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
-    $customerEmail,             // email пользователя, совершающего операцию
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
-    $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $customerEmail,             // email пользователя, совершающего операцию
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
 );
 
 // Создать транзакцию и получить результат
@@ -160,16 +160,16 @@ $result = $billing->createDeposit($requestParams);
 ```php
 <?php
 
-use Idynsys\BillingSdk\Data\Requests\Deposits\DepositBankcardRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData;
 
 // Создать DTO для запроса на создание транзакции для пополнения счета
 $requestParams = new DepositBankcardRequestData(
-    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
-    $customerEmail,             // email пользователя, совершающего операцию
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
-    $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $customerEmail,             // email пользователя, совершающего операцию
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
 );
 
 // Создать транзакцию и получить результат
@@ -180,19 +180,19 @@ $result = $billing->createDeposit($requestParams);
 ```php
 <?php
 
-use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
 use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 
 // Создать DTO для запроса на создание транзакции для пополнения счета
 $requestParams = new DepositMCommerceRequestData(
-    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
-    $customerEmail,             // email пользователя, совершающего операцию
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
-    $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
+    $phoneNumber,               // телефон для получения кода подтверждения
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
 );
 
 // Создать транзакцию и получить результат
@@ -248,12 +248,14 @@ use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 
 // Создать DTO для запроса на создание транзакции для вывода средств со счета
 $requestParams = new PayoutP2PRequestData(
-    $amount,            // сумма ввода
-    $currencyCode,      // валюта суммы вывода
-    $cardNumber,        // Номер банковской карты, на которую выводятся деньги
-    $cardExpiration,    // Месяц и год окончания действия карты (как написано на карте)
-    $cardRecipientInfo, // Данные владельца карты (Имя Фамилия, как написано на карте)
-    $callbackUrl        // URL для передачи результата создания транзакции в B2B backoffice
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $cardNumber,                // Номер банковской карты, на которую выводятся деньги
+    $cardExpiration,            // Месяц и год окончания действия карты (как написано на карте)
+    $cardRecipientInfo,         // Данные владельца карты (Имя Фамилия, как написано на карте)
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
 );
 
 // Создать транзакцию и получить результат
@@ -270,12 +272,14 @@ use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 
 // Создать DTO для запроса на создание транзакции для вывода средств со счета
 $requestParams = new PayoutBankcardRequestData(
-    $amount,            // сумма ввода
-    $currencyCode,      // валюта суммы вывода
-    $cardNumber,        // Номер банковской карты, на которую выводятся деньги
-    $cardExpiration,    // Месяц и год окончания действия карты (как написано на карте)
-    $cardRecipientInfo, // Данные владельца карты (Имя Фамилия, как написано на карте)
-    $callbackUrl        // URL для передачи результата создания транзакции в B2B backoffice
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $cardNumber,                // Номер банковской карты, на которую выводятся деньги
+    $cardExpiration,            // Месяц и год окончания действия карты (как написано на карте)
+    $cardRecipientInfo,         // Данные владельца карты (Имя Фамилия, как написано на карте)
+    $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
 );
 
 // Создать транзакцию и получить результат

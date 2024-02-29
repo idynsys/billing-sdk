@@ -5,27 +5,27 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
+ * @deprecated
+ * Использовать ./v2/DepositP2PRequestData.php
+ *
  * DTO запроса для создания депозита через платежный метод P2P
  */
 class DepositP2PRequestData extends DepositRequestData
 {
-    // ID платежного метода
-    protected string $paymentMethodId = PaymentMethod::P2P_ID;
-
     // Наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::P2P_NAME;
 
     /**
-     * @param string $merchantOrderId
-     * @param string $merchantOrderDescription
+     * @param string|null $merchantOrderId
+     * @param string|null $merchantOrderDescription
      * @param string $customerEmail
      * @param float $paymentAmount
      * @param string $paymentCurrencyCode
      * @param string $callbackUrl
      */
     public function __construct(
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $merchantOrderId,
+        ?string $merchantOrderDescription,
         string $customerEmail,
         float $paymentAmount,
         string $paymentCurrencyCode,
@@ -47,7 +47,6 @@ class DepositP2PRequestData extends DepositRequestData
     protected function getRequestData(): array
     {
         return [
-            'payment_method_id'   => $this->paymentMethodId,
             'payment_method_name' => $this->paymentMethodName,
             'merchant_order'      => [
                 'id'          => $this->merchantOrderId,

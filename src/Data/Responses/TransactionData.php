@@ -36,6 +36,9 @@ class TransactionData
     // Статус транзакции
     public string $status;
 
+    // ID документа для создания депозита
+    protected ?string $merchantOrderId;
+
     public function __construct(
         string $id,
         ?string $externalId,
@@ -46,7 +49,8 @@ class TransactionData
         string $requestedCurrency,
         ?float $amount,
         ?string $currency,
-        string $status
+        string $status,
+        ?string $merchantOrderId
     ) {
         $this->id = $id;
         $this->externalId = $externalId;
@@ -58,6 +62,7 @@ class TransactionData
         $this->amount = $amount;
         $this->currency = $currency;
         $this->status = $status;
+        $this->merchantOrderId = $merchantOrderId;
     }
 
     /**
@@ -78,7 +83,8 @@ class TransactionData
             $getResult['requestedCurrency'] ?? 'n/a',
             array_key_exists('amount', $getResult) && is_float($getResult['amount']) ? $getResult['amount'] : null,
             $getResult['currency'] ?? null,
-            $getResult['status'] ?? null
+            $getResult['status'] ?? null,
+            $getResult['merchantOrderId'] ?? null
         );
     }
 }

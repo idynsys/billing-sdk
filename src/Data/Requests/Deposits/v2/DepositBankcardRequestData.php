@@ -1,13 +1,10 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\Requests\Deposits;
+namespace Idynsys\BillingSdk\Data\Requests\Deposits\v2;
 
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
- * @deprecated
- * Использовать ./v2/DepositBankcardRequestData
- *
  * DTO запроса для создания депозита через платежный метод Bankcard
  */
 class DepositBankcardRequestData extends DepositP2PRequestData

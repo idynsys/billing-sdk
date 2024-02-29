@@ -1,13 +1,11 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\Requests\Deposits;
+namespace Idynsys\BillingSdk\Data\Requests\Deposits\v2;
 
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
- * @deprecated
- * Использовать ./v2/DepositMCommerceRequestData
- *
  * DTO запроса для создания депозита через платежный метод MCommerce
  */
 class DepositMCommerceRequestData extends DepositRequestData
@@ -27,12 +25,12 @@ class DepositMCommerceRequestData extends DepositRequestData
      * @param string $callbackUrl
      */
     public function __construct(
-        ?string $merchantOrderId,
-        ?string $merchantOrderDescription,
-        string $phoneNumber,
         float $paymentAmount,
         string $paymentCurrencyCode,
-        string $callbackUrl
+        string $phoneNumber,
+        string $callbackUrl,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null
     ) {
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
