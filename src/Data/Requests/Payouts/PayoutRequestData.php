@@ -51,7 +51,7 @@ abstract class PayoutRequestData extends RequestData
         string $cardRecipientInfo,
         string $callbackUrl,
         ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
+        ?string $merchantOrderDescription = null
     ) {
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $payoutCurrency;

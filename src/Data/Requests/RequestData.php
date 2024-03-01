@@ -67,9 +67,33 @@ abstract class RequestData
         $paramsType = $this->getMethod() === RequestMethod::METHOD_POST ? 'json' : 'query';
 
         return [
-            'headers' => $this->getHeadersData(),
+            'headers'   => $this->getHeadersData(),
             $paramsType => $this->getRequestData()
         ];
+    }
+
+    /**
+     * Получение подписи по параметрам запроса
+     *
+     * @return string
+     */
+    protected function getSignature(): string
+    {
+        $dataForSign = $this->getRequestData();
+
+        if ($this->getMethod() === RequestMethod::METHOD_GET) {
+            array_walk_recursive($dataForSign, function (&$item) {
+                if (is_numeric($item)) {
+                    $item = (string) $item;
+                }
+            });
+        }
+
+        return hash_hmac(
+            'sha512',
+            json_encode($dataForSign),
+            Config::get('clientSecret')
+        );
     }
 
     /**
@@ -80,12 +104,8 @@ abstract class RequestData
     protected function getHeadersData(): array
     {
         return [
-            'X-Client-Id' => Config::get('clientId'),
-            'X-Authorization-Sign' => hash_hmac(
-                'sha512',
-                json_encode($this->getRequestData()),
-                Config::get('clientSecret')
-            )
+            'X-Client-Id'          => Config::get('clientId'),
+            'X-Authorization-Sign' => $this->getSignature(),
         ];
     }
 

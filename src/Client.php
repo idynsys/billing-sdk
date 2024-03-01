@@ -30,7 +30,7 @@ class Client extends GuzzleClient
     public function sendRequestToSystem(RequestData $data, bool $throwException = true): self
     {
         $this->error = null;
-
+dump($data->getUrl(), $data->getData());
         try {
             $res = $this->request($data->getMethod(), $data->getUrl(), $data->getData());
 
