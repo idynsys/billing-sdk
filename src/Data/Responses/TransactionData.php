@@ -37,7 +37,7 @@ class TransactionData
     public string $status;
 
     // ID документа для создания депозита
-    protected ?string $merchantOrderId;
+    public ?string $merchantOrderId;
 
     public function __construct(
         string $id,
