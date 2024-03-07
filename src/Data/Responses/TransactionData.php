@@ -81,7 +81,7 @@ class TransactionData
             $getResult['transactionType'] ?? null,
             $getResult['requestedAmount'] ?? 0,
             $getResult['requestedCurrency'] ?? 'n/a',
-            array_key_exists('amount', $getResult) && is_float($getResult['amount']) ? $getResult['amount'] : null,
+            array_key_exists('amount', $getResult) ? (float) $getResult['amount'] : null,
             $getResult['currency'] ?? null,
             $getResult['status'] ?? null,
             $getResult['merchantOrderId'] ?? null
