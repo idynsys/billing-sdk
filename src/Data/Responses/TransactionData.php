@@ -79,12 +79,25 @@ class TransactionData
             $getResult['paymentMethod'] ?? null,
             $getResult['paymentSystem'] ?? null,
             $getResult['transactionType'] ?? null,
-            $getResult['requestedAmount'] ?? 0,
+            static::getAmountResponseArray($getResult, 'requestedAmount', 0),
             $getResult['requestedCurrency'] ?? 'n/a',
-            array_key_exists('amount', $getResult) ? (float) $getResult['amount'] : null,
+            static::getAmountResponseArray($getResult, 'amount'),
             $getResult['currency'] ?? null,
             $getResult['status'] ?? null,
             $getResult['merchantOrderId'] ?? null
         );
+    }
+
+    /**
+     * Получение суммы из массива данных по ключу
+     *
+     * @param array $data
+     * @param string $key
+     * @param float|null $default
+     * @return float|null
+     */
+    private static function getAmountResponseArray(array &$data, string $key, ?float $default = null): ?float
+    {
+        return (array_key_exists($key, $data) && is_numeric($data[$key])) ? (float) $data[$key] : $default;
     }
 }
