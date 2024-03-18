@@ -1,36 +1,53 @@
 {
-  "name": "idynsys/billing-sdk",
-  "description": "SDK для интеграции с B2B backoffice.Billing.",
-  "type": "library",
-  "autoload": {
-    "psr-4": {
-      "Idynsys\\BillingSdk\\": "src/"
+    "name": "idynsys/billing-sdk",
+    "description": "SDK для интеграции с B2B backoffice.Billing.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Idynsys\\BillingSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Idynsys",
+            "email": "tech@idynsys.org"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-openssl": "*",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "9.6.x-dev",
+        "fakerphp/faker": "2.0.x-dev",
+        "squizlabs/php_codesniffer": "4.0.x-dev",
+        "phpstan/phpstan": "2.0.x-dev"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "cs": [
+            "vendor/bin/phpcs --standard=src/Config/quality-tools/phpcs.xml"
+        ],
+        "cs-diff": [
+            "git diff --name-only --diff-filter=MARC HEAD~1 | grep '\\.php$' | xargs -I {} vendor/bin/phpcs --standard=src/Config/quality-tools/phpcs.xml {}"
+        ],
+        "cs-fix": [
+            "vendor/bin/phpcbf --standard=src/Config/quality-tools/phpcs.xml -p --parallel=10"
+        ],
+        "stan": [
+            "vendor/bin/phpstan analyse src -c src/Config/quality-tools/phpstan.neon --level=7 --no-progress"
+        ],
+        "stan-diff": [
+            "git diff --name-only HEAD~1 | grep '\\.php$' | xargs -I {} vendor/bin/phpstan analyse {} -c src/Config/quality-tools/phpstan.neon --level=7 --no-progress"
+        ]
     }
-  },
-  "authors": [
-    {
-      "name": "Idynsys",
-      "email": "tech@idynsys.org"
-    }
-  ],
-  "license": "MIT",
-  "require": {
-    "php": "^7.4|^8.0",
-    "ext-openssl": "*",
-    "ext-json": "*",
-    "guzzlehttp/guzzle": "^7.0"
-  },
-  "minimum-stability": "dev",
-  "require-dev": {
-    "phpunit/phpunit": "9.6.x-dev",
-    "fakerphp/faker": "2.0.x-dev"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    }
-  },
-  "scripts": {
-    "test": "./vendor/bin/phpunit"
-  }
 }
