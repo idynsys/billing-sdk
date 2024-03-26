@@ -1,0 +1,5 @@
+include:
+  - project: 'ids/infra/deploy-ci'
+    ref: master
+    file: main.yml
+
