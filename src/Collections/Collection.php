@@ -76,7 +76,7 @@ abstract class Collection implements Iterator
      * @return void
      * @throws BillingSdkException
      */
-    public function checkKeysExists(array $data, ...$requiredKeys): void
+    public function checkKeysExists(array $data, mixed ...$requiredKeys): void
     {
         $missingKeys = [];
 

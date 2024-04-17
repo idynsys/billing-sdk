@@ -13,13 +13,20 @@ use Throwable;
 /**
  * Класс для выполнения запросов к B2B backoffice
  */
-class Client extends GuzzleClient
+class Client
 {
     // Содержимое ответа выполненного запроса
-    private string $content;
+    private string $content = '';
 
     // Exception возникший при выполнении запроса
     private ?Exception $error = null;
+
+    private GuzzleClient $requestClient;
+
+    public function __construct(array $config = [])
+    {
+        $this->requestClient = new GuzzleClient($config);
+    }
 
     /**
      * @param RequestData $data
@@ -32,7 +39,7 @@ class Client extends GuzzleClient
         $this->error = null;
 
         try {
-            $res = $this->request($data->getMethod(), $data->getUrl(), $data->getData());
+            $res = $this->requestClient->request($data->getMethod(), $data->getUrl(), $data->getData());
 
             $this->content = $res->getBody()->getContents();
         } catch (Throwable $exception) {
@@ -77,19 +84,5 @@ class Client extends GuzzleClient
     public function hasError(): bool
     {
         return $this->error !== null;
-    }
-
-    /**
-     * Получить ошибку запроса, если она произошла
-     *
-     * @return array|null
-     */
-    public function getError(): ?array
-    {
-        if (!$this->hasError()) {
-            return null;
-        }
-
-        return $this->error->getError();
     }
 }
