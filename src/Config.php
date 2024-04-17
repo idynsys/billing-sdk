@@ -2,7 +2,9 @@
 
 namespace Idynsys\BillingSdk;
 
-class Config
+use Idynsys\BillingSdk\Config\ConfigContract;
+
+class Config implements ConfigContract
 {
     private static $instance;
 
@@ -18,7 +20,7 @@ class Config
         $this->config = require __DIR__ . '/Config/config.php';
     }
 
-    private static function getInstance(): self
+    final public static function getInstance(): self
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -27,14 +29,14 @@ class Config
         return self::$instance;
     }
 
-    public static function get(string $key, $default = null)
+    public function get(string $key, $default = null): mixed
     {
         $instance = self::getInstance();
 
         return array_key_exists($key, $instance->config) ? $instance->config[$key] : $default;
     }
 
-    public static function set(string $key, $value): void
+    public function set(string $key, $value): void
     {
         $instance = self::getInstance();
 

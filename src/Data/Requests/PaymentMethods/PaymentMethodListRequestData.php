@@ -6,6 +6,7 @@ use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
+ * @deprecated
  * Класс DTO для отправки запроса на получение списка платежных методов
  */
 final class PaymentMethodListRequestData extends RequestData

@@ -92,5 +92,4 @@ class Client extends GuzzleClient
 
         return $this->error->getError();
     }
-
 }

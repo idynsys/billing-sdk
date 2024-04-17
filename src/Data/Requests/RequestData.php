@@ -3,7 +3,9 @@
 namespace Idynsys\BillingSdk\Data\Requests;
 
 use Idynsys\BillingSdk\Config;
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Enums\RequestMethod;
+use Idynsys\BillingSdk\Enums\SdkMode;
 
 /**
  * DTO для запроса. От этого класса наследуются все DTO для запросов
@@ -17,6 +19,29 @@ abstract class RequestData
     // URL из конфигурации для выполнения запрос, заполняется в конкретном классе-наследнике
     protected string $urlConfigKeyForRequest;
 
+    protected ConfigContract $config;
+
+    protected string $clientId = '';
+
+    protected string $clientSecret = '';
+
+    public function __construct(?ConfigContract $config = null)
+    {
+        $this->config = $config ?: Config::getInstance();
+        $this->clientId = $this->config->get('clientId');
+        $this->clientSecret = $this->config->get('clientSecret');
+    }
+
+    public function setClientId(string $clientId): void
+    {
+        $this->clientId = $clientId;
+    }
+
+    public function setClientSecret(string $clientSecret): void
+    {
+        $this->clientSecret = $clientSecret;
+    }
+
     /**
      * Получить полный URL для выполнения запроса с учетом режима работы приложения
      *
@@ -24,8 +49,17 @@ abstract class RequestData
      */
     protected function getRequestUrlConfigKey(): string
     {
-        return Config::get(Config::get('mode', 'DEVELOPMENT') === 'PRODUCTION' ? 'prod_host' : 'preprod_host')
-            . Config::get($this->urlConfigKeyForRequest);
+        $mode = $this->config->get('mode', SdkMode::DEVELOPMENT);
+
+        if ($mode === SdkMode::PRODUCTION) {
+            $host = $this->config->get('prod_host');
+        } elseif ($mode === SdkMode::PREPROD) {
+            $host = $this->config->get('preprod_host');
+        } else {
+            $host = $this->config->get('dev_host');
+        }
+
+        return $host . $this->config->get($this->urlConfigKeyForRequest);
     }
 
     /**
@@ -45,6 +79,15 @@ abstract class RequestData
     protected function getRequestData(): array
     {
         return [];
+    }
+
+    /**
+     * @return string
+     * @throws \JsonException
+     */
+    public function requestDataToJson(): string
+    {
+        return json_encode($this->getRequestData(), JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -92,7 +135,7 @@ abstract class RequestData
         return hash_hmac(
             'sha512',
             json_encode($dataForSign),
-            Config::get('clientSecret')
+            $this->clientSecret
         );
     }
 
@@ -104,7 +147,7 @@ abstract class RequestData
     protected function getHeadersData(): array
     {
         return [
-            'X-Client-Id'          => Config::get('clientId'),
+            'X-Client-Id'          => $this->clientId,
             'X-Authorization-Sign' => $this->getSignature(),
         ];
     }

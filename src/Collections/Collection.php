@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Collections;
 
+use Closure;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Iterator;
 
@@ -75,7 +76,7 @@ abstract class Collection implements Iterator
      * @return void
      * @throws BillingSdkException
      */
-    function checkKeysExists(array $data, ...$requiredKeys): void
+    public function checkKeysExists(array $data, ...$requiredKeys): void
     {
         $missingKeys = [];
 
