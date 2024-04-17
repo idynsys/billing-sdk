@@ -6,7 +6,7 @@ use Idynsys\BillingSdk\Config\ConfigContract;
 
 class Config implements ConfigContract
 {
-    private static $instance;
+    private static self $instance;
 
     private array $config;
 
