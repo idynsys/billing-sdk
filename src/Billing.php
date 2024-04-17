@@ -31,7 +31,7 @@ final class Billing implements BillingContract
 
     private ConfigContract $config;
 
-    public function __construct(?string $clientId = null, ?string $clientSecret = null, ConfigContract $config)
+    public function __construct(?string $clientId = null, ?string $clientSecret = null, ?ConfigContract $config = null)
     {
         $this->client = new Client();
         $this->config = $config ?: Config::getInstance();
@@ -149,7 +149,8 @@ final class Billing implements BillingContract
      * @throws BillingSdkException
      * @throws \JsonException
      */
-    public function confirmMCommerceDeposit(DepositMCommerceConfirmRequestData $requestParams
+    public function confirmMCommerceDeposit(
+        DepositMCommerceConfirmRequestData $requestParams
     ): DepositMCommerceConfirmedResponseData {
         $this->sendRequest($requestParams);
 

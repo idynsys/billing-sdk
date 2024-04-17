@@ -16,5 +16,4 @@ final class PaymentMethodListRequestData extends RequestData
 
     // URL из конфигурации для выполнения запроса
     protected string $urlConfigKeyForRequest = 'PAYMENT_METHODS_URL';
-
 }

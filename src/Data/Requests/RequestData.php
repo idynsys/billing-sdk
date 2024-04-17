@@ -14,10 +14,10 @@ use Idynsys\BillingSdk\Enums\SdkMode;
 abstract class RequestData
 {
     // метод запроса
-    protected string $requestMethod;
+    protected string $requestMethod = RequestMethod::METHOD_GET;
 
     // URL из конфигурации для выполнения запрос, заполняется в конкретном классе-наследнике
-    protected string $urlConfigKeyForRequest;
+    protected string $urlConfigKeyForRequest = '';
 
     protected ConfigContract $config;
 
@@ -134,7 +134,7 @@ abstract class RequestData
 
         return hash_hmac(
             'sha512',
-            json_encode($dataForSign),
+            json_encode($dataForSign, JSON_THROW_ON_ERROR),
             $this->clientSecret
         );
     }

@@ -76,7 +76,7 @@ class Client extends GuzzleClient
      */
     public function hasError(): bool
     {
-        return !is_null($this->error);
+        return $this->error !== null;
     }
 
     /**

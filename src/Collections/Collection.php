@@ -18,31 +18,31 @@ abstract class Collection implements Iterator
     private int $position = 0;
 
     // Метод интерфейса Iterator
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
 
     // Метод интерфейса Iterator
-    public function current()
+    public function current(): mixed
     {
         return $this->items[$this->position];
     }
 
     // Метод интерфейса Iterator
-    public function key()
+    public function key(): mixed
     {
         return $this->position;
     }
 
     // Метод интерфейса Iterator
-    public function next()
+    public function next(): void
     {
         $this->position++;
     }
 
     // Метод интерфейса Iterator
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->items[$this->position]);
     }
@@ -118,5 +118,5 @@ abstract class Collection implements Iterator
      * @param $item
      * @return object
      */
-    abstract protected function itemConvert($item): object;
+    abstract protected function itemConvert(mixed $item): object;
 }
