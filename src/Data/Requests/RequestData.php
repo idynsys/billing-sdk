@@ -43,6 +43,24 @@ abstract class RequestData
     }
 
     /**
+     * Получить url хоста, по которому будет выполняться запрос
+     *
+     * @param string $mode
+     * @return string
+     */
+    protected function getHostByMode(string $mode): string
+    {
+        switch ($mode) {
+            case SdkMode::PRODUCTION:
+                return $this->config->get('prod_host');
+            case SdkMode::PREPROD:
+                return $this->config->get('preprod_host');
+            default:
+                return $this->config->get('dev_host');
+        }
+    }
+
+    /**
      * Получить полный URL для выполнения запроса с учетом режима работы приложения
      *
      * @return string
@@ -50,14 +68,7 @@ abstract class RequestData
     protected function getRequestUrlConfigKey(): string
     {
         $mode = $this->config->get('mode', SdkMode::DEVELOPMENT);
-
-        if ($mode === SdkMode::PRODUCTION) {
-            $host = $this->config->get('prod_host');
-        } elseif ($mode === SdkMode::PREPROD) {
-            $host = $this->config->get('preprod_host');
-        } else {
-            $host = $this->config->get('dev_host');
-        }
+        $host = $this->getHostByMode($mode);
 
         return $host . $this->config->get($this->urlConfigKeyForRequest);
     }
@@ -127,7 +138,7 @@ abstract class RequestData
         if ($this->getMethod() === RequestMethod::METHOD_GET) {
             array_walk_recursive($dataForSign, function (&$item) {
                 if (is_numeric($item)) {
-                    $item = (string) $item;
+                    $item = (string)$item;
                 }
             });
         }
