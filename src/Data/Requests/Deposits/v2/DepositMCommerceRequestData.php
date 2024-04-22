@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits\v2;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
@@ -30,8 +31,11 @@ class DepositMCommerceRequestData extends DepositRequestData
         string $phoneNumber,
         string $callbackUrl,
         ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null
+        ?string $merchantOrderDescription = null,
+        ?ConfigContract $config = null
     ) {
+        parent::__construct($config);
+
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
         $this->phoneNumber = $phoneNumber;

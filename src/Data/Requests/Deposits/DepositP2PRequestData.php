@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
@@ -29,8 +30,11 @@ class DepositP2PRequestData extends DepositRequestData
         string $customerEmail,
         float $paymentAmount,
         string $paymentCurrencyCode,
-        string $callbackUrl
+        string $callbackUrl,
+        ?ConfigContract $config = null
     ) {
+        parent::__construct($config);
+
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
         $this->customerEmail = $customerEmail;

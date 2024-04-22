@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
@@ -37,4 +38,8 @@ abstract class DepositRequestData extends RequestData
     // URL для передачи результата создания транзакции в B2B backoffice
     protected string $callbackUrl;
 
+    public function __construct(?ConfigContract $config = null)
+    {
+        parent::__construct($config);
+    }
 }
