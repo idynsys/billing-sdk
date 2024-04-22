@@ -23,7 +23,7 @@ class TransactionRequestData extends RequestData
     public function __construct(string $transactionId, ?ConfigContract $config = null)
     {
         parent::__construct($config);
-        
+
         $this->transactionId = $transactionId;
     }
 

@@ -21,10 +21,10 @@ abstract class DepositRequestData extends RequestData
     protected string $urlConfigKeyForRequest = 'DEPOSIT_URL';
 
     // ID документа для создания депозита
-    protected ?string $merchantOrderId;
+    protected ?string $merchantOrderId = null;
 
     // описание документа для создания депозита
-    protected ?string $merchantOrderDescription;
+    protected ?string $merchantOrderDescription = null;
 
     // email пользователя совершающего операцию
     protected string $customerEmail;

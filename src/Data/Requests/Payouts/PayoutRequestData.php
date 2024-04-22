@@ -12,8 +12,8 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
 abstract class PayoutRequestData extends RequestData
 {
     // Наименование платежного метода
-    protected string $paymentMethodName;
-    
+    protected ?string $paymentMethodName = null;
+
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
 
