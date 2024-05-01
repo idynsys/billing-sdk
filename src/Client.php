@@ -56,7 +56,7 @@ class Client extends GuzzleClient
      */
     public function getResult(?string $key = null): ?array
     {
-        if (!isset($this->content) || $this->hasError()) {
+        if (!isset($this->content) || $this->hasError() || empty($this->content)) {
             return null;
         }
 
