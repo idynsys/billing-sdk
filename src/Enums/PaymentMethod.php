@@ -10,6 +10,9 @@ class PaymentMethod
 
     public const M_COMMERCE_NAME = 'MCommerce';
 
+    public const SBER_PAY_NAME = 'SberPay';
+
+    public const SBP_NAME = 'SBP';
     /**
      * Получить список имен доступных платежных методов
      * @return string[]

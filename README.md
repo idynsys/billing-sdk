@@ -131,11 +131,14 @@ $result->all();
 #### Создать транзакцию для пополнения счета
 
 Есть три метода, позволяющие пополнение счета:
-- через платежный метод p2p,
-- через платежный метод Bankcard,
-- через платежный метод Mobile Commerce.
+- через платежный метод p2p Host2Host,
+- через платежный метод p2p Host2Client,
+- через платежный метод Bankcard Host2Client,
+- через платежный метод Mobile Commerce Host2Client.
+- через платежный метод SberPay Host2Client.
+- через платежный метод SBP Host2Client.
 
-1. _Создание транзакции депозита через платежный метод P2P_
+1. _Создание транзакции депозита через платежный метод P2P Host2Host_
 
 ```php
 <?php
@@ -156,7 +159,27 @@ $requestParams = new DepositP2PRequestData(
 $result = $billing->createDeposit($requestParams);
 ```
 
-2. _Создание транзакции депозита через платежный метод Bankcard_
+2. _Создание транзакции депозита через платежный метод P2P Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositP2PHost2ClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $customerId,                // ID пользователя, совершающего операцию
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+3. _Создание транзакции депозита через платежный метод Bankcard Host2Host_
 ```php
 <?php
 
@@ -176,7 +199,7 @@ $requestParams = new DepositBankcardRequestData(
 $result = $billing->createDeposit($requestParams);
 ```
 
-3. _Создание транзакции депозита через платежный метод Mobile Commerce_
+4. _Создание транзакции депозита через платежный метод Mobile Commerce Host2Host_
 ```php
 <?php
 
@@ -213,7 +236,47 @@ $confirmedResult = $billing->confirmMCommerceDeposit($requestParams);
 
 ```
 
-4. _Response_
+5. _Создание транзакции депозита через платежный метод SberPay Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPay2PHostClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositSberPay2PHostClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $customerId,                // ID пользователя, совершающего операцию
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+6. _Создание транзакции депозита через платежный метод SBP Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpHost2ClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositSbpHost2ClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $customerId,                // ID пользователя, совершающего операцию
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+7. _Response_
 
 Если транзакция депозита была создана успешно, то ответом (response) 
 будет объект класса \Idynsys\BillingSdk\Data\Responses\DepositResponseData:
