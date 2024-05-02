@@ -11,5 +11,5 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
 class DepositSbpHost2ClientRequestData extends DepositP2PHost2ClientRequestData
 {
     // Наименование платежного метода
-    protected string $paymentMethodName = PaymentMethod::SBER_PAY_NAME;
+    protected string $paymentMethodName = PaymentMethod::SBP_NAME;
 }
