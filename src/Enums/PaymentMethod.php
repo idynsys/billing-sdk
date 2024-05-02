@@ -13,6 +13,7 @@ class PaymentMethod
     public const SBER_PAY_NAME = 'SberPay';
 
     public const SBP_NAME = 'SBP';
+
     /**
      * Получить список имен доступных платежных методов
      * @return string[]
@@ -24,5 +25,10 @@ class PaymentMethod
             self::BANKCARD_NAME,
             self::M_COMMERCE_NAME
         ];
+    }
+
+    public static function getValues(): array
+    {
+        return [self::P2P_NAME, self::BANKCARD_NAME, self::M_COMMERCE_NAME, self::SBP_NAME, self::SBER_PAY_NAME];
     }
 }
