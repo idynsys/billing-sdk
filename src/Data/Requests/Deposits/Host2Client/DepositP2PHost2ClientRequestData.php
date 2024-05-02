@@ -63,4 +63,3 @@ class DepositP2PHost2ClientRequestData extends DepositRequestData
         ];
     }
 }
-
