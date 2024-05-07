@@ -21,6 +21,7 @@ class PayoutP2PHost2ClientRequestData extends PayoutHost2ClientRequestData
                 'amount'   => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency
             ],
+            'recipient'                => $this->recipient,
             'callbackUrl'              => $this->callbackUrl,
             'merchantOrderId'          => $this->merchantOrderId,
             'merchantOrderDescription' => $this->merchantOrderDescription

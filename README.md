@@ -298,9 +298,13 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
 
 #### Создать транзакцию для вывода денежных средств со счета
 
-Есть два метода, позволяющие создать транзакцию для вывода средства со счета:
-- через платежный метод p2p,
-- через платежный метод Bankcard.
+Есть методы, позволяющие создать транзакцию для вывода средства со счета:
+- через платежный метод p2p (Host2Host, Host2Client),
+- через платежный метод Bankcard (Host2Host),
+- через платежный метод SberPay (Host2Client).
+
+Host2Host
+---------
 
 1. _Создание транзакции для вывода средств со счета через метод p2p_
 ```php
@@ -358,6 +362,63 @@ Idynsys\BillingSdk\Data\Responses\PayoutResponseData {
   +transactionId: "338263f6-e1af-4a25-aa38-ac0ea724be02"
 }
 ```
+
+Host2Client
+-----------
+
+1. _Создание транзакции для вывода средств со счета через метод p2p_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств со счета
+$requestParams = new PayoutP2PHost2ClientRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $recipientAccount,          // Счет получателя
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Client($requestParams);
+```
+
+2. _Создание транзакции для вывода средств со счета через метод SberPay_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutSberPayHost2ClientRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств со счета
+$requestParams = new PayoutSberPayHost2ClientRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $recipientPhoneNumber,      // Номер телефона получателя
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Client($requestParams);
+```
+
+3. _Response_
+
+Если операция выполнена успешно, то ответ придет в виде объекта класса PayoutResponseData:
+```
+Idynsys\BillingSdk\Data\Responses\PayoutResponseData {
+  +transactionId: "338263f6-e1af-4a25-aa38-ac0ea724be02"
+}
+```
+
 #### Получить данные транзакции
 Для любой созданной транзакции можно проверить статус, тип, валюту, сумму, выполнив следующие действия:
 ```php
