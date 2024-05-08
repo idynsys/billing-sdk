@@ -42,6 +42,8 @@ abstract class PayoutHost2ClientRequestData extends RequestData
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null
     ) {
+        parent::__construct();
+
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $payoutCurrency;
         $this->recipient = $recipient;

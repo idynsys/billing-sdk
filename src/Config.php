@@ -29,14 +29,14 @@ class Config implements ConfigContract
         return self::$instance;
     }
 
-    public function get(string $key, mixed $default = null): null|string
+    public function get(string $key, $default = null): ?string
     {
         $instance = self::getInstance();
 
         return array_key_exists($key, $instance->config) ? $instance->config[$key] : $default;
     }
 
-    public function set(string $key, mixed $value): void
+    public function set(string $key, $value): void
     {
         $instance = self::getInstance();
 

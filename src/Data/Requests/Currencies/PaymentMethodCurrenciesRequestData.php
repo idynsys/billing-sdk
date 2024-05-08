@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Currencies;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 use Idynsys\BillingSdk\Enums\RequestMethod;
@@ -24,8 +25,10 @@ class PaymentMethodCurrenciesRequestData extends RequestData
     /**
      * @throws BillingSdkException
      */
-    public function __construct(string $methodName)
+    public function __construct(string $methodName, ?ConfigContract $config = null)
     {
+        parent::__construct($config);
+
         $this->paymentMethodName = $methodName;
 
         $this->validate();
@@ -39,13 +42,16 @@ class PaymentMethodCurrenciesRequestData extends RequestData
      */
     protected function validate(): void
     {
-        if (!in_array(
-            $this->paymentMethodName,
-            PaymentMethod::getValues()
-        )) {
+        if (
+            !in_array(
+                $this->paymentMethodName,
+                PaymentMethod::getValues()
+            )
+        ) {
             throw new BillingSdkException(
                 'The value ' . $this->paymentMethodName . ' does not exist in '
-                . implode(', ', PaymentMethod::getNames()), 422
+                . implode(', ', PaymentMethod::getNames()),
+                422
             );
         }
     }

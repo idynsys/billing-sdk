@@ -63,11 +63,20 @@ class Client
      */
     public function getResult(?string $key = null): ?array
     {
-        if (!isset($this->content) || $this->hasError() || empty($this->content)) {
+        if (!isset($this->content) || empty($this->content || $this->hasError())) {
             return null;
         }
 
-        $data = json_decode($this->content, true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($this->content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (Throwable $exception) {
+            throw new BillingSdkException(
+                'Получены данные в некорректном формате. Ожидается json-формат.',
+                415,
+                $exception
+            );
+        }
+
 
         if ($key && is_array($data)) {
             $data = [$key => array_key_exists($key, $data) ? $data[$key] : ''];

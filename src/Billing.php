@@ -65,9 +65,8 @@ final class Billing implements BillingContract
      * @throws BillingSdkException
      * @throws \JsonException
      */
-    public function getPaymentMethods(
-        null|NewPaymentMethodListRequestData|PaymentMethodListRequestData $requestData = null
-    ): Collection {
+    public function getPaymentMethods(?PaymentMethodListRequestData $requestData = null): Collection
+    {
         if ($requestData === null) {
             $requestData = new PaymentMethodListRequestData();
         }
@@ -125,7 +124,7 @@ final class Billing implements BillingContract
     /**
      * Создать транзакцию для вывода средств со счета через Billing в B2B Backoffice
      *
-     * @param PayoutRequestData $data
+     * @param PayoutHost2ClientRequestData $data
      * @return PayoutResponseData
      * @throws BillingSdkException
      * @throws \JsonException

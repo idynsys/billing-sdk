@@ -54,7 +54,9 @@ abstract class RequestData
             case SdkMode::PRODUCTION:
                 return $this->config->get('prod_host');
             case SdkMode::PREPROD:
-                return $this->config->get('preprod_host');
+                return $this->config->get('sendbox_host');
+            case SdkMode::SENDBOX:
+                return $this->config->get('sendbox_host');
             default:
                 return $this->config->get('dev_host');
         }
