@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
@@ -19,8 +20,10 @@ class DepositMCommerceConfirmRequestData extends RequestData
     // Код подтверждения
     public string $confirmationCode;
 
-    public function __construct(string $transactionId, string $confirmationCode)
+    public function __construct(string $transactionId, string $confirmationCode, ?ConfigContract $config = null)
     {
+        parent::__construct($config);
+
         $this->transactionId = $transactionId;
         $this->confirmationCode = $confirmationCode;
     }

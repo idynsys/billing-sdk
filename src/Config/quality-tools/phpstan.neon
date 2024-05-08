@@ -1,0 +1,8 @@
+parameters:
+    checkGenericClassInNonGenericObjectType: false
+    checkUninitializedProperties: true
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+
+ignoreFiles:
+    - src/Data/Requests/Deposits/DepositRequestData.php

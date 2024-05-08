@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
@@ -20,10 +21,10 @@ abstract class DepositRequestData extends RequestData
     protected string $urlConfigKeyForRequest = 'DEPOSIT_URL';
 
     // ID документа для создания депозита
-    protected ?string $merchantOrderId;
+    protected ?string $merchantOrderId = null;
 
     // описание документа для создания депозита
-    protected ?string $merchantOrderDescription;
+    protected ?string $merchantOrderDescription = null;
 
     // email пользователя совершающего операцию
     protected string $customerEmail;
@@ -37,4 +38,8 @@ abstract class DepositRequestData extends RequestData
     // URL для передачи результата создания транзакции в B2B backoffice
     protected string $callbackUrl;
 
+    public function __construct(?ConfigContract $config = null)
+    {
+        parent::__construct($config);
+    }
 }

@@ -16,6 +16,9 @@ return[
     // тестовый хост
     'preprod_host' => 'https://api-gateway.preprod.idynsys.org/api',
 
+    // хост для разработки или динамо тестов
+    'dev_host' => getenv('BILLING_DEV_HOST') ?: 'https://api-gateway.preprod.idynsys.org/api',
+
     // url для получения токена аутентификации
     'AUTH_URL' => '/user-access/token',
 

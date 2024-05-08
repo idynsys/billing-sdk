@@ -3,7 +3,9 @@
 namespace Idynsys\BillingSdk\Data\Requests;
 
 use Idynsys\BillingSdk\Config;
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Enums\RequestMethod;
+use Idynsys\BillingSdk\Enums\SdkMode;
 
 /**
  * DTO для запроса. От этого класса наследуются все DTO для запросов
@@ -12,10 +14,51 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
 abstract class RequestData
 {
     // метод запроса
-    protected string $requestMethod;
+    protected string $requestMethod = RequestMethod::METHOD_GET;
 
     // URL из конфигурации для выполнения запрос, заполняется в конкретном классе-наследнике
-    protected string $urlConfigKeyForRequest;
+    protected string $urlConfigKeyForRequest = '';
+
+    protected ConfigContract $config;
+
+    protected string $clientId = '';
+
+    protected string $clientSecret = '';
+
+    public function __construct(?ConfigContract $config = null)
+    {
+        $this->config = $config ?: Config::getInstance();
+        $this->clientId = $this->config->get('clientId');
+        $this->clientSecret = $this->config->get('clientSecret');
+    }
+
+    public function setClientId(string $clientId): void
+    {
+        $this->clientId = $clientId;
+    }
+
+    public function setClientSecret(string $clientSecret): void
+    {
+        $this->clientSecret = $clientSecret;
+    }
+
+    /**
+     * Получить url хоста, по которому будет выполняться запрос
+     *
+     * @param string $mode
+     * @return string
+     */
+    protected function getHostByMode(string $mode): string
+    {
+        switch ($mode) {
+            case SdkMode::PRODUCTION:
+                return $this->config->get('prod_host');
+            case SdkMode::PREPROD:
+                return $this->config->get('preprod_host');
+            default:
+                return $this->config->get('dev_host');
+        }
+    }
 
     /**
      * Получить полный URL для выполнения запроса с учетом режима работы приложения
@@ -24,8 +67,10 @@ abstract class RequestData
      */
     protected function getRequestUrlConfigKey(): string
     {
-        return Config::get(Config::get('mode', 'DEVELOPMENT') === 'PRODUCTION' ? 'prod_host' : 'preprod_host')
-            . Config::get($this->urlConfigKeyForRequest);
+        $mode = $this->config->get('mode', SdkMode::DEVELOPMENT);
+        $host = $this->getHostByMode($mode);
+
+        return $host . $this->config->get($this->urlConfigKeyForRequest);
     }
 
     /**
@@ -45,6 +90,15 @@ abstract class RequestData
     protected function getRequestData(): array
     {
         return [];
+    }
+
+    /**
+     * @return string
+     * @throws \JsonException
+     */
+    public function requestDataToJson(): string
+    {
+        return json_encode($this->getRequestData(), JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -84,15 +138,15 @@ abstract class RequestData
         if ($this->getMethod() === RequestMethod::METHOD_GET) {
             array_walk_recursive($dataForSign, function (&$item) {
                 if (is_numeric($item)) {
-                    $item = (string) $item;
+                    $item = (string)$item;
                 }
             });
         }
 
         return hash_hmac(
             'sha512',
-            json_encode($dataForSign),
-            Config::get('clientSecret')
+            json_encode($dataForSign, JSON_THROW_ON_ERROR),
+            $this->clientSecret
         );
     }
 
@@ -104,7 +158,7 @@ abstract class RequestData
     protected function getHeadersData(): array
     {
         return [
-            'X-Client-Id'          => Config::get('clientId'),
+            'X-Client-Id'          => $this->clientId,
             'X-Authorization-Sign' => $this->getSignature(),
         ];
     }

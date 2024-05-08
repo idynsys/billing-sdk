@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
@@ -11,8 +12,8 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
 abstract class PayoutRequestData extends RequestData
 {
     // Наименование платежного метода
-    protected string $paymentMethodName;
-    
+    protected ?string $paymentMethodName = null;
+
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_POST;
 
@@ -51,8 +52,11 @@ abstract class PayoutRequestData extends RequestData
         string $cardRecipientInfo,
         string $callbackUrl,
         ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null
+        ?string $merchantOrderDescription = null,
+        ?ConfigContract $config = null
     ) {
+        parent::__construct($config);
+
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $payoutCurrency;
         $this->cardNumber = $cardNumber;

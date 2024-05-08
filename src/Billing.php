@@ -5,12 +5,14 @@ namespace Idynsys\BillingSdk;
 use Idynsys\BillingSdk\Collections\Collection;
 use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
+use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Contracts\BillingContract;
 use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
 use Idynsys\BillingSDK\Data\Requests\Payouts\Host2Client\PayoutHost2ClientRequestData;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethods\v2\PaymentMethodListRequestData as NewPaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
@@ -28,16 +30,19 @@ final class Billing implements BillingContract
     // Объект-клиент, через который выполняется запрос и обрабатывается результат
     private Client $client;
 
-    public function __construct(?string $clientId = null, ?string $clientSecret = null)
+    private ConfigContract $config;
+
+    public function __construct(?string $clientId = null, ?string $clientSecret = null, ?ConfigContract $config = null)
     {
         $this->client = new Client();
+        $this->config = $config ?: Config::getInstance();
 
         if ($clientId) {
-            Config::set('clientId', $clientId);
+            $this->config->set('clientId', $clientId);
         }
 
         if ($clientSecret) {
-            Config::set('clientSecret', $clientSecret);
+            $this->config->set('clientSecret', $clientSecret);
         }
     }
 
@@ -60,9 +65,14 @@ final class Billing implements BillingContract
      * @throws BillingSdkException
      * @throws \JsonException
      */
-    public function getPaymentMethods(): Collection
-    {
-        $this->sendRequest(new PaymentMethodListRequestData());
+    public function getPaymentMethods(
+        null|NewPaymentMethodListRequestData|PaymentMethodListRequestData $requestData = null
+    ): Collection {
+        if ($requestData === null) {
+            $requestData = new PaymentMethodListRequestData();
+        }
+
+        $this->sendRequest($requestData);
         $collection = new PaymentMethodsCollection();
         $collection->addItems($this->client->getResult('items'), 'items');
 
@@ -168,7 +178,8 @@ final class Billing implements BillingContract
      * @throws BillingSdkException
      * @throws \JsonException
      */
-    public function confirmMCommerceDeposit(DepositMCommerceConfirmRequestData $requestParams
+    public function confirmMCommerceDeposit(
+        DepositMCommerceConfirmRequestData $requestParams
     ): DepositMCommerceConfirmedResponseData {
         $this->sendRequest($requestParams);
 
