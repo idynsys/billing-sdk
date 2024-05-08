@@ -4,7 +4,17 @@ namespace Idynsys\BillingSdk\Config;
 
 interface ConfigContract
 {
-    public function get(string $key, mixed $default = null): null|string;
+    /**
+     * @param string $key
+     * @param mixed $default
+     * @return string|null
+     */
+    public function get(string $key, $default = null): ?string;
 
-    public function set(string $key, mixed $value): void;
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function set(string $key, $value): void;
 }
