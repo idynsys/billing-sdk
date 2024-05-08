@@ -41,7 +41,7 @@ class PaymentMethodCurrenciesRequestData extends RequestData
     {
         if (!in_array(
             $this->paymentMethodName,
-            [PaymentMethod::P2P_NAME, PaymentMethod::BANKCARD_NAME, PaymentMethod::M_COMMERCE_NAME]
+            PaymentMethod::getValues()
         )) {
             throw new BillingSdkException(
                 'The value ' . $this->paymentMethodName . ' does not exist in '

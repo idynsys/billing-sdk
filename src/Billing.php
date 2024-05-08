@@ -11,6 +11,7 @@ use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestDa
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
+use Idynsys\BillingSDK\Data\Requests\Payouts\Host2Client\PayoutHost2ClientRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\v2\PaymentMethodListRequestData as NewPaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
@@ -94,7 +95,7 @@ final class Billing implements BillingContract
     }
 
     /**
-     * Создать транзакцию для вывода средств со счета через Billing в B2B Backoffice
+     * @deprecated : вместо этого метода использовать createPayoutHost2Host или createPayoutHost2Client
      *
      * @param PayoutRequestData $data
      * @return PayoutResponseData
@@ -102,6 +103,34 @@ final class Billing implements BillingContract
      * @throws \JsonException
      */
     public function createPayout(PayoutRequestData $data): PayoutResponseData
+    {
+        return $this->createPayoutHost2Host($data);
+    }
+
+    /**
+     * Создать транзакцию для вывода средств со счета через Billing в B2B Backoffice
+     *
+     * @param PayoutRequestData $data
+     * @return PayoutResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
+    public function createPayoutHost2Host(PayoutRequestData $data): PayoutResponseData
+    {
+        $this->sendRequest($data);
+
+        return PayoutResponseData::from($this->client->getResult());
+    }
+
+    /**
+     * Создать транзакцию для вывода средств со счета через Billing в B2B Backoffice
+     *
+     * @param PayoutRequestData $data
+     * @return PayoutResponseData
+     * @throws BillingSdkException
+     * @throws \JsonException
+     */
+    public function createPayoutHost2Client(PayoutHost2ClientRequestData $data): PayoutResponseData
     {
         $this->sendRequest($data);
 
