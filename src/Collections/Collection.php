@@ -24,13 +24,13 @@ abstract class Collection implements Iterator
     }
 
     // Метод интерфейса Iterator
-    public function current(): mixed
+    public function current()
     {
         return $this->items[$this->position];
     }
 
     // Метод интерфейса Iterator
-    public function key(): mixed
+    public function key()
     {
         return $this->position;
     }
@@ -76,7 +76,7 @@ abstract class Collection implements Iterator
      * @return void
      * @throws BillingSdkException
      */
-    public function checkKeysExists(array $data, mixed ...$requiredKeys): void
+    public function checkKeysExists(array $data, ...$requiredKeys): void
     {
         $missingKeys = [];
 
@@ -118,5 +118,5 @@ abstract class Collection implements Iterator
      * @param $item
      * @return object
      */
-    abstract protected function itemConvert(mixed $item): object;
+    abstract protected function itemConvert($item): object;
 }
