@@ -63,7 +63,11 @@ class Client
      */
     public function getResult(?string $key = null): ?array
     {
-        if (!isset($this->content) || empty($this->content || $this->hasError())) {
+        if (empty($this->content) && !$this->hasError()) {
+            return [];
+        }
+
+        if (!isset($this->content) || empty($this->content) || $this->hasError()) {
             return null;
         }
 
