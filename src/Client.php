@@ -4,7 +4,7 @@ namespace Idynsys\BillingSdk;
 
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
-use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Requests\RequestDataContract;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Idynsys\BillingSdk\Exceptions\ExceptionHandler;
 use JsonException;
@@ -29,12 +29,12 @@ class Client
     }
 
     /**
-     * @param RequestData $data
+     * @param RequestDataContract $data
      * @param bool $throwException
      * @return $this
      * @throws BillingSdkException
      */
-    public function sendRequestToSystem(RequestData $data, bool $throwException = true): self
+    public function sendRequestToSystem(RequestDataContract $data, bool $throwException = true): self
     {
         $this->error = null;
 

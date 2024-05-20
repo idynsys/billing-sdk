@@ -11,10 +11,10 @@ use Idynsys\BillingSdk\Data\Requests\Currencies\PaymentMethodCurrenciesRequestDa
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestDataContract;
 use Idynsys\BillingSDK\Data\Requests\Payouts\Host2Client\PayoutHost2ClientRequestData;
-use Idynsys\BillingSdk\Data\Requests\PaymentMethods\v2\PaymentMethodListRequestData as NewPaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
-use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Requests\RequestDataContract;
 use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
 use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
@@ -49,11 +49,11 @@ final class Billing implements BillingContract
     /**
      *  Отправить запрос в B2B Backoffice
      *
-     * @param RequestData $data
+     * @param RequestDataContract $data
      * @return void
      * @throws BillingSdkException
      */
-    private function sendRequest(RequestData $data): void
+    private function sendRequest(RequestDataContract $data): void
     {
         $this->client->sendRequestToSystem($data);
     }
@@ -65,7 +65,7 @@ final class Billing implements BillingContract
      * @throws BillingSdkException
      * @throws \JsonException
      */
-    public function getPaymentMethods(?PaymentMethodListRequestData $requestData = null): Collection
+    public function getPaymentMethods(?PaymentMethodListRequestDataContract $requestData = null): Collection
     {
         if ($requestData === null) {
             $requestData = new PaymentMethodListRequestData();

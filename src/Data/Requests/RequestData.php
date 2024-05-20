@@ -11,7 +11,7 @@ use Idynsys\BillingSdk\Enums\SdkMode;
  * DTO для запроса. От этого класса наследуются все DTO для запросов
  * @codeCoverageIgnore
  */
-abstract class RequestData
+abstract class RequestData implements RequestDataContract
 {
     // метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
