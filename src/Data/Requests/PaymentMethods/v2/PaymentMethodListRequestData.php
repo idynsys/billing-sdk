@@ -3,10 +3,11 @@
 namespace Idynsys\BillingSdk\Data\Requests\PaymentMethods\v2;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestDataContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
-class PaymentMethodListRequestData extends RequestData
+final class PaymentMethodListRequestData extends RequestData implements PaymentMethodListRequestDataContract
 {
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
