@@ -12,7 +12,7 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\DepositMCommerceConfirmRequestData
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestDataContract;
-use Idynsys\BillingSDK\Data\Requests\Payouts\Host2Client\PayoutHost2ClientRequestData;
+use Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutHost2ClientRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 use Idynsys\BillingSdk\Data\Requests\RequestDataContract;
 use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
