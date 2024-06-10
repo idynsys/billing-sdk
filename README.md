@@ -296,6 +296,29 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
 }
 ```
 
+Есть 2 возможных ответа, которые могут быть отправлены на указанный в запросе callbackUrl:
+
+1. _При выполнении действия без ошибки_
+
+| Поле | Тип | Описание |
+| --- | --- | --- |
+| id | string | Уникальный идентификатор платежа (UUID) |
+| merchantOrderId | string | Уникальный идентификатор заказа у мерчанта |
+| status | string | Статус платежа. Возможные значения: `NEW`, `ERROR`, `IN_PROGRESS`, `COMPLETED`, `EXPIRED`, `CANCELED`, `CONFIRMED`, `DECLINED`, `PENDING` |
+| amount | number | Сумма платежа |
+| currency | string | Валюта платежа |
+
+2. _При получении ошибки_
+
+| Поле | Тип | Описание |
+| --- | --- | --- |
+| id | string | Уникальный идентификатор платежа (UUID) <br> Пример: `f116fde1-cc0e-4b6c-bbe1-6d932c1a5f16` |
+| merchantOrderId | string | Уникальный идентификатор заказа у мерчанта <br> Пример: `64321` |
+| status | string | Статус платежа. Возможные значения: `NEW`, `ERROR`, `IN_PROGRESS`, `COMPLETED`, `EXPIRED`, `CANCELED`, `CONFIRMED`, `DECLINED`, `PENDING` |
+| errorCode | string | Код ошибки для платежа <br> Пример: `ERROR` |
+| errorMessage | string | Сообщение об ошибке для платежа <br> Пример: `Unathorized` |
+
+
 #### Создать транзакцию для вывода денежных средств со счета
 
 Есть методы, позволяющие создать транзакцию для вывода средства со счета:
