@@ -1,6 +1,6 @@
 <?php
 
-namespace Idynsys\BillingSDK\Data\Requests\Payouts\Host2Client;
+namespace Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client;
 
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
