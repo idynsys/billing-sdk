@@ -14,6 +14,14 @@ class PaymentMethod
 
     public const SBP_NAME = 'SBP';
 
+    public const E_MANAT = 'eManat';
+
+    public const SMART_CARD = 'SmartCard';
+
+    public const IN_CARD_P2P = 'inCard P2P';
+
+    public const M10 = 'm10';
+
     /**
      * Получить список имен доступных платежных методов
      * @return string[]
