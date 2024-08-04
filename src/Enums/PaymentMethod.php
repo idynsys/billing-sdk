@@ -22,6 +22,18 @@ class PaymentMethod
 
     public const M10 = 'm10';
 
+    public const PAYFIX = 'Payfix';
+
+    public const HAVALE = 'Havale';
+
+    public const HAYHAY = 'Hayhay';
+
+    public const PEP = 'Pep';
+
+    public const PAYCO = 'PayCo';
+
+    public const PAPARA = 'Papara';
+
     /**
      * Получить список имен доступных платежных методов
      * @return string[]
