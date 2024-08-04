@@ -18,7 +18,7 @@ class PaymentMethod
 
     public const SMART_CARD = 'SmartCard';
 
-    public const IN_CARD_P2P = 'inCard P2P';
+    public const IN_CARD_P2P = 'inCardP2P';
 
     public const M10 = 'm10';
 
