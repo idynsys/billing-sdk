@@ -10,9 +10,6 @@ class PayoutM10Host2HostRequestData extends PayoutHost2HostRequestData
     // Параметр наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::M10;
 
-    // Сумма депозита
-    protected float $payoutAmount;
-
     // ID пользователя электронного кошелька
     private ?string $walletUserId;
 
@@ -25,20 +22,9 @@ class PayoutM10Host2HostRequestData extends PayoutHost2HostRequestData
     // Номер счета кошелька
     private string $walletAccountNumber;
 
-    // URL для передачи результата создания транзакции в B2B backoffice
-    protected string $callbackUrl;
-
-    // ID документа для создания депозита
-    protected ?string $merchantOrderId;
-
-    // описание документа для создания депозита
-    protected ?string $merchantOrderDescription;
-
-    private string $phoneNumber;
-
     public function __construct(
         float $payoutAmount,
-        string $phoneNumber,
+        string $payoutCurrency,
         string $walletUserId,
         string $walletLogin,
         string $walletUserFullName,
@@ -51,7 +37,7 @@ class PayoutM10Host2HostRequestData extends PayoutHost2HostRequestData
         parent::__construct($config);
 
         $this->payoutAmount = $payoutAmount;
-        $this->phoneNumber = $phoneNumber;
+        $this->payoutCurrency = $payoutCurrency;
         $this->walletUserId = $walletUserId;
         $this->walletLogin = $walletLogin;
         $this->walletUserFullName = $walletUserFullName;
@@ -72,14 +58,14 @@ class PayoutM10Host2HostRequestData extends PayoutHost2HostRequestData
             "paymentMethodName" => $this->paymentMethodName,
             'payoutData'        => [
                 'amount'   => $this->roundAmount($this->payoutAmount),
+                'currency' => $this->payoutCurrency,
             ],
             'wallet'       => [
                 'userId'   => $this->walletUserId,
                 'login' => $this->walletLogin,
-                'fullName'    => $this->walletUserFullName,
+                'fullname'    => $this->walletUserFullName,
                 'pan'    => $this->walletAccountNumber,
             ],
-            'recipient'     => $this->phoneNumber,
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,
             'merchantOrderDescription' => $this->merchantOrderDescription

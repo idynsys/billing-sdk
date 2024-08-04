@@ -18,6 +18,8 @@ class DepositHostEManat2ClientRequestData extends DepositRequestData
     private string $walletUserFullName;
 
     public function __construct(
+        float $paymentAmount,
+        string $paymentCurrencyCode,
         string $walletLogin,
         string $walletUserFullName,
         string $callbackUrl,
@@ -28,6 +30,8 @@ class DepositHostEManat2ClientRequestData extends DepositRequestData
     ) {
         parent::__construct($config);
 
+        $this->paymentAmount = $paymentAmount;
+        $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->walletLogin = $walletLogin;
         $this->walletUserFullName = $walletUserFullName;
         $this->merchantOrderId = $merchantOrderId;
@@ -45,9 +49,13 @@ class DepositHostEManat2ClientRequestData extends DepositRequestData
     {
         return [
             'payment_method_name' => $this->paymentMethodName,
+            'payment_data'        => [
+                'amount'   => $this->roundAmount($this->paymentAmount),
+                'currency' => $this->paymentCurrencyCode
+            ],
             'wallet'       => [
                 'login' => $this->walletLogin,
-                'fullName'    => $this->walletUserFullName,
+                'fullname'    => $this->walletUserFullName,
             ],
             'merchant_order'      => [
                 'id'          => $this->merchantOrderId,

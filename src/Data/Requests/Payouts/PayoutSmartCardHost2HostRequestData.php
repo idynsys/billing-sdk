@@ -10,9 +10,6 @@ class PayoutSmartCardHost2HostRequestData extends PayoutHost2HostRequestData
     // Параметр наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::SMART_CARD;
 
-    // Сумма депозита
-    protected float $payoutAmount;
-
     // Номер банковской карты
     protected string $cardNumber;
 
@@ -25,21 +22,11 @@ class PayoutSmartCardHost2HostRequestData extends PayoutHost2HostRequestData
     // ФИО пользователя-владельца кошелька
     private string $walletUserFullName;
 
-    // URL для передачи результата создания транзакции в B2B backoffice
-    protected string $callbackUrl;
-
-    // ID документа для создания депозита
-    protected ?string $merchantOrderId;
-
-    // описание документа для создания депозита
-    protected ?string $merchantOrderDescription;
-    private string $phoneNumber;
-
     public function __construct(
         float $payoutAmount,
+        string $currencyCode,
         string $cardNumber,
         string $cardExpiration,
-        string $phoneNumber,
         string $walletLogin,
         string $walletUserFullName,
         string $callbackUrl,
@@ -50,9 +37,9 @@ class PayoutSmartCardHost2HostRequestData extends PayoutHost2HostRequestData
         parent::__construct($config);
 
         $this->payoutAmount = $payoutAmount;
+        $this->payoutCurrency = $currencyCode;
         $this->cardNumber = $cardNumber;
         $this->cardExpiration = $cardExpiration;
-        $this->phoneNumber = $phoneNumber;
         $this->walletLogin = $walletLogin;
         $this->walletUserFullName = $walletUserFullName;
         $this->callbackUrl = $callbackUrl;
@@ -71,12 +58,12 @@ class PayoutSmartCardHost2HostRequestData extends PayoutHost2HostRequestData
             "paymentMethodName" => $this->paymentMethodName,
             'payoutData'        => [
                 'amount'   => $this->roundAmount($this->payoutAmount),
+                'currency' => $this->payoutCurrency,
             ],
             'wallet'       => [
                 'login' => $this->walletLogin,
-                'fullName'    => $this->walletUserFullName,
+                'fullname'    => $this->walletUserFullName,
             ],
-            'recipient'     => $this->phoneNumber,
             'card'          => [
                 'pan'           => $this->cardNumber,
                 'expiration'    => $this->cardExpiration

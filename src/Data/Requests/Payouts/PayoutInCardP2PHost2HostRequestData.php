@@ -10,8 +10,8 @@ class PayoutInCardP2PHost2HostRequestData extends PayoutHost2HostRequestData
     // Параметр наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::IN_CARD_P2P;
 
-    // Сумма депозита
-    protected float $payoutAmount;
+    // ID банка
+    private int $bankId;
 
     // Номер банковской карты
     protected string $cardNumber;
@@ -28,28 +28,15 @@ class PayoutInCardP2PHost2HostRequestData extends PayoutHost2HostRequestData
     // ФИО пользователя-владельца кошелька
     private string $walletUserFullName;
 
-    // ID банка для кошелька
-    private int $walletBankId;
-
-    // URL для передачи результата создания транзакции в B2B backoffice
-    protected string $callbackUrl;
-
-    // ID документа для создания депозита
-    protected ?string $merchantOrderId;
-
-    // описание документа для создания депозита
-    protected ?string $merchantOrderDescription;
-    private string $phoneNumber;
-
     public function __construct(
         float $payoutAmount,
+        string $payoutCurrency,
+        int $bankId,
         string $cardNumber,
         string $cardExpiration,
-        string $phoneNumber,
         string $walletUserId,
         string $walletLogin,
         string $walletUserFullName,
-        int $walletBankId,
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
@@ -58,13 +45,13 @@ class PayoutInCardP2PHost2HostRequestData extends PayoutHost2HostRequestData
         parent::__construct($config);
 
         $this->payoutAmount = $payoutAmount;
+        $this->payoutCurrency = $payoutCurrency;
+        $this->bankId = $bankId;
         $this->cardNumber = $cardNumber;
         $this->cardExpiration = $cardExpiration;
-        $this->phoneNumber = $phoneNumber;
         $this->walletUserId = $walletUserId;
         $this->walletLogin = $walletLogin;
         $this->walletUserFullName = $walletUserFullName;
-        $this->walletBankId = $walletBankId;
         $this->callbackUrl = $callbackUrl;
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
@@ -81,15 +68,15 @@ class PayoutInCardP2PHost2HostRequestData extends PayoutHost2HostRequestData
             "paymentMethodName" => $this->paymentMethodName,
             'payoutData'        => [
                 'amount'   => $this->roundAmount($this->payoutAmount),
+                'currency' => $this->payoutCurrency,
             ],
             'wallet'       => [
                 'userId'   => $this->walletUserId,
                 'login' => $this->walletLogin,
-                'fullName'    => $this->walletUserFullName,
-                'bankId'    => $this->walletBankId,
+                'fullname'    => $this->walletUserFullName,
             ],
-            'recipient'     => $this->phoneNumber,
             'card'          => [
+                'bankId'    => $this->bankId,
                 'pan'           => $this->cardNumber,
                 'expiration'    => $this->cardExpiration
             ],
