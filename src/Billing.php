@@ -13,6 +13,7 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestData;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestDataContract;
 use Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutHost2ClientRequestData;
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHost2HostRequestData;
 use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutRequestData;
 use Idynsys\BillingSdk\Data\Requests\RequestDataContract;
 use Idynsys\BillingSdk\Data\Requests\Transactions\TransactionRequestData;
@@ -114,7 +115,7 @@ final class Billing implements BillingContract
      * @throws BillingSdkException
      * @throws \JsonException
      */
-    public function createPayoutHost2Host(PayoutRequestData $data): PayoutResponseData
+    public function createPayoutHost2Host(PayoutHost2HostRequestData $data): PayoutResponseData
     {
         $this->sendRequest($data);
 

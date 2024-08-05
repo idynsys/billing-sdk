@@ -14,6 +14,26 @@ class PaymentMethod
 
     public const SBP_NAME = 'SBP';
 
+    public const E_MANAT = 'eManat';
+
+    public const SMART_CARD = 'SmartCard';
+
+    public const IN_CARD_P2P = 'inCardP2P';
+
+    public const M10 = 'm10';
+
+    public const PAYFIX = 'Payfix';
+
+    public const HAVALE = 'Havale';
+
+    public const HAYHAY = 'Hayhay';
+
+    public const PEP = 'Pep';
+
+    public const PAYCO = 'PayCo';
+
+    public const PAPARA = 'Papara';
+
     /**
      * Получить список имен доступных платежных методов
      * @return string[]
@@ -23,7 +43,19 @@ class PaymentMethod
         return [
             self::P2P_NAME,
             self::BANKCARD_NAME,
-            self::M_COMMERCE_NAME
+            self::M_COMMERCE_NAME,
+            self::SBER_PAY_NAME,
+            self::SBP_NAME,
+            self::E_MANAT,
+            self::SMART_CARD,
+            self::IN_CARD_P2P,
+            self::M10,
+            self::PAYFIX,
+            self::HAVALE,
+            self::HAYHAY,
+            self::PEP,
+            self::PAYCO,
+            self::PAPARA
         ];
     }
 
