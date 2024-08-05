@@ -130,13 +130,26 @@ $result->all();
 
 #### Создать транзакцию для пополнения счета
 
-Есть три метода, позволяющие пополнение счета:
-- через платежный метод p2p Host2Host,
-- через платежный метод p2p Host2Client,
-- через платежный метод Bankcard Host2Client,
-- через платежный метод Mobile Commerce Host2Client.
-- через платежный метод SberPay Host2Client.
-- через платежный метод SBP Host2Client.
+I. Реализованные методы для пополнения счета (Deposits)
+
+| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                      |
+|----|-------------------------|-----------------|------------------------------------------------------------------------------------------------|
+| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData                            |
+| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData        |
+| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData                       |
+| 4  | Host2Host               | Mobile Commerce | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData                      |
+| 5  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPay2PHostClientRequestData   |
+| 6  | Host2Client             | SBP             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpHost2ClientRequestData        |
+| 7  | Host2Client             | Havale          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHavaleHostToClientRequestData    |
+| 8  | Host2Client             | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHayHayHostToClientRequestData    |
+| 9  | Host2Client             | eManat          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHostEManat2ClientRequestData     |
+| 10 | Host2Client             | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositInCardP2PHostToClientRequestData |
+| 11 | Host2Client             | M10             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositM10HostToClientRequestData       |
+| 12 | Host2Client             | Papara          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPaparaHostToClientRequestData    |
+| 13 | Host2Client             | PayCo           | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayCoHostToClientRequestData     |
+| 14 | Host2Client             | Payfix          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToClientRequestData    |
+| 15 | Host2Client             | Pep             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClientRequestData       |
+| 16 | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData |
 
 1. _Создание транзакции депозита через платежный метод P2P Host2Host_
 
@@ -276,7 +289,230 @@ $requestParams = new DepositSbpHost2ClientRequestData(
 $result = $billing->createDeposit($requestParams);
 ```
 
-7. _Response_
+7. _Создание транзакции депозита через платежный метод Havale Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHavaleHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositHavaleHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletUserId,              // ID пользователя кошелька
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+8. _Создание транзакции депозита через платежный метод HayHay Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHayHayHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositHayHayHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+9. _Создание транзакции депозита через платежный метод eManat Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHostEManat2ClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositHostEManat2ClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+10. _Создание транзакции депозита через платежный метод InCardP2P Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositInCardP2PHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositInCardP2PHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletUserId,              // ID пользователя кошелька
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+11. _Создание транзакции депозита через платежный метод M10 Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositM10HostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositM10HostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletUserId,              // ID пользователя кошелька
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+12. _Создание транзакции депозита через платежный метод Papara Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPaparaHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositPaparaHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+13. _Создание транзакции депозита через платежный метод PayCo Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayCoHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositPayCoHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+14. _Создание транзакции депозита через платежный метод Payfix Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositPayfixHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletUserId,              // ID пользователя кошелька
+    $walletLogin,               // Логин пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+15. _Создание транзакции депозита через платежный метод Pep Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositPepHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+16. _Создание транзакции депозита через платежный метод SmartCard Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositSmartCardHostToClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
+II. _Response_
 
 Если транзакция депозита была создана успешно, то ответом (response)
 будет объект класса \Idynsys\BillingSdk\Data\Responses\DepositResponseData:
@@ -300,36 +536,48 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
 
 1. _При выполнении действия без ошибки_
 
-| Поле | Тип | Описание |
-| --- | --- | --- |
-| id | string | Уникальный идентификатор платежа (UUID) |
-| merchantOrderId | string | Уникальный идентификатор заказа у мерчанта |
-| status | string | Статус платежа. Возможные значения: `NEW`, `ERROR`, `IN_PROGRESS`, `COMPLETED`, `EXPIRED`, `CANCELED`, `CONFIRMED`, `DECLINED`, `PENDING` |
-| amount | number | Сумма платежа |
-| currency | string | Валюта платежа |
+| Поле            | Тип    | Описание                                                                                                                                  |
+|-----------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| id              | string | Уникальный идентификатор платежа (UUID)                                                                                                   |
+| merchantOrderId | string | Уникальный идентификатор заказа у мерчанта                                                                                                |
+| status          | string | Статус платежа. Возможные значения: `NEW`, `ERROR`, `IN_PROGRESS`, `COMPLETED`, `EXPIRED`, `CANCELED`, `CONFIRMED`, `DECLINED`, `PENDING` |
+| amount          | number | Сумма платежа                                                                                                                             |
+| currency        | string | Валюта платежа                                                                                                                            |
 
 2. _При получении ошибки_
 
-| Поле | Тип | Описание |
-| --- | --- | --- |
-| id | string | Уникальный идентификатор платежа (UUID) <br> Пример: `f116fde1-cc0e-4b6c-bbe1-6d932c1a5f16` |
-| merchantOrderId | string | Уникальный идентификатор заказа у мерчанта <br> Пример: `64321` |
-| status | string | Статус платежа. Возможные значения: `NEW`, `ERROR`, `IN_PROGRESS`, `COMPLETED`, `EXPIRED`, `CANCELED`, `CONFIRMED`, `DECLINED`, `PENDING` |
-| errorCode | string | Код ошибки для платежа <br> Пример: `ERROR` |
-| errorMessage | string | Сообщение об ошибке для платежа <br> Пример: `Unathorized` |
+| Поле            | Тип    | Описание                                                                                                                                  |
+|-----------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| id              | string | Уникальный идентификатор платежа (UUID) <br> Пример: `f116fde1-cc0e-4b6c-bbe1-6d932c1a5f16`                                               |
+| merchantOrderId | string | Уникальный идентификатор заказа у мерчанта <br> Пример: `64321`                                                                           |
+| status          | string | Статус платежа. Возможные значения: `NEW`, `ERROR`, `IN_PROGRESS`, `COMPLETED`, `EXPIRED`, `CANCELED`, `CONFIRMED`, `DECLINED`, `PENDING` |
+| errorCode       | string | Код ошибки для платежа <br> Пример: `ERROR`                                                                                               |
+| errorMessage    | string | Сообщение об ошибке для платежа <br> Пример: `Unathorized`                                                                                |
 
 
 #### Создать транзакцию для вывода денежных средств со счета
 
-Есть методы, позволяющие создать транзакцию для вывода средства со счета:
-- через платежный метод p2p (Host2Host, Host2Client),
-- через платежный метод Bankcard (Host2Host),
-- через платежный метод SberPay (Host2Client).
+I. Методы, позволяющие создать транзакцию для вывода средства со счета
 
-Host2Host
----------
+| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                 |
+|----|-------------------------|-----------------|-------------------------------------------------------------------------------------------|
+| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutP2PRequestData                            |
+| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData     |
+| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutBankcardRequestData                       |
+| 4  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutSberPayHost2ClientRequestData |
+| 5  | Host2Host               | Havale          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHavaleHost2HostRequestData                |
+| 6  | Host2Host               | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\PayoutHayHayHost2HostRequestData               |
+| 7  | Host2Host               | eManat          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutEManatHost2HostRequestData                |
+| 8  | Host2Host               | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutInCardP2PHost2HostRequestData             |
+| 9  | Host2Host               | M10             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutM10Host2HostRequestData                   |
+| 10 | Host2Host               | Papara          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPaparaHost2HostRequestData                |
+| 11 | Host2Host               | PayCo           | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayCoHost2HostRequestData                 |
+| 12 | Host2Host               | Payfix          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayfixHost2HostRequestData                |
+| 13 | Host2Host               | Pep             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData                   |
+| 14 | Host2Host               | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData             |
 
-1. _Создание транзакции для вывода средств со счета через метод p2p_
+
+1. _Создание транзакции для вывода средств со счета через метод p2p Host2Host_
 ```php
 <?php
 
@@ -353,7 +601,29 @@ $requestParams = new PayoutP2PRequestData(
 $result = $billing->createPayout($requestParams);
 ```
 
-2. _Создание транзакции для вывода средств со счета через метод Bankcard_
+2. _Создание транзакции для вывода средств со счета через метод p2p Host2Client_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств со счета
+$requestParams = new PayoutP2PHost2ClientRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $recipientAccount,          // Счет получателя
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Client($requestParams);
+```
+
+3. _Создание транзакции для вывода средств со счета через метод Bankcard Host2Host_
 ```php
 <?php
 
@@ -377,41 +647,7 @@ $requestParams = new PayoutBankcardRequestData(
 $result = $billing->createPayout($requestParams);
 ```
 
-3. _Response_
-
-Если операция выполнена успешно, то ответ придет в виде объекта класса PayoutResponseData:
-```
-Idynsys\BillingSdk\Data\Responses\PayoutResponseData {
-  +transactionId: "338263f6-e1af-4a25-aa38-ac0ea724be02"
-}
-```
-
-Host2Client
------------
-
-1. _Создание транзакции для вывода средств со счета через метод p2p_
-```php
-<?php
-
-use Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData;
-use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
-
-// Создать DTO для запроса на создание транзакции для вывода средств со счета
-$requestParams = new PayoutP2PHost2ClientRequestData(
-    $amount,                    // сумма вывода
-    $currencyCode,              // валюта суммы вывода
-    $recipientAccount,          // Счет получателя
-    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
-    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
-);
-
-// Создать транзакцию и получить результат
-/** @var PayoutResponseData $result */
-$result = $billing->createPayoutHost2Client($requestParams);
-```
-
-2. _Создание транзакции для вывода средств со счета через метод SberPay_
+4. _Создание транзакции для вывода средств со счета через метод SberPay Host2Client_
 ```php
 <?php
 
@@ -433,12 +669,267 @@ $requestParams = new PayoutSberPayHost2ClientRequestData(
 $result = $billing->createPayoutHost2Client($requestParams);
 ```
 
-3. _Response_
+5. _Создание транзакции для вывода средств со счета через метод Havale Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHavaleHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutHavaleHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $walletUserId,              // ID пользователя кошелька
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $BankIbanNo,                // IBAN банка
+    $cardNumber,                // Номер карты
+    $cardExpiration,            // Дата окончания действия карты
+    $userBirthday,              // День рождения пользователя
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+6. _Создание транзакции для вывода средств со счета через метод HayHay Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHayHayHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutHayHayHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $bankId,                    // ID банка
+    $cardId,                    // ID карты
+    $walletAccountNumber,       // Номер счета кошелька
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+7. _Создание транзакции для вывода средств со счета через метод eManat Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutEManatHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutEManatHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $phoneNumber,               // Телефонный номер пользователя
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+8. _Создание транзакции для вывода средств со счета через метод InCardP2P Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutInCardP2PHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutInCardP2PHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $bankId,                    // ID банка
+    $cardNumber,                // Номер банковской карты, на которую выводятся деньги
+    $cardExpiration,            // Месяц и год окончания действия карты (как написано на карте)
+    $walletUserId,              // ID пользователя кошелька
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+9. _Создание транзакции для вывода средств со счета через метод M10 Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutM10Host2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutM10Host2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $walletUserId,              // ID пользователя кошелька
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $walletAccountNumber        // Номер счета кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+10. _Создание транзакции для вывода средств со счета через метод Papara Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPaparaHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutPaparaHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $walletAccountNumber        // Номер счета кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+11. _Создание транзакции для вывода средств со счета через метод PayCo Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayCoHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutPayCoHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $walletAccountNumber        // Номер счета кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+12. _Создание транзакции для вывода средств со счета через метод Payfix Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayfixHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutPayfixHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $walletAccountNumber        // Номер счета кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+13. _Создание транзакции для вывода средств со счета через метод Pep Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutPepHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $bankId,                    // ID банка
+    $cardId,                    // ID карты    
+    $walletAccountNumber        // Номер счета кошелька
+    $walletUserId,              // ID пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+14. _Создание транзакции для вывода средств со счета через метод SmartCard Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutSmartCardHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $cardNumber,                // Номер банковской карты, на которую выводятся деньги
+    $cardExpiration,            // Месяц и год окончания действия карты (как написано на карте)
+    $walletLogin,               // Логин пользователя кошелька
+    $walletUserFullName,        // ФИО пользователя кошелька    
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+II. _Response_
 
 Если операция выполнена успешно, то ответ придет в виде объекта класса PayoutResponseData:
 ```
 Idynsys\BillingSdk\Data\Responses\PayoutResponseData {
+  +status: "SUCCESS"
   +transactionId: "338263f6-e1af-4a25-aa38-ac0ea724be02"
+  +error: null
 }
 ```
 

@@ -6,7 +6,7 @@ use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
-class DepositHayhayHostToClientRequestData extends DepositRequestData
+class DepositHayHayHostToClientRequestData extends DepositRequestData
 {
     // Наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::HAYHAY;
