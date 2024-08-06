@@ -5,6 +5,7 @@ namespace Idynsys\BillingSdk\Data\Requests\Currencies;
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
@@ -22,14 +23,26 @@ class PaymentMethodCurrenciesRequestData extends RequestData
     // Параметр: наименование платежного метода
     public string $paymentMethodName;
 
+    // сумма платежа
+    public ?float $amount;
+
+    // тип платежа
+    public ?string $paymentType;
+
     /**
      * @throws BillingSdkException
      */
-    public function __construct(string $methodName, ?ConfigContract $config = null)
+    public function __construct(
+        string $methodName,
+        ?float $amount = null,
+        ?string $paymentType = null,
+        ?ConfigContract $config = null)
     {
         parent::__construct($config);
 
         $this->paymentMethodName = $methodName;
+        $this->amount = $amount;
+        $this->paymentType = $paymentType;
 
         $this->validate();
     }
@@ -42,15 +55,19 @@ class PaymentMethodCurrenciesRequestData extends RequestData
      */
     protected function validate(): void
     {
-        if (
-            !in_array(
-                $this->paymentMethodName,
-                PaymentMethod::getValues()
-            )
-        ) {
+        if (!in_array($this->paymentMethodName, PaymentMethod::getValues()))
+        {
             throw new BillingSdkException(
-                'The value ' . $this->paymentMethodName . ' does not exist in '
+                'The Payment method name ' . $this->paymentMethodName . ' does not exist in '
                 . implode(', ', PaymentMethod::getNames()),
+                422
+            );
+        }
+
+        if ($this->paymentType !== null && !in_array($this->paymentType, PaymentType::getValues())) {
+            throw new BillingSdkException(
+                'The Payment type ' . $this->paymentType . ' does not exist in '
+                . implode(', ', PaymentType::getNames()),
                 422
             );
         }
@@ -64,7 +81,9 @@ class PaymentMethodCurrenciesRequestData extends RequestData
     protected function getRequestData(): array
     {
         return [
-            'payment-method' => $this->paymentMethodName
+            'paymentMethod' => $this->paymentMethodName,
+            'amount' => $this->amount,
+            'paymentType' => $this->paymentType,
         ];
     }
 }

@@ -86,9 +86,16 @@ $billing = new Billing('clientId', 'secret');
 <?php
 
 use Idynsys\BillingSdk\Collections\PaymentMethodsCollection;
+use Idynsys\BillingSdk\Data\Requests\PaymentMethods\v2\PaymentMethodListRequestData;
+
+$requestParameters = new PaymentMethodListRequestData(
+    $amount,        // сумма, по которой вбираются доступные платежные методы
+    $currency,      // валюта, по которой выбираются доступные платежные методы
+    $paymentType    // тип платежа, доступные значения - deposit, withdrawal
+);
 
 /** @var PaymentMethodsCollection $result */
-$result = $billing->getPaymentMethods();
+$result = $billing->getPaymentMethods($requestParameters);
 ```
 Ответ (response) для данного запроса будет объект класса
 _\Idynsys\BillingSdk\Collections\PaymentMethodsCollection_. Этот класс реализует интерфейс _Iterator_.
@@ -113,7 +120,11 @@ use Idynsys\BillingSdk\Collections\PaymentMethodCurrenciesCollection;
      Idynsys\BillingSdk\Enums\PaymentMethod::M_COMMERCE_NAME
 */
 $paymentMethodName = \Idynsys\BillingSdk\Enums\PaymentMethod::P2P_NAME;
-$requestParams = new PaymentMethodCurrenciesRequestData($paymentMethodName);
+$requestParams = new PaymentMethodCurrenciesRequestData(
+    $paymentMethodName, // наименование платежного метода
+    $amount,            // сумма, для которой ищется платежный метод
+    $paymentType        // тип платежа, доступные значения - deposit, withdrawal
+);
 
 /** @var PaymentMethodCurrenciesCollection $result */
 $result = $billing->getPaymentMethodCurrencies($requestParams);

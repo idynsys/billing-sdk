@@ -16,27 +16,33 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
     protected string $urlConfigKeyForRequest = 'PAYMENT_METHODS_URL';
 
     // Сумма депозита
-    protected float $paymentAmount;
+    protected ?float $paymentAmount;
 
     // Код валюты депозита
-    protected string $paymentCurrencyCode;
+    protected ?string $paymentCurrencyCode;
+
+    // Тип платежа
+    protected ?string $paymentType;
 
     public function __construct(
         ?float $paymentAmount = null,
         ?string $paymentCurrencyCode = null,
+        ?string $paymentType = null,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);
 
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
+        $this->paymentType = $paymentType;
     }
 
     public function getRequestData(): array
     {
         return [
-            'amount'   => $this->roundAmount($this->paymentAmount),
-            'currency' => $this->paymentCurrencyCode
+            'amount'   => $this->paymentAmount ? $this->roundAmount($this->paymentAmount) : null,
+            'currency' => $this->paymentCurrencyCode,
+            'paymentType' => $this->paymentType,
         ];
     }
 }

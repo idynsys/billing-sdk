@@ -23,7 +23,7 @@ return[
     'AUTH_URL' => '/user-access/token',
 
     // url для получения списка платежных методов
-    'PAYMENT_METHODS_URL' => '/billing-settings/payment-methods-by-app',
+    'PAYMENT_METHODS_URL' => '/pay-aggregator/external-app/payment-methods',
 
     // url для создания депозита
     'DEPOSIT_URL' => '/accounts/api/payments',
@@ -35,7 +35,7 @@ return[
     'TRANSACTION_DATA_URL' => '/accounts/api/transactions',
 
     // url для получения данных по транзакции
-    'PAYMENT_METHOD_CURRENCIES_URL' => '/billing-settings/currencies-by-token',
+    'PAYMENT_METHOD_CURRENCIES_URL' => '/pay-aggregator/external-app/currencies',
 
     // подтверждение платежа через мобильную коммерцию
     'DEPOSIT_M_COMMERCE_CONFIRM_URL' => '/accounts/api/payments/{transaction}/confirmMobilePayment',
