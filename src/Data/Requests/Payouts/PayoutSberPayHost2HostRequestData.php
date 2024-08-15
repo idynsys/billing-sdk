@@ -56,12 +56,12 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
     {
         return [
             "paymentMethodName" => $this->paymentMethodName,
-            'payoutData'        => [
-                'amount'   => $this->roundAmount($this->payoutAmount),
+            'payoutData' => [
+                'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency,
             ],
-            'card'          => [
-                'pan'           => $this->cardNumber,
+            'card' => [
+                'pan' => $this->cardNumber,
             ],
             'customerData' => [
                 'ipAddress' => $this->userIpAddress,
