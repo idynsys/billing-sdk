@@ -61,6 +61,22 @@ class PaymentMethod
 
     public static function getValues(): array
     {
-        return [self::P2P_NAME, self::BANKCARD_NAME, self::M_COMMERCE_NAME, self::SBP_NAME, self::SBER_PAY_NAME];
+        return [
+            self::P2P_NAME,
+            self::BANKCARD_NAME,
+            self::M_COMMERCE_NAME,
+            self::SBP_NAME,
+            self::SBER_PAY_NAME,
+            self::E_MANAT,
+            self::SMART_CARD,
+            self::IN_CARD_P2P,
+            self::M10,
+            self::PAYFIX,
+            self::HAVALE,
+            self::HAYHAY,
+            self::PEP,
+            self::PAYCO,
+            self::PAPARA
+        ];
     }
 }
