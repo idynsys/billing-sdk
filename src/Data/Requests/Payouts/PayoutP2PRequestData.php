@@ -21,13 +21,13 @@ class PayoutP2PRequestData extends PayoutRequestData
     {
         return [
             "paymentMethodName" => $this->paymentMethodName,
-            'payoutData'        => [
-                'amount'   => $this->roundAmount($this->payoutAmount),
+            'payoutData' => [
+                'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency
             ],
-            'cardData'          => [
-                'pan'           => $this->cardNumber,
-                'expiration'    => $this->cardExpiration,
+            'card' => [
+                'pan' => $this->cardNumber,
+                'expiration' => $this->cardExpiration,
                 'recipientInfo' => $this->cardRecipientInfo
             ],
             'callbackUrl' => $this->callbackUrl,

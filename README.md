@@ -586,6 +586,7 @@ I. Методы, позволяющие создать транзакцию дл
 | 12 | Host2Host               | Payfix          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayfixHost2HostRequestData                |
 | 13 | Host2Host               | Pep             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData                   |
 | 14 | Host2Host               | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData             |
+| 15 | Host2Host               | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSberPayHost2HostRequestData               |
 
 
 1. _Создание транзакции для вывода средств со счета через метод p2p Host2Host_
@@ -923,6 +924,32 @@ $requestParams = new PayoutSmartCardHost2HostRequestData(
     $cardExpiration,            // Месяц и год окончания действия карты (как написано на карте)
     $walletLogin,               // Логин пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька    
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+
+15. _Создание транзакции для вывода средств со счета через метод SberPay Host2Host_
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSberPayHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutSberPayHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $cardNumber,                // Номер банковской карты, на которую выводятся деньги
+    $ipAddress,                 // IP адрес пользователя
+    $userAgent,                 // сведения об устройстве, операционной системе, типе браузера и его версии и т.д.
+    $acceptLanguage,            // список языков, на которых пользовательский агент хочет использовать контент
+    $fingerprint,               // подпись данных запроса пользователя. см. https://github.com/fingerprintjs/fingerprintjs
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription   // описание документа, на основе которого создается транзакция
