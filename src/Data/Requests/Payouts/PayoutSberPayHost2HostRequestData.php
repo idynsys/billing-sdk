@@ -10,20 +10,29 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
     // Параметр наименование платежного метода
     protected string $paymentMethodName = PaymentMethod::SBER_PAY_NAME;
 
+    // Номер банковской карты пользователя
     private string $cardNumber;
 
+    // IP адрес пользователя
     private string $userIpAddress;
 
+    // User-Agent пользователя
     private string $userAgent;
 
+    // Accept-Language пользователя
     private string $userAcceptLanguage;
 
+    // Fingerprint для данных запроса
     private string $fingerprint;
+
+    // ID пользователя
+    private string $userId;
 
     public function __construct(
         float $payoutAmount,
         string $currencyCode,
         string $cardNumber,
+        string $userId,
         string $userIpAddress,
         string $userAgent,
         string $userAcceptLanguage,
@@ -36,6 +45,7 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $currencyCode;
         $this->cardNumber = $cardNumber;
+        $this->userId = $userId;
         $this->userIpAddress = $userIpAddress;
         $this->userAgent = $userAgent;
         $this->userAcceptLanguage = $userAcceptLanguage;
@@ -64,6 +74,7 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
                 'pan' => $this->cardNumber,
             ],
             'customerData' => [
+                'id' => $this->userId,
                 'ipAddress' => $this->userIpAddress,
                 'userAgent' => $this->userAgent,
                 'acceptLanguage' => $this->userAcceptLanguage,
