@@ -32,9 +32,10 @@ class DepositMCommerceRequestData extends DepositRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
+        ?string $trafficType = '',
         ?ConfigContract $config = null
     ) {
-        parent::__construct($config);
+        parent::__construct($trafficType, $config);
 
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
@@ -53,18 +54,19 @@ class DepositMCommerceRequestData extends DepositRequestData
     {
         return [
             'payment_method_name' => $this->paymentMethodName,
-            'merchant_order'      => [
-                'id'          => $this->merchantOrderId,
+            'merchant_order' => [
+                'id' => $this->merchantOrderId,
                 'description' => $this->merchantOrderDescription
             ],
-            'customer_data'       => [
+            'customer_data' => [
                 'phoneNumber' => $this->phoneNumber,
             ],
-            'payment_data'        => [
-                'amount'   => $this->roundAmount($this->paymentAmount),
+            'payment_data' => [
+                'amount' => $this->roundAmount($this->paymentAmount),
                 'currency' => $this->paymentCurrencyCode
             ],
-            'callback_url'        => $this->callbackUrl
+            'callback_url' => $this->callbackUrl,
+            'traffic_type' => $this->trafficType
         ];
     }
 }

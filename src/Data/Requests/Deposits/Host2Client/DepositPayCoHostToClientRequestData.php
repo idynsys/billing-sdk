@@ -26,9 +26,10 @@ class DepositPayCoHostToClientRequestData extends DepositRequestData
         ?string $redirectSuccessUrl = null,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
+        ?string $trafficType = '',
         ?ConfigContract $config = null
     ) {
-        parent::__construct($config);
+        parent::__construct($trafficType, $config);
 
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
@@ -49,20 +50,21 @@ class DepositPayCoHostToClientRequestData extends DepositRequestData
     {
         return [
             'payment_method_name' => $this->paymentMethodName,
-            'payment_data'        => [
-                'amount'   => $this->roundAmount($this->paymentAmount),
+            'payment_data' => [
+                'amount' => $this->roundAmount($this->paymentAmount),
                 'currency' => $this->paymentCurrencyCode
             ],
-            'wallet'       => [
+            'wallet' => [
                 'userId' => $this->walletUserId,
-                'fullname'    => $this->walletUserFullName,
+                'fullname' => $this->walletUserFullName,
             ],
-            'merchant_order'      => [
-                'id'          => $this->merchantOrderId,
+            'merchant_order' => [
+                'id' => $this->merchantOrderId,
                 'description' => $this->merchantOrderDescription
             ],
-            'callback_url'        => $this->callbackUrl,
-            'redirect_success_url' => $this->redirectSuccessUrl
+            'callback_url' => $this->callbackUrl,
+            'redirect_success_url' => $this->redirectSuccessUrl,
+            'traffic_type' => $this->trafficType
         ];
     }
 }

@@ -4,6 +4,8 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client;
 
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Enums\RequestMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
+use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 abstract class PayoutHost2ClientRequestData extends RequestData
 {
@@ -34,13 +36,16 @@ abstract class PayoutHost2ClientRequestData extends RequestData
     // описание документа для создания депозита
     protected ?string $merchantOrderDescription;
 
+    protected string $trafficType;
+
     public function __construct(
         float $payoutAmount,
         string $payoutCurrency,
         string $recipient,
         string $callbackUrl,
         ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null
+        ?string $merchantOrderDescription = null,
+        string $trafficType = ''
     ) {
         parent::__construct();
 
@@ -50,5 +55,20 @@ abstract class PayoutHost2ClientRequestData extends RequestData
         $this->callbackUrl = $callbackUrl;
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
+        $this->trafficType = $trafficType;
+
+        $this->validateTrafficType();
+    }
+
+
+    protected function validateTrafficType()
+    {
+        if (
+            $this->trafficType !== '' &&
+            $this->trafficType !== TrafficType::FDT &&
+            $this->trafficType !== TrafficType::TRUSTED
+        ) {
+            throw new BillingSdkException('TrafficType must be empty string (""), "fdt" or "trusted".');
+        }
     }
 }
