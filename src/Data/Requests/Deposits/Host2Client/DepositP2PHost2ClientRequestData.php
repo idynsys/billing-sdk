@@ -30,7 +30,7 @@ class DepositP2PHost2ClientRequestData extends DepositRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        ?string $trafficType = '',
+        string $trafficType = '',
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);

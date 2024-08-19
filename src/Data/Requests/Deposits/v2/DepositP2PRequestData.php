@@ -29,7 +29,7 @@ class DepositP2PRequestData extends DepositRequestData
         string $customerEmail,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        ?string $trafficType = '',
+        string $trafficType = '',
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);

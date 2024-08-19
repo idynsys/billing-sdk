@@ -32,17 +32,18 @@ class DepositMCommerceRequestData extends DepositRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        ?string $trafficType = '',
+        string $trafficType = '',
         ?ConfigContract $config = null
     ) {
-        parent::__construct($trafficType, $config);
-
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
         $this->phoneNumber = $phoneNumber;
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->callbackUrl = $callbackUrl;
+        $this->trafficType = $trafficType;
+
+        parent::__construct($trafficType, $config);
     }
 
     /**

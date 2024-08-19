@@ -29,7 +29,7 @@ class DepositM10HostToClientRequestData extends DepositRequestData
         ?string $redirectSuccessUrl = null,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        ?string $trafficType = '',
+        string $trafficType = '',
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);
