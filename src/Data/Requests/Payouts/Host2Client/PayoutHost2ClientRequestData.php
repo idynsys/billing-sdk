@@ -68,7 +68,7 @@ abstract class PayoutHost2ClientRequestData extends RequestData
             $this->trafficType !== TrafficType::FDT &&
             $this->trafficType !== TrafficType::TRUSTED
         ) {
-            throw new BillingSdkException('TrafficType must be empty string (""), "fdt" or "trusted".');
+            throw new BillingSdkException('TrafficType must be empty string (""), "fdt" or "trusted".', 422);
         }
     }
 }
