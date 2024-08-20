@@ -141,27 +141,33 @@ $result->all();
 
 #### Создать транзакцию для пополнения счета
 
+В каждом классе DTO есть параметр "trafficType". Этот параметр необязательный и может принимать следующие значения:
+- "" - по умолчанию пустая строка
+- fdt - первичный трафик (для непроверенных пользователей делающих оплату первый раз)
+- trusted - вторичный трафик (для доверенных пользователей)
+
 I. Реализованные методы для пополнения счета (Deposits)
 
-| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                      |
-|----|-------------------------|-----------------|------------------------------------------------------------------------------------------------|
-| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData                            |
-| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData        |
-| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData                       |
-| 4  | Host2Host               | Mobile Commerce | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData                      |
-| 5  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPay2PHostClientRequestData   |
-| 6  | Host2Client             | SBP             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpHost2ClientRequestData        |
-| 7  | Host2Client             | Havale          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHavaleHostToClientRequestData    |
-| 8  | Host2Client             | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHayHayHostToClientRequestData    |
-| 9  | Host2Client             | eManat          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHostEManat2ClientRequestData     |
-| 10 | Host2Client             | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositInCardP2PHostToClientRequestData |
-| 11 | Host2Client             | M10             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositM10HostToClientRequestData       |
-| 12 | Host2Client             | Papara          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPaparaHostToClientRequestData    |
-| 13 | Host2Client             | PayCo           | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayCoHostToClientRequestData     |
-| 14 | Host2Client             | Payfix          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToClientRequestData    |
-| 15 | Host2Client             | Pep             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClientRequestData       |
-| 16 | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData |
+| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                                      |
+|----|-------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------|
+| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData [см.](#deposit-h2h-p2p)                                    |
+| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData [см.](#deposit-h2с-p2p)                |
+| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData [см.](#deposit-h2h-bankcard)                          |
+| 4  | Host2Host               | Mobile Commerce | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData [см.](#deposit-h2h-m-commerce)                       |
+| 5  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPay2PHostClientRequestData [см.](#deposit-h2c-sber-pay)      |
+| 6  | Host2Client             | SBP             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpHost2ClientRequestData [см.](#deposit-h2c-sbp)                |
+| 7  | Host2Client             | Havale          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHavaleHostToClientRequestData [см.](#deposit-h2c-havale)         |
+| 8  | Host2Client             | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHayHayHostToClientRequestData [см.](#deposit-h2c-hay-hay)        |
+| 9  | Host2Client             | eManat          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHostEManat2ClientRequestData [см.](#deposit-h2c-emanat)          |
+| 10 | Host2Client             | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositInCardP2PHostToClientRequestData [см.](#deposit-h2c-in-card-p2p) |
+| 11 | Host2Client             | M10             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositM10HostToClientRequestData [см.](#deposit-h2c-m10)               |
+| 12 | Host2Client             | Papara          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPaparaHostToClientRequestData [см.](#deposit-h2c-papara)         |
+| 13 | Host2Client             | PayCo           | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayCoHostToClientRequestData [см.](#deposit-h2c-pey-co)          |
+| 14 | Host2Client             | Payfix          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToClientRequestData [см.](#deposit-h2c-pay-fix)        |
+| 15 | Host2Client             | Pep             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClientRequestData [см.](#deposit-h2c-pep)               |
+| 16 | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData [см.](#deposit-h2c-smart-card)  |
 
+<a id="deposit-h2h-p2p"></a>
 1. _Создание транзакции депозита через платежный метод P2P Host2Host_
 
 ```php
@@ -177,12 +183,13 @@ $requestParams = new DepositP2PRequestData(
     $customerEmail,             // email пользователя, совершающего операцию
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
-
+<a id="deposit-h2с-p2p"></a>
 2. _Создание транзакции депозита через платежный метод P2P Host2Client_
 
 ```php
@@ -197,12 +204,14 @@ $requestParams = new DepositP2PHost2ClientRequestData(
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2h-bankcard"></a>
 3. _Создание транзакции депозита через платежный метод Bankcard Host2Host_
 ```php
 <?php
@@ -216,13 +225,15 @@ $requestParams = new DepositBankcardRequestData(
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $customerEmail,             // email пользователя, совершающего операцию
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2h-m-commerce"></a>
 4. _Создание транзакции депозита через платежный метод Mobile Commerce Host2Host_
 ```php
 <?php
@@ -239,7 +250,8 @@ $requestParams = new DepositMCommerceRequestData(
     $phoneNumber,               // телефон для получения кода подтверждения
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -260,6 +272,7 @@ $confirmedResult = $billing->confirmMCommerceDeposit($requestParams);
 
 ```
 
+<a id="deposit-h2c-sber-pay"></a>
 5. _Создание транзакции депозита через платежный метод SberPay Host2Client_
 
 ```php
@@ -274,12 +287,14 @@ $requestParams = new DepositSberPay2PHostClientRequestData(
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-sbp"></a>
 6. _Создание транзакции депозита через платежный метод SBP Host2Client_
 
 ```php
@@ -294,12 +309,14 @@ $requestParams = new DepositSbpHost2ClientRequestData(
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-havale"></a>
 7. _Создание транзакции депозита через платежный метод Havale Host2Client_
 
 ```php
@@ -317,12 +334,14 @@ $requestParams = new DepositHavaleHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-hay-hay"></a>
 8. _Создание транзакции депозита через платежный метод HayHay Host2Client_
 
 ```php
@@ -339,12 +358,14 @@ $requestParams = new DepositHayHayHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-emanat"></a>
 9. _Создание транзакции депозита через платежный метод eManat Host2Client_
 
 ```php
@@ -361,12 +382,14 @@ $requestParams = new DepositHostEManat2ClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-in-card-p2p"></a>
 10. _Создание транзакции депозита через платежный метод InCardP2P Host2Client_
 
 ```php
@@ -384,12 +407,14 @@ $requestParams = new DepositInCardP2PHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-m10"></a>
 11. _Создание транзакции депозита через платежный метод M10 Host2Client_
 
 ```php
@@ -407,12 +432,14 @@ $requestParams = new DepositM10HostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-papara"></a>
 12. _Создание транзакции депозита через платежный метод Papara Host2Client_
 
 ```php
@@ -429,12 +456,14 @@ $requestParams = new DepositPaparaHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-pey-co"></a>
 13. _Создание транзакции депозита через платежный метод PayCo Host2Client_
 
 ```php
@@ -451,12 +480,14 @@ $requestParams = new DepositPayCoHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-pay-fix"></a>
 14. _Создание транзакции депозита через платежный метод Payfix Host2Client_
 
 ```php
@@ -473,12 +504,14 @@ $requestParams = new DepositPayfixHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-pep"></a>
 15. _Создание транзакции депозита через платежный метод Pep Host2Client_
 
 ```php
@@ -495,12 +528,14 @@ $requestParams = new DepositPepHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-smart-card"></a>
 16. _Создание транзакции депозита через платежный метод SmartCard Host2Client_
 
 ```php
@@ -517,6 +552,7 @@ $requestParams = new DepositSmartCardHostToClientRequestData(
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -568,27 +604,33 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
 
 #### Создать транзакцию для вывода денежных средств со счета
 
+В каждом классе DTO есть параметр "trafficType". Этот параметр необязательный и может принимать следующие значения:
+- "" - по умолчанию пустая строка
+- fdt - первичный трафик (для непроверенных пользователей делающих оплату первый раз)
+- trusted - вторичный трафик (для доверенных пользователей)
+
+
 I. Методы, позволяющие создать транзакцию для вывода средства со счета
 
-| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                 |
-|----|-------------------------|-----------------|-------------------------------------------------------------------------------------------|
-| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutP2PRequestData                            |
-| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData     |
-| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutBankcardRequestData                       |
-| 4  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutSberPayHost2ClientRequestData |
-| 5  | Host2Host               | Havale          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHavaleHost2HostRequestData                |
-| 6  | Host2Host               | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\PayoutHayHayHost2HostRequestData               |
-| 7  | Host2Host               | eManat          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutEManatHost2HostRequestData                |
-| 8  | Host2Host               | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutInCardP2PHost2HostRequestData             |
-| 9  | Host2Host               | M10             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutM10Host2HostRequestData                   |
-| 10 | Host2Host               | Papara          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPaparaHost2HostRequestData                |
-| 11 | Host2Host               | PayCo           | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayCoHost2HostRequestData                 |
-| 12 | Host2Host               | Payfix          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayfixHost2HostRequestData                |
-| 13 | Host2Host               | Pep             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData                   |
-| 14 | Host2Host               | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData             |
-| 15 | Host2Host               | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSberPayHost2HostRequestData               |
+| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                             |
+|----|-------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------|
+| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutP2PRequestData [см.](#payout-h2h-p2p)                                 |
+| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData [см.](#payout-h2c-p2p)          |
+| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutBankcardRequestData [см.](#payout-h2h-bankcad)                        |
+| 4  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutSberPayHost2ClientRequestData [см.](#payout-h2c-sber-pay) |
+| 5  | Host2Host               | Havale          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHavaleHost2HostRequestData [см.](#payout-h2h-havale)                  |
+| 6  | Host2Host               | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\PayoutHayHayHost2HostRequestData [см.](#payout-h2h-hay-hay)                |
+| 7  | Host2Host               | eManat          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutEManatHost2HostRequestData [см.](#payout-h2h-emanat)                  |
+| 8  | Host2Host               | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutInCardP2PHost2HostRequestData [см.](#payout-h2h-in-card-p2p)          |
+| 9  | Host2Host               | M10             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutM10Host2HostRequestData [см.](#payout-h2h-m10)                        |
+| 10 | Host2Host               | Papara          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPaparaHost2HostRequestData [см.](#payout-h2h-papara)                  |
+| 11 | Host2Host               | PayCo           | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayCoHost2HostRequestData [см.](#payout-h2h-pay-co)                   |
+| 12 | Host2Host               | Payfix          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayfixHost2HostRequestData [см.](#payout-h2h-payfix)                  |
+| 13 | Host2Host               | Pep             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData [см.](#payout-h2h-pep)                        |
+| 14 | Host2Host               | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData [см.](#payout-h2h-smart-card)           |
+| 15 | Host2Host               | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSberPayHost2HostRequestData [см.](#payout-h2h-sber-pay)               |
 
-
+<a id="payout-h2h-p2p"></a>
 1. _Создание транзакции для вывода средств со счета через метод p2p Host2Host_
 ```php
 <?php
@@ -605,7 +647,8 @@ $requestParams = new PayoutP2PRequestData(
     $cardRecipientInfo,         // Данные владельца карты (Имя Фамилия, как написано на карте)
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -613,6 +656,7 @@ $requestParams = new PayoutP2PRequestData(
 $result = $billing->createPayout($requestParams);
 ```
 
+<a id="payout-h2c-p2p"></a>
 2. _Создание транзакции для вывода средств со счета через метод p2p Host2Client_
 ```php
 <?php
@@ -627,7 +671,8 @@ $requestParams = new PayoutP2PHost2ClientRequestData(
     $recipientAccount,          // Счет получателя
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -635,6 +680,7 @@ $requestParams = new PayoutP2PHost2ClientRequestData(
 $result = $billing->createPayoutHost2Client($requestParams);
 ```
 
+<a id="payout-h2h-bankcad"></a>
 3. _Создание транзакции для вывода средств со счета через метод Bankcard Host2Host_
 ```php
 <?php
@@ -651,7 +697,8 @@ $requestParams = new PayoutBankcardRequestData(
     $cardRecipientInfo,         // Данные владельца карты (Имя Фамилия, как написано на карте)
     $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -659,6 +706,7 @@ $requestParams = new PayoutBankcardRequestData(
 $result = $billing->createPayout($requestParams);
 ```
 
+<a id="payout-h2c-sber-pay"></a>
 4. _Создание транзакции для вывода средств со счета через метод SberPay Host2Client_
 ```php
 <?php
@@ -673,7 +721,8 @@ $requestParams = new PayoutSberPayHost2ClientRequestData(
     $recipientPhoneNumber,      // Номер телефона получателя
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -681,6 +730,7 @@ $requestParams = new PayoutSberPayHost2ClientRequestData(
 $result = $billing->createPayoutHost2Client($requestParams);
 ```
 
+<a id="payout-h2h-havale"></a>
 5. _Создание транзакции для вывода средств со счета через метод Havale Host2Host_
 ```php
 <?php
@@ -701,7 +751,8 @@ $requestParams = new PayoutHavaleHost2HostRequestData(
     $cardExpiration,            // Дата окончания действия карты
     $userBirthday,              // День рождения пользователя
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -709,6 +760,7 @@ $requestParams = new PayoutHavaleHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-hay-hay"></a>
 6. _Создание транзакции для вывода средств со счета через метод HayHay Host2Host_
 ```php
 <?php
@@ -727,7 +779,8 @@ $requestParams = new PayoutHayHayHost2HostRequestData(
     $walletUserFullName,        // ФИО пользователя кошелька    
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -735,6 +788,7 @@ $requestParams = new PayoutHayHayHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-emanat"></a>
 7. _Создание транзакции для вывода средств со счета через метод eManat Host2Host_
 ```php
 <?php
@@ -751,7 +805,8 @@ $requestParams = new PayoutEManatHost2HostRequestData(
     $walletUserFullName,        // ФИО пользователя кошелька    
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -759,6 +814,7 @@ $requestParams = new PayoutEManatHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-in-card-p2p"></a>
 8. _Создание транзакции для вывода средств со счета через метод InCardP2P Host2Host_
 ```php
 <?php
@@ -778,7 +834,8 @@ $requestParams = new PayoutInCardP2PHost2HostRequestData(
     $walletUserFullName,        // ФИО пользователя кошелька    
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -786,6 +843,7 @@ $requestParams = new PayoutInCardP2PHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-m10"></a>
 9. _Создание транзакции для вывода средств со счета через метод M10 Host2Host_
 ```php
 <?php
@@ -803,7 +861,8 @@ $requestParams = new PayoutM10Host2HostRequestData(
     $walletAccountNumber        // Номер счета кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -811,6 +870,7 @@ $requestParams = new PayoutM10Host2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-papara"></a>
 10. _Создание транзакции для вывода средств со счета через метод Papara Host2Host_
 ```php
 <?php
@@ -827,7 +887,8 @@ $requestParams = new PayoutPaparaHost2HostRequestData(
     $walletAccountNumber        // Номер счета кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -835,6 +896,7 @@ $requestParams = new PayoutPaparaHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-pay-co"></a>
 11. _Создание транзакции для вывода средств со счета через метод PayCo Host2Host_
 ```php
 <?php
@@ -851,7 +913,8 @@ $requestParams = new PayoutPayCoHost2HostRequestData(
     $walletAccountNumber        // Номер счета кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -859,6 +922,7 @@ $requestParams = new PayoutPayCoHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-payfix"></a>
 12. _Создание транзакции для вывода средств со счета через метод Payfix Host2Host_
 ```php
 <?php
@@ -875,7 +939,8 @@ $requestParams = new PayoutPayfixHost2HostRequestData(
     $walletAccountNumber        // Номер счета кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -883,6 +948,7 @@ $requestParams = new PayoutPayfixHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-pep"></a>
 13. _Создание транзакции для вывода средств со счета через метод Pep Host2Host_
 ```php
 <?php
@@ -901,7 +967,8 @@ $requestParams = new PayoutPepHost2HostRequestData(
     $walletUserFullName,        // ФИО пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -909,6 +976,7 @@ $requestParams = new PayoutPepHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-smart-card"></a>
 14. _Создание транзакции для вывода средств со счета через метод SmartCard Host2Host_
 ```php
 <?php
@@ -926,7 +994,8 @@ $requestParams = new PayoutSmartCardHost2HostRequestData(
     $walletUserFullName,        // ФИО пользователя кошелька    
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат
@@ -934,6 +1003,7 @@ $requestParams = new PayoutSmartCardHost2HostRequestData(
 $result = $billing->createPayoutHost2Host($requestParams);
 ```
 
+<a id="payout-h2h-sber-pay"></a>
 15. _Создание транзакции для вывода средств со счета через метод SberPay Host2Host_
 ```php
 <?php
@@ -953,7 +1023,8 @@ $requestParams = new PayoutSberPayHost2HostRequestData(
     $fingerprint,               // подпись данных запроса пользователя. см. https://github.com/fingerprintjs/fingerprintjs
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
-    $merchantOrderDescription   // описание документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 // Создать транзакцию и получить результат

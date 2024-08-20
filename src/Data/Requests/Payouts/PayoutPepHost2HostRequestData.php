@@ -35,9 +35,10 @@ class PayoutPepHost2HostRequestData extends PayoutHost2HostRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
+        string $trafficType = '',
         ?ConfigContract $config = null
     ) {
-        parent::__construct($config);
+        parent::__construct($trafficType, $config);
 
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $payoutCurrency;
@@ -75,7 +76,8 @@ class PayoutPepHost2HostRequestData extends PayoutHost2HostRequestData
             ],
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,
-            'merchantOrderDescription' => $this->merchantOrderDescription
+            'merchantOrderDescription' => $this->merchantOrderDescription,
+            'trafficType' => $this->trafficType,
         ];
     }
 }

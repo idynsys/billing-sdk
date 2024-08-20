@@ -16,15 +16,16 @@ class PayoutP2PHost2ClientRequestData extends PayoutHost2ClientRequestData
     protected function getRequestData(): array
     {
         return [
-            "paymentMethodName"        => $this->paymentMethodName,
-            'payoutData'               => [
-                'amount'   => $this->roundAmount($this->payoutAmount),
+            "paymentMethodName" => $this->paymentMethodName,
+            'payoutData' => [
+                'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency
             ],
-            'recipient'                => $this->recipient,
-            'callbackUrl'              => $this->callbackUrl,
-            'merchantOrderId'          => $this->merchantOrderId,
-            'merchantOrderDescription' => $this->merchantOrderDescription
+            'recipient' => $this->recipient,
+            'callbackUrl' => $this->callbackUrl,
+            'merchantOrderId' => $this->merchantOrderId,
+            'merchantOrderDescription' => $this->merchantOrderDescription,
+            'traffic_type' => $this->trafficType
         ];
     }
 }

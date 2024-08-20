@@ -104,7 +104,9 @@ final class Billing implements BillingContract
      */
     public function createPayout(PayoutRequestData $data): PayoutResponseData
     {
-        return $this->createPayoutHost2Host($data);
+        $this->sendRequest($data);
+
+        return PayoutResponseData::from($this->client->getResult());
     }
 
     /**
