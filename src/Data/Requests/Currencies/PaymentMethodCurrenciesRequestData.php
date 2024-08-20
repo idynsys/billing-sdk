@@ -80,10 +80,16 @@ class PaymentMethodCurrenciesRequestData extends RequestData
      */
     protected function getRequestData(): array
     {
-        return [
-            'paymentMethod' => $this->paymentMethodName,
-            'amount' => $this->amount,
-            'paymentType' => $this->paymentType,
-        ];
+        $data = ['paymentMethod' => $this->paymentMethodName];
+
+        if ($this->amount !== null) {
+            $data['amount'] = $this->amount;
+        }
+
+        if ($this->paymentType !== null) {
+            $data['paymentType'] = $this->paymentType;
+        }
+
+        return $data;
     }
 }
