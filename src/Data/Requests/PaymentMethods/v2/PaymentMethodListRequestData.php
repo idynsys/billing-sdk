@@ -39,10 +39,19 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
 
     public function getRequestData(): array
     {
-        return [
-            'amount'   => $this->paymentAmount ? $this->roundAmount($this->paymentAmount) : null,
-            'currency' => $this->paymentCurrencyCode,
-            'paymentType' => $this->paymentType,
-        ];
+        $data = [];
+
+        if ($this->paymentAmount !== null) {
+            $data['amount'] = $this->roundAmount($this->paymentAmount);
+        }
+
+        if ($this->paymentCurrencyCode !== null) {
+            $data['currency'] = $this->paymentCurrencyCode;
+        }
+
+        if ($this->paymentType !== null) {
+            $data['paymentType'] = $this->paymentType;
+        }
+        return $data;
     }
 }
