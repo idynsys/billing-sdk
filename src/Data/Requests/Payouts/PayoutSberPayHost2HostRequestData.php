@@ -71,7 +71,7 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
                 'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency,
             ],
-            'card' => [
+            'cardData' => [
                 'pan' => $this->cardNumber,
             ],
             'customerData' => [

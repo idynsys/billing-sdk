@@ -65,7 +65,7 @@ class PayoutPepHost2HostRequestData extends PayoutHost2HostRequestData
                 'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency,
             ],
-            'card' => [
+            'cardData' => [
                 'id' => $this->cardId,
                 'bankId' => $this->bankId
             ],

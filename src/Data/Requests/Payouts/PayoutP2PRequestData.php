@@ -25,7 +25,7 @@ class PayoutP2PRequestData extends PayoutRequestData
                 'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency
             ],
-            'card' => [
+            'cardData' => [
                 'pan' => $this->cardNumber,
                 'expiration' => $this->cardExpiration,
                 'recipientInfo' => $this->cardRecipientInfo

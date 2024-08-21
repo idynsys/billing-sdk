@@ -67,19 +67,19 @@ class PayoutInCardP2PHost2HostRequestData extends PayoutHost2HostRequestData
     {
         return [
             "paymentMethodName" => $this->paymentMethodName,
-            'payoutData'        => [
-                'amount'   => $this->roundAmount($this->payoutAmount),
+            'payoutData' => [
+                'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency,
             ],
-            'wallet'       => [
-                'userId'   => $this->walletUserId,
+            'wallet' => [
+                'userId' => $this->walletUserId,
                 'login' => $this->walletLogin,
-                'fullname'    => $this->walletUserFullName,
+                'fullname' => $this->walletUserFullName,
             ],
-            'card'          => [
-                'bankId'    => $this->bankId,
-                'pan'           => $this->cardNumber,
-                'expiration'    => $this->cardExpiration
+            'cardData' => [
+                'bankId' => $this->bankId,
+                'pan' => $this->cardNumber,
+                'expiration' => $this->cardExpiration
             ],
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,

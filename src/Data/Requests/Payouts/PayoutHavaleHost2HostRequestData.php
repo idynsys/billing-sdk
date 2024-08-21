@@ -91,7 +91,7 @@ class PayoutHavaleHost2HostRequestData extends PayoutHost2HostRequestData
                 'login' => $this->walletLogin,
                 'fullname' => $this->walletUserFullName,
             ],
-            'card' => [
+            'cardData' => [
                 'id' => $this->cardId,
                 'bankId' => $this->bankId,
                 'ibanNumber' => $this->bankIbanNo,
