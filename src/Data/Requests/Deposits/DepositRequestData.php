@@ -4,15 +4,16 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
-use Idynsys\BillingSdk\Enums\TrafficType;
-use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 /**
  * Абстрактный класс DTO для всех запроса на создание транзакции депозита
  */
 abstract class DepositRequestData extends RequestData
 {
+    use TrafficTypeTrait;
+
     // Наименование платежного метода
     protected string $paymentMethodName;
 
@@ -40,24 +41,11 @@ abstract class DepositRequestData extends RequestData
     // URL для передачи результата создания транзакции в B2B backoffice
     protected string $callbackUrl;
 
-    protected string $trafficType;
-
     public function __construct(string $trafficType = '', ?ConfigContract $config = null)
     {
         parent::__construct($config);
 
-        $this->trafficType = $trafficType;
+        $this->setTrafficType($trafficType);
         $this->validateTrafficType();
-    }
-
-    protected function validateTrafficType()
-    {
-        if (
-            $this->trafficType !== '' &&
-            $this->trafficType !== TrafficType::FDT &&
-            $this->trafficType !== TrafficType::TRUSTED
-        ) {
-            throw new BillingSdkException('TrafficType must be empty string (""), "fdt" or "trusted".', 422);
-        }
     }
 }
