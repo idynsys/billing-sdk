@@ -30,6 +30,10 @@ class PayoutP2PRequestData extends PayoutRequestData
                 'expiration' => $this->cardExpiration,
                 'recipientInfo' => $this->cardRecipientInfo
             ],
+            'customerData' => [
+                'bankName' => $this->bankName,
+                'id' => $this->userId
+            ],
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,
             'merchantOrderDescription' => $this->merchantOrderDescription,

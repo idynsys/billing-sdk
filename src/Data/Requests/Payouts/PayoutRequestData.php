@@ -4,15 +4,18 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Traits\BankNameTrait;
+use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
-use Idynsys\BillingSdk\Enums\TrafficType;
-use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 /**
  * Абстрактный класс DTO для запроса на создание транзакции на вывод средств
  */
 abstract class PayoutRequestData extends RequestData
 {
+    use TrafficTypeTrait;
+    use BankNameTrait;
+
     // Наименование платежного метода
     protected string $paymentMethodName = RequestMethod::METHOD_GET;
 
@@ -46,7 +49,8 @@ abstract class PayoutRequestData extends RequestData
     // описание документа для создания депозита
     protected ?string $merchantOrderDescription;
 
-    protected string $trafficType;
+    // ID пользователя
+    protected string $userId;
 
     public function __construct(
         float $payoutAmount,
@@ -54,6 +58,8 @@ abstract class PayoutRequestData extends RequestData
         string $cardNumber,
         string $cardExpiration,
         string $cardRecipientInfo,
+        string $bankName,
+        string $userId,
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
@@ -67,22 +73,14 @@ abstract class PayoutRequestData extends RequestData
         $this->cardNumber = $cardNumber;
         $this->cardExpiration = $cardExpiration;
         $this->cardRecipientInfo = $cardRecipientInfo;
+        $this->userId = $userId;
         $this->callbackUrl = $callbackUrl;
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
-        $this->trafficType = $trafficType;
 
+        $this->setBankName($bankName);
+        $this->validateBankName();
+        $this->setTrafficType($trafficType);
         $this->validateTrafficType();
-    }
-
-    protected function validateTrafficType()
-    {
-        if (
-            $this->trafficType !== '' &&
-            $this->trafficType !== TrafficType::FDT &&
-            $this->trafficType !== TrafficType::TRUSTED
-        ) {
-            throw new BillingSdkException('TrafficType must be empty string (""), "fdt" or "trusted".', 422);
-        }
     }
 }

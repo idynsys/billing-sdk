@@ -91,7 +91,8 @@ use Idynsys\BillingSdk\Data\Requests\PaymentMethods\v2\PaymentMethodListRequestD
 $requestParameters = new PaymentMethodListRequestData(
     $amount,        // сумма, по которой вбираются доступные платежные методы
     $currency,      // валюта, по которой выбираются доступные платежные методы
-    $paymentType    // тип платежа, доступные значения - deposit, withdrawal
+    $paymentType,   // тип платежа, доступные значения - deposit, withdrawal
+    $trafficType    // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 /** @var PaymentMethodsCollection $result */
@@ -123,7 +124,8 @@ $paymentMethodName = \Idynsys\BillingSdk\Enums\PaymentMethod::P2P_NAME;
 $requestParams = new PaymentMethodCurrenciesRequestData(
     $paymentMethodName, // наименование платежного метода
     $amount,            // сумма, для которой ищется платежный метод
-    $paymentType        // тип платежа, доступные значения - deposit, withdrawal
+    $paymentType,       // тип платежа, доступные значения - deposit, withdrawal
+    $trafficType        // Тип трафика для выполнения транзакции в платёжной системе
 );
 
 /** @var PaymentMethodCurrenciesCollection $result */
@@ -629,6 +631,40 @@ I. Методы, позволяющие создать транзакцию дл
 | 13 | Host2Host               | Pep             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData [см.](#payout-h2h-pep)                        |
 | 14 | Host2Host               | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData [см.](#payout-h2h-smart-card)           |
 | 15 | Host2Host               | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSberPayHost2HostRequestData [см.](#payout-h2h-sber-pay)               |
+| 16 | Host2Host               | SBP             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSbpHost2HostRequestData [см.](#payout-h2h-sbp)                        |
+
+Некоторые транзакции для вывода средств имеют параметр BankName. Значения для этого параметра можно найти в enum-классе Idynsys\BillingSdk\Enums\BankName
+Список возможных значений для наименования банка-получателя:
+
+| Значение       | Наименование банка |
+|----------------|-------------------|
+| sberbank       | Сбербанк          |
+| alfabank       | Альфа-банк        |
+| raiffeisen     | Райфайзен-банк    |
+| vtb            | ВТБ               |
+| gazprombank    | Газпромбанк       |
+| tinkoff        | Тинькофф (Т-Банк) |
+| rshb           | РСХБ              |
+| openbank       | Банк Открытие     |
+| sovcombank     | Совкомбанк        |
+| rosbank        | Росбанк           |
+| postbank       | Почта-банк        |
+| ozonbank       | Озон-банк         |
+| yandexbank     | Яндекс-банк       |
+| tochkabank     | Точка банк        |
+| centrinvest    | ЦентрИнвестБанк   |
+| mkb            | МКБ               |
+| unicreditbank  | ЮникредитБанк     |
+| elitebank      | Элитбанк          |
+| avangard       | Банк Авангард     |
+| psb            | ПСБ               |
+| akbars         | Акбарс Банк       |
+| homecredit     | ХоумКредитБанк    |
+| rnkb           | РНКБ              |
+| otpbank        | ОТП Банк          |
+| mtsbank        | МТС Банк          |
+| rsb            | РСБ               |
+| uralsibbank    | Банк Уралсиб      |
 
 <a id="payout-h2h-p2p"></a>
 1. _Создание транзакции для вывода средств со счета через метод p2p Host2Host_
@@ -645,6 +681,8 @@ $requestParams = new PayoutP2PRequestData(
     $cardNumber,                // Номер банковской карты, на которую выводятся деньги
     $cardExpiration,            // Месяц и год окончания действия карты (как написано на карте)
     $cardRecipientInfo,         // Данные владельца карты (Имя Фамилия, как написано на карте)
+    $bankName,                  // Наименование банка-получателя. Доступные значения находятся в списке выше в этом разделе
+    $userId,                    // ID пользователя
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
@@ -695,6 +733,8 @@ $requestParams = new PayoutBankcardRequestData(
     $cardNumber,                // Номер банковской карты, на которую выводятся деньги
     $cardExpiration,            // Месяц и год окончания действия карты (как написано на карте)
     $cardRecipientInfo,         // Данные владельца карты (Имя Фамилия, как написано на карте)
+    $bankName,                  // Наименование банка-получателя. Доступные значения находятся в списке выше в этом разделе
+    $userId,                    // ID пользователя
     $callbackUrl                // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
@@ -1019,8 +1059,32 @@ $requestParams = new PayoutSberPayHost2HostRequestData(
     $userId,                    // ID пользователя
     $ipAddress,                 // IP адрес пользователя
     $userAgent,                 // сведения об устройстве, операционной системе, типе браузера и его версии и т.д.
-    $acceptLanguage,            // список языков, на которых пользовательский агент хочет использовать контент
-    $fingerprint,               // подпись данных запроса пользователя. см. https://github.com/fingerprintjs/fingerprintjs
+    $callbackUrl,               // URL для передачи результата создания транзакции
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
+);
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $result */
+$result = $billing->createPayoutHost2Host($requestParams);
+```
+<a id="payout-h2h-sbp"></a>
+16. _Создание транзакции для вывода средств со счета через метод SBP Host2Host_
+
+
+```php
+<?php
+
+use Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSbpHost2HostRequestData;
+use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
+
+// Создать DTO для запроса на создание транзакции для вывода средств
+$requestParams = new PayoutSbpHost2HostRequestData(
+    $amount,                    // сумма вывода
+    $currencyCode,              // валюта суммы вывода
+    $bankName,                  // Наименование банка-получателя. Доступные значения находятся в списке выше в этом разделе
+    $userId,                    // ID пользователя
     $callbackUrl,               // URL для передачи результата создания транзакции
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция

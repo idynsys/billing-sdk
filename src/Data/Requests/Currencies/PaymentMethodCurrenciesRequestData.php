@@ -4,6 +4,8 @@ namespace Idynsys\BillingSdk\Data\Requests\Currencies;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Traits\PaymentTypeTrait;
+use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Enums\RequestMethod;
@@ -14,6 +16,9 @@ use Idynsys\BillingSdk\Exceptions\BillingSdkException;
  */
 class PaymentMethodCurrenciesRequestData extends RequestData
 {
+    use TrafficTypeTrait;
+    use PaymentTypeTrait;
+
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
 
@@ -26,9 +31,6 @@ class PaymentMethodCurrenciesRequestData extends RequestData
     // сумма платежа
     public ?float $amount;
 
-    // тип платежа
-    public ?string $paymentType;
-
     /**
      * @throws BillingSdkException
      */
@@ -36,13 +38,15 @@ class PaymentMethodCurrenciesRequestData extends RequestData
         string $methodName,
         ?float $amount = null,
         ?string $paymentType = null,
+        string $trafficType = '',
         ?ConfigContract $config = null)
     {
         parent::__construct($config);
 
         $this->paymentMethodName = $methodName;
         $this->amount = $amount;
-        $this->paymentType = $paymentType;
+        $this->setPaymentType($paymentType);
+        $this->setTrafficType($trafficType);
 
         $this->validate();
     }
@@ -64,13 +68,8 @@ class PaymentMethodCurrenciesRequestData extends RequestData
             );
         }
 
-        if ($this->paymentType !== null && !in_array($this->paymentType, PaymentType::getValues())) {
-            throw new BillingSdkException(
-                'The Payment type ' . $this->paymentType . ' does not exist in '
-                . implode(', ', PaymentType::getNames()),
-                422
-            );
-        }
+        $this->validatePaymentType();
+        $this->validateTrafficType();
     }
 
     /**
@@ -80,7 +79,10 @@ class PaymentMethodCurrenciesRequestData extends RequestData
      */
     protected function getRequestData(): array
     {
-        $data = ['paymentMethod' => $this->paymentMethodName];
+        $data = [
+            'paymentMethod' => $this->paymentMethodName,
+            'trafficType' => $this->trafficType
+        ];
 
         if ($this->amount !== null) {
             $data['amount'] = $this->amount;

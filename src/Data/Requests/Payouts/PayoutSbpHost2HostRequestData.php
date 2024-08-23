@@ -3,49 +3,45 @@
 namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
+use Idynsys\BillingSdk\Data\Traits\BankNameTrait;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
-class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
+class PayoutSbpHost2HostRequestData extends PayoutHost2HostRequestData
 {
-    // Параметр наименование платежного метода
-    protected string $paymentMethodName = PaymentMethod::SBER_PAY_NAME;
+    use BankNameTrait;
 
-    // Номер банковской карты пользователя
-    private string $cardNumber;
+    protected string $paymentMethodName = PaymentMethod::SBP_NAME;
 
-    // IP адрес пользователя
-    private string $userIpAddress;
+    // Телефонный номер получателя
+    private string $phoneNumber;
 
-    // User-Agent пользователя
-    private string $userAgent;
-
-    // ID пользователя
+    // ID пользователя, выполняющего перевод
     private string $userId;
 
     public function __construct(
         float $payoutAmount,
         string $currencyCode,
-        string $cardNumber,
+        string $bankName,
+        string $phoneNumber,
         string $userId,
-        string $userIpAddress,
-        string $userAgent,
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = '',
+        string $trafficType,
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);
 
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $currencyCode;
-        $this->cardNumber = $cardNumber;
+        $this->phoneNumber = $phoneNumber;
         $this->userId = $userId;
-        $this->userIpAddress = $userIpAddress;
-        $this->userAgent = $userAgent;
         $this->callbackUrl = $callbackUrl;
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
+
+        $this->setBankName($bankName);
+        $this->validateBankName();
     }
 
     /**
@@ -61,13 +57,10 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
                 'amount' => $this->roundAmount($this->payoutAmount),
                 'currency' => $this->payoutCurrency,
             ],
-            'cardData' => [
-                'pan' => $this->cardNumber,
-            ],
+            'recipient' => $this->phoneNumber,
             'customerData' => [
-                'id' => $this->userId,
-                'ipAddress' => $this->userIpAddress,
-                'userAgent' => $this->userAgent
+                'bankName' => $this->bankName,
+                'id' => $this->userId
             ],
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,
