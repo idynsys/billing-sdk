@@ -25,6 +25,10 @@ class DepositHavaleHostToClientRequestData extends DepositRequestData
         string $walletUserId,
         string $walletLogin,
         string $walletUserFullName,
+        string $userIpAddress,
+        string $userAgent,
+        string $acceptLanguage,
+        string $fingerprint,
         string $callbackUrl,
         ?string $redirectSuccessUrl = null,
         ?string $merchantOrderId = null,
@@ -43,6 +47,10 @@ class DepositHavaleHostToClientRequestData extends DepositRequestData
         $this->merchantOrderDescription = $merchantOrderDescription;
         $this->callbackUrl = $callbackUrl;
         $this->redirectSuccessUrl = $redirectSuccessUrl;
+        $this->userIpAddress = $userIpAddress;
+        $this->userAgent  = $userAgent;
+        $this->acceptLanguage = $acceptLanguage;
+        $this->fingerprint = $fingerprint;
     }
 
     /**
@@ -58,6 +66,12 @@ class DepositHavaleHostToClientRequestData extends DepositRequestData
                 'amount' => $this->roundAmount($this->paymentAmount),
                 'currency' => $this->paymentCurrencyCode
             ],
+            'customer_data' => [
+                'ipAddress' => $this->userIpAddress,
+                'acceptLanguage' => $this->acceptLanguage,
+                'userAgent' => $this->userAgent,
+                'fingerprint' => $this->fingerprint,
+            ],
             'wallet' => [
                 'userId' => $this->walletUserId,
                 'login' => $this->walletLogin,
@@ -68,8 +82,7 @@ class DepositHavaleHostToClientRequestData extends DepositRequestData
                 'description' => $this->merchantOrderDescription
             ],
             'callback_url' => $this->callbackUrl,
-            'redirect_success_url' => $this->redirectSuccessUrl,
-            'traffic_type' => $this->trafficType
-        ];
+            'redirect_success_url' => $this->redirectSuccessUrl
+        ] + $this->addTrafficTypeToRequestData();
     }
 }

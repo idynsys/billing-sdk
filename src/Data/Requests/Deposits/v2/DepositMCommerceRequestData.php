@@ -29,6 +29,10 @@ class DepositMCommerceRequestData extends DepositRequestData
         float $paymentAmount,
         string $paymentCurrencyCode,
         string $phoneNumber,
+        string $userIpAddress,
+        string $userAgent,
+        string $acceptLanguage,
+        string $fingerprint,
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
@@ -42,6 +46,10 @@ class DepositMCommerceRequestData extends DepositRequestData
         $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->callbackUrl = $callbackUrl;
         $this->trafficType = $trafficType;
+        $this->userIpAddress = $userIpAddress;
+        $this->userAgent  = $userAgent;
+        $this->acceptLanguage = $acceptLanguage;
+        $this->fingerprint = $fingerprint;
 
         parent::__construct($trafficType, $config);
     }
@@ -61,13 +69,16 @@ class DepositMCommerceRequestData extends DepositRequestData
             ],
             'customer_data' => [
                 'phoneNumber' => $this->phoneNumber,
+                'ipAddress' => $this->userIpAddress,
+                'acceptLanguage' => $this->acceptLanguage,
+                'userAgent' => $this->userAgent,
+                'fingerprint' => $this->fingerprint,
             ],
             'payment_data' => [
                 'amount' => $this->roundAmount($this->paymentAmount),
                 'currency' => $this->paymentCurrencyCode
             ],
-            'callback_url' => $this->callbackUrl,
-            'traffic_type' => $this->trafficType
-        ];
+            'callback_url' => $this->callbackUrl
+        ] + $this->addTrafficTypeToRequestData();
     }
 }

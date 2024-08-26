@@ -27,6 +27,10 @@ class DepositP2PRequestData extends DepositRequestData
         string $paymentCurrencyCode,
         string $callbackUrl,
         string $customerEmail,
+        string $userIpAddress,
+        string $userAgent,
+        string $acceptLanguage,
+        string $fingerprint,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
         string $trafficType = '',
@@ -40,6 +44,10 @@ class DepositP2PRequestData extends DepositRequestData
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->callbackUrl = $callbackUrl;
+        $this->userIpAddress = $userIpAddress;
+        $this->userAgent = $userAgent;
+        $this->acceptLanguage = $acceptLanguage;
+        $this->fingerprint = $fingerprint;
     }
 
     /**
@@ -55,13 +63,18 @@ class DepositP2PRequestData extends DepositRequestData
                 'id' => $this->merchantOrderId,
                 'description' => $this->merchantOrderDescription
             ],
-            'customer_data' => ['email' => $this->customerEmail],
+            'customer_data' => [
+                'email' => $this->customerEmail,
+                'ipAddress' => $this->userIpAddress,
+                'acceptLanguage' => $this->acceptLanguage,
+                'userAgent' => $this->userAgent,
+                'fingerprint' => $this->fingerprint,
+            ],
             'payment_data' => [
                 'amount' => $this->roundAmount($this->paymentAmount),
                 'currency' => $this->paymentCurrencyCode
             ],
-            'callback_url' => $this->callbackUrl,
-            'traffic_type' => $this->trafficType
-        ];
+            'callback_url' => $this->callbackUrl
+        ] + $this->addTrafficTypeToRequestData();
     }
 }

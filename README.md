@@ -183,6 +183,10 @@ $requestParams = new DepositP2PRequestData(
     $currencyCode,              // валюта суммы пополнения
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $customerEmail,             // email пользователя, совершающего операцию
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
     $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
@@ -203,6 +207,10 @@ $requestParams = new DepositP2PHost2ClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
     $customerId,                // ID пользователя, совершающего операцию
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
@@ -226,6 +234,10 @@ $requestParams = new DepositBankcardRequestData(
     $currencyCode,              // валюта суммы пополнения
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $customerEmail,             // email пользователя, совершающего операцию
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
     $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
@@ -250,6 +262,10 @@ $requestParams = new DepositMCommerceRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
     $phoneNumber,               // телефон для получения кода подтверждения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
@@ -279,13 +295,17 @@ $confirmedResult = $billing->confirmMCommerceDeposit($requestParams);
 
 ```php
 <?php
-use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPay2PHostClientRequestData;
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPayHost2ClientRequestData;
 
 // Создать DTO для запроса на создание транзакции для пополнения счета
-$requestParams = new DepositSberPay2PHostClientRequestData(
+$requestParams = new DepositSberPayHost2ClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
     $customerId,                // ID пользователя, совершающего операцию
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
@@ -308,6 +328,10 @@ $requestParams = new DepositSbpHost2ClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
     $customerId,                // ID пользователя, совершающего операцию
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
@@ -332,6 +356,10 @@ $requestParams = new DepositHavaleHostToClientRequestData(
     $walletUserId,              // ID пользователя кошелька
     $walletLogin,               // Логин пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $callbackUrl,               // URL для передачи результата создания транзакции
     $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
@@ -354,6 +382,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHayHayHostToCli
 $requestParams = new DepositHayHayHostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletLogin,               // Логин пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
@@ -378,6 +410,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHostEManat2Clie
 $requestParams = new DepositHostEManat2ClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletLogin,               // Логин пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
@@ -402,6 +438,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositInCardP2PHostTo
 $requestParams = new DepositInCardP2PHostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletUserId,              // ID пользователя кошелька
     $walletLogin,               // Логин пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
@@ -427,6 +467,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositM10HostToClient
 $requestParams = new DepositM10HostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletUserId,              // ID пользователя кошелька
     $walletLogin,               // Логин пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
@@ -452,6 +496,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPaparaHostToCli
 $requestParams = new DepositPaparaHostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletUserId,              // ID пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
@@ -476,6 +524,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayCoHostToClie
 $requestParams = new DepositPayCoHostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletUserId,              // ID пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
@@ -500,6 +552,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToCli
 $requestParams = new DepositPayfixHostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletUserId,              // ID пользователя кошелька
     $walletLogin,               // Логин пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
@@ -524,6 +580,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClient
 $requestParams = new DepositPepHostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletUserId,              // ID пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
@@ -548,6 +608,10 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostTo
 $requestParams = new DepositSmartCardHostToClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     $walletLogin,               // Логин пользователя кошелька
     $walletUserFullName,        // ФИО пользователя кошелька
     $callbackUrl,               // URL для передачи результата создания транзакции
