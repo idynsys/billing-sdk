@@ -37,6 +37,6 @@ class PayoutP2PRequestData extends PayoutRequestData
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,
             'merchantOrderDescription' => $this->merchantOrderDescription,
-        ] + $this->addTrafficTypeToRequestData(false);
+        ] + $this->addTrafficTypeToRequestData();
     }
 }
