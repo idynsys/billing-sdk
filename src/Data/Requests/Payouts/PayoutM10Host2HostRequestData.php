@@ -69,8 +69,7 @@ class PayoutM10Host2HostRequestData extends PayoutHost2HostRequestData
             ],
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,
-            'merchantOrderDescription' => $this->merchantOrderDescription,
-            'trafficType' => $this->trafficType,
-        ];
+            'merchantOrderDescription' => $this->merchantOrderDescription
+        ] + $this->addTrafficTypeToRequestData();
     }
 }

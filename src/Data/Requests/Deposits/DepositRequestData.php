@@ -41,6 +41,18 @@ abstract class DepositRequestData extends RequestData
     // URL для передачи результата создания транзакции в B2B backoffice
     protected string $callbackUrl;
 
+    // IP адрес пользователя, выполняющего оформление депозита
+    protected string $userIpAddress;
+
+    // UserAgent от пользователя
+    protected string $userAgent;
+
+    // Accept-Language пользователя
+    protected string $acceptLanguage;
+
+    // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
+    protected string $fingerprint;
+
     public function __construct(string $trafficType = '', ?ConfigContract $config = null)
     {
         parent::__construct($config);

@@ -24,8 +24,7 @@ class PayoutP2PHost2ClientRequestData extends PayoutHost2ClientRequestData
             'recipient' => $this->recipient,
             'callbackUrl' => $this->callbackUrl,
             'merchantOrderId' => $this->merchantOrderId,
-            'merchantOrderDescription' => $this->merchantOrderDescription,
-            'traffic_type' => $this->trafficType
-        ];
+            'merchantOrderDescription' => $this->merchantOrderDescription
+        ] + $this->addTrafficTypeToRequestData();
     }
 }

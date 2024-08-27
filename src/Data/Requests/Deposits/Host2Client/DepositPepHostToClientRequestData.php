@@ -20,6 +20,10 @@ class DepositPepHostToClientRequestData extends DepositRequestData
     public function __construct(
         float $paymentAmount,
         string $paymentCurrencyCode,
+        string $userIpAddress,
+        string $userAgent,
+        string $acceptLanguage,
+        string $fingerprint,
         string $walletUserId,
         string $walletUserFullName,
         string $callbackUrl,
@@ -33,6 +37,10 @@ class DepositPepHostToClientRequestData extends DepositRequestData
 
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
+        $this->userIpAddress = $userIpAddress;
+        $this->userAgent  = $userAgent;
+        $this->acceptLanguage = $acceptLanguage;
+        $this->fingerprint = $fingerprint;
         $this->walletUserId = $walletUserId;
         $this->walletUserFullName = $walletUserFullName;
         $this->merchantOrderId = $merchantOrderId;
@@ -54,6 +62,12 @@ class DepositPepHostToClientRequestData extends DepositRequestData
                 'amount' => $this->roundAmount($this->paymentAmount),
                 'currency' => $this->paymentCurrencyCode
             ],
+            'customer_data' => [
+                'ipAddress' => $this->userIpAddress,
+                'acceptLanguage' => $this->acceptLanguage,
+                'userAgent' => $this->userAgent,
+                'fingerprint' => $this->fingerprint,
+            ],
             'wallet' => [
                 'userId' => $this->walletUserId,
                 'fullname' => $this->walletUserFullName,
@@ -63,8 +77,7 @@ class DepositPepHostToClientRequestData extends DepositRequestData
                 'description' => $this->merchantOrderDescription
             ],
             'callback_url' => $this->callbackUrl,
-            'redirect_success_url' => $this->redirectSuccessUrl,
-            'traffic_type' => $this->trafficType
-        ];
+            'redirect_success_url' => $this->redirectSuccessUrl
+        ] + $this->addTrafficTypeToRequestData();
     }
 }

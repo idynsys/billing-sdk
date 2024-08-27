@@ -25,4 +25,9 @@ trait TrafficTypeTrait
             throw new BillingSdkException('TrafficType must be empty string (""), "fdt" or "trusted".', 422);
         }
     }
+
+    protected function addTrafficTypeToRequestData(): array
+    {
+        return (empty($this->trafficType)) ? [] : ['trafficType' => $this->trafficType];
+    }
 }

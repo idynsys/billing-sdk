@@ -22,6 +22,10 @@ class DepositInCardP2PHostToClientRequestData extends DepositRequestData
     public function __construct(
         float $paymentAmount,
         string $paymentCurrencyCode,
+        string $userIpAddress,
+        string $userAgent,
+        string $acceptLanguage,
+        string $fingerprint,
         string $walletUserId,
         string $walletLogin,
         string $walletUserFullName,
@@ -36,6 +40,10 @@ class DepositInCardP2PHostToClientRequestData extends DepositRequestData
 
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
+        $this->userIpAddress = $userIpAddress;
+        $this->userAgent  = $userAgent;
+        $this->acceptLanguage = $acceptLanguage;
+        $this->fingerprint = $fingerprint;
         $this->walletUserId = $walletUserId;
         $this->walletLogin = $walletLogin;
         $this->walletUserFullName = $walletUserFullName;
@@ -58,6 +66,12 @@ class DepositInCardP2PHostToClientRequestData extends DepositRequestData
                 'amount' => $this->roundAmount($this->paymentAmount),
                 'currency' => $this->paymentCurrencyCode
             ],
+            'customer_data' => [
+                'ipAddress' => $this->userIpAddress,
+                'acceptLanguage' => $this->acceptLanguage,
+                'userAgent' => $this->userAgent,
+                'fingerprint' => $this->fingerprint,
+            ],
             'wallet' => [
                 'userId' => $this->walletUserId,
                 'login' => $this->walletLogin,
@@ -68,8 +82,7 @@ class DepositInCardP2PHostToClientRequestData extends DepositRequestData
                 'description' => $this->merchantOrderDescription
             ],
             'callback_url' => $this->callbackUrl,
-            'redirect_success_url' => $this->redirectSuccessUrl,
-            'traffic_type' => $this->trafficType
-        ];
+            'redirect_success_url' => $this->redirectSuccessUrl
+        ] + $this->addTrafficTypeToRequestData();
     }
 }
