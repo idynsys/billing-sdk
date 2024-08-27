@@ -2,6 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
+use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
@@ -20,23 +21,24 @@ class PayoutP2PRequestData extends PayoutRequestData
     protected function getRequestData(): array
     {
         return [
-            "paymentMethodName" => $this->paymentMethodName,
-            'payoutData' => [
-                'amount' => $this->roundAmount($this->payoutAmount),
-                'currency' => $this->payoutCurrency
-            ],
-            'cardData' => [
-                'pan' => $this->cardNumber,
-                'expiration' => $this->cardExpiration,
-                'recipientInfo' => $this->cardRecipientInfo
-            ],
-            'customerData' => [
-                'bankName' => $this->bankName,
-                'id' => $this->userId
-            ],
-            'callbackUrl' => $this->callbackUrl,
-            'merchantOrderId' => $this->merchantOrderId,
-            'merchantOrderDescription' => $this->merchantOrderDescription,
-        ] + $this->addTrafficTypeToRequestData();
+                "paymentMethodName" => $this->paymentMethodName,
+                'communicationType' => CommunicationType::HOST_2_HOST,
+                'payoutData' => [
+                    'amount' => $this->roundAmount($this->payoutAmount),
+                    'currency' => $this->payoutCurrency
+                ],
+                'cardData' => [
+                    'pan' => $this->cardNumber,
+                    'expiration' => $this->cardExpiration,
+                    'recipientInfo' => $this->cardRecipientInfo
+                ],
+                'customerData' => [
+                    'bankName' => $this->bankName,
+                    'id' => $this->userId
+                ],
+                'callbackUrl' => $this->callbackUrl,
+                'merchantOrderId' => $this->merchantOrderId,
+                'merchantOrderDescription' => $this->merchantOrderDescription,
+            ] + $this->addTrafficTypeToRequestData();
     }
 }

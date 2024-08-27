@@ -4,6 +4,7 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Traits\BankNameTrait;
+use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 class PayoutSbpHost2HostRequestData extends PayoutHost2HostRequestData
@@ -52,19 +53,20 @@ class PayoutSbpHost2HostRequestData extends PayoutHost2HostRequestData
     protected function getRequestData(): array
     {
         return [
-            "paymentMethodName" => $this->paymentMethodName,
-            'payoutData' => [
-                'amount' => $this->roundAmount($this->payoutAmount),
-                'currency' => $this->payoutCurrency,
-            ],
-            'recipient' => $this->phoneNumber,
-            'customerData' => [
-                'bankName' => $this->bankName,
-                'id' => $this->userId
-            ],
-            'callbackUrl' => $this->callbackUrl,
-            'merchantOrderId' => $this->merchantOrderId,
-            'merchantOrderDescription' => $this->merchantOrderDescription
-        ] + $this->addTrafficTypeToRequestData();
+                "paymentMethodName" => $this->paymentMethodName,
+                'communicationType' => CommunicationType::HOST_2_HOST,
+                'payoutData' => [
+                    'amount' => $this->roundAmount($this->payoutAmount),
+                    'currency' => $this->payoutCurrency,
+                ],
+                'recipient' => $this->phoneNumber,
+                'customerData' => [
+                    'bankName' => $this->bankName,
+                    'id' => $this->userId
+                ],
+                'callbackUrl' => $this->callbackUrl,
+                'merchantOrderId' => $this->merchantOrderId,
+                'merchantOrderDescription' => $this->merchantOrderDescription
+            ] + $this->addTrafficTypeToRequestData();
     }
 }

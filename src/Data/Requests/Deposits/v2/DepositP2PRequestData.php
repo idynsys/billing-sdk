@@ -4,6 +4,7 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits\v2;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
+use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
@@ -58,23 +59,24 @@ class DepositP2PRequestData extends DepositRequestData
     protected function getRequestData(): array
     {
         return [
-            'payment_method_name' => $this->paymentMethodName,
-            'merchant_order' => [
-                'id' => $this->merchantOrderId,
-                'description' => $this->merchantOrderDescription
-            ],
-            'customer_data' => [
-                'email' => $this->customerEmail,
-                'ipAddress' => $this->userIpAddress,
-                'acceptLanguage' => $this->acceptLanguage,
-                'userAgent' => $this->userAgent,
-                'fingerprint' => $this->fingerprint,
-            ],
-            'payment_data' => [
-                'amount' => $this->roundAmount($this->paymentAmount),
-                'currency' => $this->paymentCurrencyCode
-            ],
-            'callback_url' => $this->callbackUrl
-        ] + $this->addTrafficTypeToRequestData();
+                'payment_method_name' => $this->paymentMethodName,
+                'communicationType' => CommunicationType::HOST_2_HOST,
+                'merchant_order' => [
+                    'id' => $this->merchantOrderId,
+                    'description' => $this->merchantOrderDescription
+                ],
+                'customer_data' => [
+                    'email' => $this->customerEmail,
+                    'ipAddress' => $this->userIpAddress,
+                    'acceptLanguage' => $this->acceptLanguage,
+                    'userAgent' => $this->userAgent,
+                    'fingerprint' => $this->fingerprint,
+                ],
+                'payment_data' => [
+                    'amount' => $this->roundAmount($this->paymentAmount),
+                    'currency' => $this->paymentCurrencyCode
+                ],
+                'callback_url' => $this->callbackUrl
+            ] + $this->addTrafficTypeToRequestData();
     }
 }

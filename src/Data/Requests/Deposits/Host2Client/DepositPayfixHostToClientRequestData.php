@@ -4,6 +4,7 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
+use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 class DepositPayfixHostToClientRequestData extends DepositRequestData
@@ -38,7 +39,7 @@ class DepositPayfixHostToClientRequestData extends DepositRequestData
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->userIpAddress = $userIpAddress;
-        $this->userAgent  = $userAgent;
+        $this->userAgent = $userAgent;
         $this->acceptLanguage = $acceptLanguage;
         $this->fingerprint = $fingerprint;
         $this->walletUserId = $walletUserId;
@@ -57,27 +58,28 @@ class DepositPayfixHostToClientRequestData extends DepositRequestData
     protected function getRequestData(): array
     {
         return [
-            'payment_method_name' => $this->paymentMethodName,
-            'payment_data' => [
-                'amount' => $this->roundAmount($this->paymentAmount),
-                'currency' => $this->paymentCurrencyCode
-            ],
-            'customer_data' => [
-                'ipAddress' => $this->userIpAddress,
-                'acceptLanguage' => $this->acceptLanguage,
-                'userAgent' => $this->userAgent,
-                'fingerprint' => $this->fingerprint,
-            ],
-            'wallet' => [
-                'userId' => $this->walletUserId,
-                'login' => $this->walletLogin,
-            ],
-            'merchant_order' => [
-                'id' => $this->merchantOrderId,
-                'description' => $this->merchantOrderDescription
-            ],
-            'callback_url' => $this->callbackUrl,
-            'redirect_success_url' => $this->redirectSuccessUrl
-        ] + $this->addTrafficTypeToRequestData();
+                'payment_method_name' => $this->paymentMethodName,
+                'communicationType' => CommunicationType::HOST_2_CLIENT,
+                'payment_data' => [
+                    'amount' => $this->roundAmount($this->paymentAmount),
+                    'currency' => $this->paymentCurrencyCode
+                ],
+                'customer_data' => [
+                    'ipAddress' => $this->userIpAddress,
+                    'acceptLanguage' => $this->acceptLanguage,
+                    'userAgent' => $this->userAgent,
+                    'fingerprint' => $this->fingerprint,
+                ],
+                'wallet' => [
+                    'userId' => $this->walletUserId,
+                    'login' => $this->walletLogin,
+                ],
+                'merchant_order' => [
+                    'id' => $this->merchantOrderId,
+                    'description' => $this->merchantOrderDescription
+                ],
+                'callback_url' => $this->callbackUrl,
+                'redirect_success_url' => $this->redirectSuccessUrl
+            ] + $this->addTrafficTypeToRequestData();
     }
 }
