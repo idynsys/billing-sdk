@@ -3,6 +3,7 @@
 namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
+use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 class PayoutPepHost2HostRequestData extends PayoutHost2HostRequestData
@@ -60,23 +61,24 @@ class PayoutPepHost2HostRequestData extends PayoutHost2HostRequestData
     protected function getRequestData(): array
     {
         return [
-            "paymentMethodName" => $this->paymentMethodName,
-            'payoutData' => [
-                'amount' => $this->roundAmount($this->payoutAmount),
-                'currency' => $this->payoutCurrency,
-            ],
-            'cardData' => [
-                'id' => $this->cardId,
-                'bankId' => $this->bankId
-            ],
-            'wallet' => [
-                'pan' => $this->walletAccountNumber,
-                'userId' => $this->walletUserId,
-                'fullname' => $this->walletUserFullName,
-            ],
-            'callbackUrl' => $this->callbackUrl,
-            'merchantOrderId' => $this->merchantOrderId,
-            'merchantOrderDescription' => $this->merchantOrderDescription
-        ] + $this->addTrafficTypeToRequestData();
+                "paymentMethodName" => $this->paymentMethodName,
+                'communicationType' => CommunicationType::HOST_2_HOST,
+                'payoutData' => [
+                    'amount' => $this->roundAmount($this->payoutAmount),
+                    'currency' => $this->payoutCurrency,
+                ],
+                'cardData' => [
+                    'id' => $this->cardId,
+                    'bankId' => $this->bankId
+                ],
+                'wallet' => [
+                    'pan' => $this->walletAccountNumber,
+                    'userId' => $this->walletUserId,
+                    'fullname' => $this->walletUserFullName,
+                ],
+                'callbackUrl' => $this->callbackUrl,
+                'merchantOrderId' => $this->merchantOrderId,
+                'merchantOrderDescription' => $this->merchantOrderDescription
+            ] + $this->addTrafficTypeToRequestData();
     }
 }
