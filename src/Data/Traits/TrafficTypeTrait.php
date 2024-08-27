@@ -26,8 +26,10 @@ trait TrafficTypeTrait
         }
     }
 
-    protected function addTrafficTypeToRequestData()
+    protected function addTrafficTypeToRequestData(bool $nameAsSnake = true): array
     {
-        return (empty($this->trafficType)) ? [] : ['traffic_type' => $this->trafficType];
+        return (empty($this->trafficType))
+            ? []
+            : [($nameAsSnake ? 'traffic_type' : 'trafficType') => $this->trafficType];
     }
 }
