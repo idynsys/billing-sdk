@@ -38,7 +38,7 @@ class DepositMCommerceRequestData extends DepositRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = TrafficType::FDT,
+        string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {
         $this->merchantOrderId = $merchantOrderId;

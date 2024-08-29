@@ -35,7 +35,7 @@ class DepositP2PRequestData extends DepositRequestData
         string $fingerprint,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = TrafficType::FDT,
+        string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);

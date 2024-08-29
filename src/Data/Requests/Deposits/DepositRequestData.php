@@ -54,7 +54,7 @@ abstract class DepositRequestData extends RequestData
     // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     protected string $fingerprint;
 
-    public function __construct(string $trafficType = TrafficType::FDT, ?ConfigContract $config = null)
+    public function __construct(string $trafficType = TrafficType::FTD, ?ConfigContract $config = null)
     {
         parent::__construct($config);
 

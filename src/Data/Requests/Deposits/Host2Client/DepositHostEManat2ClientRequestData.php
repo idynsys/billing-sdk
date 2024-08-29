@@ -32,7 +32,7 @@ class DepositHostEManat2ClientRequestData extends DepositRequestData
         ?string $redirectSuccessUrl = null,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = TrafficType::FDT,
+        string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);

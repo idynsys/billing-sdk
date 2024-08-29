@@ -17,8 +17,8 @@ trait TrafficTypeTrait
 
     protected function validateTrafficType()
     {
-        if ($this->trafficType !== TrafficType::FDT && $this->trafficType !== TrafficType::TRUSTED) {
-            throw new BillingSdkException('TrafficType must be "fdt" or "trusted".', 422);
+        if ($this->trafficType !== TrafficType::FTD && $this->trafficType !== TrafficType::TRUSTED) {
+            throw new BillingSdkException('TrafficType must be "ftd" or "trusted".', 422);
         }
     }
 
