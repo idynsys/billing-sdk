@@ -8,6 +8,7 @@ use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Data\Traits\PaymentTypeTrait;
 use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 final class PaymentMethodListRequestData extends RequestData implements PaymentMethodListRequestDataContract
 {
@@ -30,7 +31,7 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
         ?float $paymentAmount = null,
         ?string $paymentCurrencyCode = null,
         ?string $paymentType = null,
-        string $trafficType = '',
+        string $trafficType = TrafficType::FDT,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);

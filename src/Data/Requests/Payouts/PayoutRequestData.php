@@ -7,6 +7,7 @@ use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Data\Traits\BankNameTrait;
 use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 /**
  * Абстрактный класс DTO для запроса на создание транзакции на вывод средств
@@ -63,7 +64,7 @@ abstract class PayoutRequestData extends RequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = '',
+        string $trafficType = TrafficType::FDT,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);

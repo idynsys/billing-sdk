@@ -6,6 +6,7 @@ use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 /**
  * Абстрактный класс DTO для всех запроса на создание транзакции депозита
@@ -53,7 +54,7 @@ abstract class DepositRequestData extends RequestData
     // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
     protected string $fingerprint;
 
-    public function __construct(string $trafficType = '', ?ConfigContract $config = null)
+    public function __construct(string $trafficType = TrafficType::FDT, ?ConfigContract $config = null)
     {
         parent::__construct($config);
 

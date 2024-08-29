@@ -46,7 +46,7 @@ abstract class PayoutHost2ClientRequestData extends RequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = ''
+        string $trafficType = TrafficType::FDT
     ) {
         parent::__construct();
 
