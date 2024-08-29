@@ -6,6 +6,7 @@ use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 /**
  * DTO запроса для создания депозита через платежный метод MCommerce
@@ -37,7 +38,7 @@ class DepositMCommerceRequestData extends DepositRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = '',
+        string $trafficType = TrafficType::FDT,
         ?ConfigContract $config = null
     ) {
         $this->merchantOrderId = $merchantOrderId;

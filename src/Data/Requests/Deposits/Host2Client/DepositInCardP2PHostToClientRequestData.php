@@ -6,6 +6,7 @@ use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 class DepositInCardP2PHostToClientRequestData extends DepositRequestData
 {
@@ -34,7 +35,7 @@ class DepositInCardP2PHostToClientRequestData extends DepositRequestData
         ?string $redirectSuccessUrl = null,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = '',
+        string $trafficType = TrafficType::FDT,
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);

@@ -6,6 +6,7 @@ use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
 use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 /**
  * DTO запроса для создания депозита Host2Client через платежный метод P2P
@@ -35,7 +36,7 @@ class DepositP2PHost2ClientRequestData extends DepositRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = '',
+        string $trafficType = TrafficType::FDT,
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);

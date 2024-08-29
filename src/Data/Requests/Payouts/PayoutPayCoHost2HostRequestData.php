@@ -5,6 +5,7 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 class PayoutPayCoHost2HostRequestData extends PayoutHost2HostRequestData
 {
@@ -29,7 +30,7 @@ class PayoutPayCoHost2HostRequestData extends PayoutHost2HostRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = '',
+        string $trafficType = TrafficType::FDT,
         ?ConfigContract $config = null
     ) {
         parent::__construct($trafficType, $config);
