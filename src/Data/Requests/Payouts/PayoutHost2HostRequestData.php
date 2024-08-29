@@ -4,13 +4,10 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
-use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 abstract class PayoutHost2HostRequestData extends RequestData
 {
-    use TrafficTypeTrait;
-
     // Наименование платежного метода
     protected string $paymentMethodName = 'n/a';
 
@@ -36,13 +33,8 @@ abstract class PayoutHost2HostRequestData extends RequestData
     protected ?string $merchantOrderDescription;
 
     public function __construct(
-        string $trafficType,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);
-
-        $this->setTrafficType($trafficType);
-
-        $this->validateTrafficType();
     }
 }

@@ -28,10 +28,9 @@ class PayoutSbpHost2HostRequestData extends PayoutHost2HostRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType,
         ?ConfigContract $config = null
     ) {
-        parent::__construct($trafficType, $config);
+        parent::__construct($config);
 
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $currencyCode;
@@ -53,20 +52,20 @@ class PayoutSbpHost2HostRequestData extends PayoutHost2HostRequestData
     protected function getRequestData(): array
     {
         return [
-                "paymentMethodName" => $this->paymentMethodName,
-                'communicationType' => CommunicationType::HOST_2_HOST,
-                'payoutData' => [
-                    'amount' => $this->roundAmount($this->payoutAmount),
-                    'currency' => $this->payoutCurrency,
-                ],
-                'recipient' => $this->phoneNumber,
-                'customerData' => [
-                    'bankName' => $this->bankName,
-                    'id' => $this->userId
-                ],
-                'callbackUrl' => $this->callbackUrl,
-                'merchantOrderId' => $this->merchantOrderId,
-                'merchantOrderDescription' => $this->merchantOrderDescription
-            ] + $this->addTrafficTypeToRequestData();
+            "paymentMethodName" => $this->paymentMethodName,
+            'communicationType' => CommunicationType::HOST_2_HOST,
+            'payoutData' => [
+                'amount' => $this->roundAmount($this->payoutAmount),
+                'currency' => $this->payoutCurrency,
+            ],
+            'recipient' => $this->phoneNumber,
+            'customerData' => [
+                'bankName' => $this->bankName,
+                'id' => $this->userId
+            ],
+            'callbackUrl' => $this->callbackUrl,
+            'merchantOrderId' => $this->merchantOrderId,
+            'merchantOrderDescription' => $this->merchantOrderDescription
+        ];
     }
 }
