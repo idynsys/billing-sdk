@@ -3,15 +3,10 @@
 namespace Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client;
 
 use Idynsys\BillingSdk\Data\Requests\RequestData;
-use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
-use Idynsys\BillingSdk\Enums\TrafficType;
-use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 abstract class PayoutHost2ClientRequestData extends RequestData
 {
-    use TrafficTypeTrait;
-
     // Наименование платежного метода
     protected string $paymentMethodName;
 
@@ -45,8 +40,7 @@ abstract class PayoutHost2ClientRequestData extends RequestData
         string $recipient,
         string $callbackUrl,
         ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
-        string $trafficType = TrafficType::FDT
+        ?string $merchantOrderDescription = null
     ) {
         parent::__construct();
 
@@ -56,8 +50,5 @@ abstract class PayoutHost2ClientRequestData extends RequestData
         $this->callbackUrl = $callbackUrl;
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
-        $this->setTrafficType($trafficType);
-
-        $this->validateTrafficType();
     }
 }

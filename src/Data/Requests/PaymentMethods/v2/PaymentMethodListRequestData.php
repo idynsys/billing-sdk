@@ -31,7 +31,7 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
         ?float $paymentAmount = null,
         ?string $paymentCurrencyCode = null,
         ?string $paymentType = null,
-        string $trafficType = TrafficType::FDT,
+        ?string $trafficType = null,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);
@@ -42,7 +42,10 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
         $this->setTrafficType($trafficType);
 
         $this->validatePaymentType();
-        $this->validateTrafficType();
+
+        if ($this->trafficType !== null) {
+            $this->validateTrafficType();
+        }
     }
 
     public function getRequestData(): array

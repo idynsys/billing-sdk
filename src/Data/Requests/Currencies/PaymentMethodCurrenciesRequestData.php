@@ -7,9 +7,7 @@ use Idynsys\BillingSdk\Data\Requests\RequestData;
 use Idynsys\BillingSdk\Data\Traits\PaymentTypeTrait;
 use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
-use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Enums\RequestMethod;
-use Idynsys\BillingSdk\Enums\TrafficType;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 /**
@@ -39,9 +37,9 @@ class PaymentMethodCurrenciesRequestData extends RequestData
         string $methodName,
         ?float $amount = null,
         ?string $paymentType = null,
-        string $trafficType = TrafficType::FDT,
-        ?ConfigContract $config = null)
-    {
+        ?string $trafficType = null,
+        ?ConfigContract $config = null
+    ) {
         parent::__construct($config);
 
         $this->paymentMethodName = $methodName;
@@ -60,8 +58,7 @@ class PaymentMethodCurrenciesRequestData extends RequestData
      */
     protected function validate(): void
     {
-        if (!in_array($this->paymentMethodName, PaymentMethod::getValues()))
-        {
+        if (!in_array($this->paymentMethodName, PaymentMethod::getValues())) {
             throw new BillingSdkException(
                 'The Payment method name ' . $this->paymentMethodName . ' does not exist in '
                 . implode(', ', PaymentMethod::getNames()),
@@ -70,7 +67,9 @@ class PaymentMethodCurrenciesRequestData extends RequestData
         }
 
         $this->validatePaymentType();
-        $this->validateTrafficType();
+        if ($this->trafficType !== null) {
+            $this->validateTrafficType();
+        }
     }
 
     /**
@@ -81,8 +80,7 @@ class PaymentMethodCurrenciesRequestData extends RequestData
     protected function getRequestData(): array
     {
         $data = [
-            'paymentMethod' => $this->paymentMethodName,
-            'trafficType' => $this->trafficType
+            'paymentMethod' => $this->paymentMethodName
         ];
 
         if ($this->amount !== null) {
@@ -91,6 +89,10 @@ class PaymentMethodCurrenciesRequestData extends RequestData
 
         if ($this->paymentType !== null) {
             $data['paymentType'] = $this->paymentType;
+        }
+
+        if ($this->trafficType !== null) {
+            $data['trafficType'] = $this->trafficType;
         }
 
         return $data;

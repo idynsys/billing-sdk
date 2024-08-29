@@ -5,7 +5,6 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
-use Idynsys\BillingSdk\Enums\TrafficType;
 
 class PayoutEManatHost2HostRequestData extends PayoutHost2HostRequestData
 {
@@ -32,10 +31,9 @@ class PayoutEManatHost2HostRequestData extends PayoutHost2HostRequestData
         string $callbackUrl,
         ?string $merchantOrderId = null,
         ?string $merchantOrderDescription = null,
-        string $trafficType = TrafficType::FDT,
         ?ConfigContract $config = null
     ) {
-        parent::__construct($trafficType, $config);
+        parent::__construct($config);
 
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $payoutCurrency;
@@ -55,20 +53,20 @@ class PayoutEManatHost2HostRequestData extends PayoutHost2HostRequestData
     protected function getRequestData(): array
     {
         return [
-                "paymentMethodName" => $this->paymentMethodName,
-                'communicationType' => CommunicationType::HOST_2_HOST,
-                'payoutData' => [
-                    'amount' => $this->roundAmount($this->payoutAmount),
-                    'currency' => $this->payoutCurrency,
-                ],
-                'wallet' => [
-                    'login' => $this->walletLogin,
-                    'fullname' => $this->walletUserFullName,
-                ],
-                'recipient' => $this->phoneNumber,
-                'callbackUrl' => $this->callbackUrl,
-                'merchantOrderId' => $this->merchantOrderId,
-                'merchantOrderDescription' => $this->merchantOrderDescription
-            ] + $this->addTrafficTypeToRequestData();
+            "paymentMethodName" => $this->paymentMethodName,
+            'communicationType' => CommunicationType::HOST_2_HOST,
+            'payoutData' => [
+                'amount' => $this->roundAmount($this->payoutAmount),
+                'currency' => $this->payoutCurrency,
+            ],
+            'wallet' => [
+                'login' => $this->walletLogin,
+                'fullname' => $this->walletUserFullName,
+            ],
+            'recipient' => $this->phoneNumber,
+            'callbackUrl' => $this->callbackUrl,
+            'merchantOrderId' => $this->merchantOrderId,
+            'merchantOrderDescription' => $this->merchantOrderDescription
+        ];
     }
 }
