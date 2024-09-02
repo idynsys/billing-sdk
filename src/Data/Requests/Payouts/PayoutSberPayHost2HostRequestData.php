@@ -23,10 +23,13 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
     // ID пользователя
     private string $userId;
 
+    private string $recipientInfo;
+
     public function __construct(
         float $payoutAmount,
         string $currencyCode,
         string $cardNumber,
+        string $cardRecipientInfo,
         string $userId,
         string $userIpAddress,
         string $userAgent,
@@ -40,6 +43,7 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
         $this->payoutAmount = $payoutAmount;
         $this->payoutCurrency = $currencyCode;
         $this->cardNumber = $cardNumber;
+        $this->recipientInfo = $cardRecipientInfo;
         $this->userId = $userId;
         $this->userIpAddress = $userIpAddress;
         $this->userAgent = $userAgent;
@@ -64,6 +68,7 @@ class PayoutSberPayHost2HostRequestData extends PayoutHost2HostRequestData
             ],
             'cardData' => [
                 'pan' => $this->cardNumber,
+                'recipientInfo' => $this->recipientInfo,
             ],
             'customerData' => [
                 'id' => $this->userId,

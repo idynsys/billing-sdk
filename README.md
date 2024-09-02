@@ -1108,6 +1108,7 @@ $requestParams = new PayoutSberPayHost2HostRequestData(
     $amount,                    // сумма вывода
     $currencyCode,              // валюта суммы вывода
     $cardNumber,                // Номер банковской карты, на которую выводятся деньги
+    $cardRecipientInfo,         // Данные владельца карты (Имя Фамилия, как написано на карте)
     $userId,                    // ID пользователя
     $ipAddress,                 // IP адрес пользователя
     $userAgent,                 // сведения об устройстве, операционной системе, типе браузера и его версии и т.д.
