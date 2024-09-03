@@ -33,7 +33,6 @@ class PayoutP2PRequestData extends PayoutRequestData
                 'recipientInfo' => $this->cardRecipientInfo
             ],
             'customerData' => [
-                'bankName' => $this->bankName,
                 'id' => $this->userId
             ],
             'callbackUrl' => $this->callbackUrl,
