@@ -4,7 +4,6 @@ namespace Idynsys\BillingSdk\Data\Requests\Payouts;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
-use Idynsys\BillingSdk\Data\Traits\BankNameTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
 
 /**
@@ -12,8 +11,6 @@ use Idynsys\BillingSdk\Enums\RequestMethod;
  */
 abstract class PayoutRequestData extends RequestData
 {
-    use BankNameTrait;
-
     // Наименование платежного метода
     protected string $paymentMethodName = RequestMethod::METHOD_GET;
 
@@ -56,7 +53,6 @@ abstract class PayoutRequestData extends RequestData
         string $cardNumber,
         string $cardExpiration,
         string $cardRecipientInfo,
-        string $bankName,
         string $userId,
         string $callbackUrl,
         ?string $merchantOrderId = null,
@@ -74,8 +70,5 @@ abstract class PayoutRequestData extends RequestData
         $this->callbackUrl = $callbackUrl;
         $this->merchantOrderId = $merchantOrderId;
         $this->merchantOrderDescription = $merchantOrderDescription;
-
-        $this->setBankName($bankName);
-        $this->validateBankName();
     }
 }
