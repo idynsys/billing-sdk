@@ -12,7 +12,7 @@ class PayoutHavaleHost2HostRequestData extends PayoutHost2HostRequestData
     protected string $paymentMethodName = PaymentMethod::HAVALE;
 
     // ID банка
-    private int $bankId;
+    private ?int $bankId;
 
     // Номер банковской карты
     protected string $cardNumber;

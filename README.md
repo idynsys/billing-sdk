@@ -850,6 +850,8 @@ $requestParams = new PayoutHavaleHost2HostRequestData(
     $BankIbanNo,                // IBAN банка
     $cardNumber,                // Номер карты
     $cardExpiration,            // Дата окончания действия карты
+    $cardId,                    // ID карты
+    $bankId                     // ID банка   
     $userBirthday,              // День рождения пользователя
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
