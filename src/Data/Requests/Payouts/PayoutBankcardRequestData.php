@@ -26,8 +26,8 @@ class PayoutBankcardRequestData extends PayoutRequestData
         string $bankName,
         string $userId,
         string $callbackUrl,
-        ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
+        string $merchantOrderId,
+        string $merchantOrderDescription,
         ?ConfigContract $config = null
     ) {
         parent::__construct(

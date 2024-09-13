@@ -277,6 +277,8 @@ $requestParams = new DepositMCommerceRequestData(
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $redirectFailUrl,           // URL для перехода после неуспешного выполнения действия
     $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
@@ -649,9 +651,17 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
     +bankName: "Kaspi"
     +lifetimeInMinutes: 8
   }
-  +destinationCard: null
+  +destinationCard: null,
+  +paymentType: null,
+  +error: null
 }
 ```
+Значение для paymentType и redirectUrl необязательные, paymentType может быть только null или "3DS_PAYMENT_PAGE".
+В redirectUrl будет ссылка, если платежная система затребует подтверждение, иначе придет успешный статус без значений в paymentType и redirectUrl.
+Ссылку на 3ds подтверждение можно получить:
+- в ответе а депозита H2H, если платежная система его передаст сразу,
+- либо при запросе статуса транзакции.
+
 
 Есть 2 возможных ответа, которые могут быть отправлены на указанный в запросе callbackUrl:
 
@@ -1175,6 +1185,29 @@ $requestParams = new TransactionRequestData('50943073-3426-4e00-b147-1d21852c0e2
 $result = $billing->getTransactionData($requestParams);
 
 ```
+В результате успешного запроса придет следующий ответ:
+```
+Idynsys\BillingSdk\Data\Responses\TransactionData {#360
+  +id: "35"
+  +externalId: "156b7acd-a3e4-4732-9b7f-8b3bb9514f76"
+  +paymentMethod: ""
+  +paymentSystem: ""
+  +transactionType: "deposit"
+  +requestedAmount: 2000.0
+  +requestedCurrency: "RUB"
+  +amount: 0.0
+  +currency: "RUB"
+  +status: "IN_PROGRESS"
+  +merchantOrderId: "124-431"
+  +paymentType: null
+  +redirectUrl: null
+}
+```
+Значение для paymentType и redirectUrl необязательные, paymentType может быть только null или "3DS_PAYMENT_PAGE".
+В redirectUrl будет ссылка, если платежная система затребует подтверждение, иначе придет успешный статус без значений в paymentType и redirectUrl.
+Ссылку на 3ds подтверждение можно получить:
+- в ответе а депозита H2H, если платежная система его передаст сразу,
+- либо при запросе статуса транзакции.
 
 #### Обработка исключительных ситуаций
 При запросе к системе могут возникнуть ошибки, связанные с некорректно отправленными данными

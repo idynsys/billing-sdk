@@ -19,6 +19,10 @@ class DepositMCommerceRequestData extends DepositRequestData
     // Параметр телефонный номер
     public string $phoneNumber;
 
+    private string $redirectSuccessUrl;
+
+    private string $redirectFailUrl;
+
     /**
      * @param string|null $merchantOrderId
      * @param string|null $merchantOrderDescription
@@ -36,8 +40,10 @@ class DepositMCommerceRequestData extends DepositRequestData
         string $acceptLanguage,
         string $fingerprint,
         string $callbackUrl,
-        ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
+        string $merchantOrderId,
+        string $merchantOrderDescription,
+        string $redirectSuccessUrl,
+        string $redirectFailUrl,
         string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {
@@ -47,6 +53,8 @@ class DepositMCommerceRequestData extends DepositRequestData
         $this->paymentAmount = $paymentAmount;
         $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->callbackUrl = $callbackUrl;
+        $this->redirectSuccessUrl = $redirectSuccessUrl;
+        $this->redirectFailUrl = $redirectFailUrl;
         $this->trafficType = $trafficType;
         $this->userIpAddress = $userIpAddress;
         $this->userAgent = $userAgent;
@@ -81,7 +89,9 @@ class DepositMCommerceRequestData extends DepositRequestData
                     'amount' => $this->roundAmount($this->paymentAmount),
                     'currency' => $this->paymentCurrencyCode
                 ],
-                'callback_url' => $this->callbackUrl
+                'callback_url' => $this->callbackUrl,
+                'redirect_success_url' => $this->redirectSuccessUrl,
+                'redirect_fail_url' => $this->redirectFailUrl,
             ] + $this->addTrafficTypeToRequestData();
     }
 }

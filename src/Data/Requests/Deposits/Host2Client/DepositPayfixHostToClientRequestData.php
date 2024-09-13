@@ -29,9 +29,9 @@ class DepositPayfixHostToClientRequestData extends DepositRequestData
         string $walletUserId,
         string $walletLogin,
         string $callbackUrl,
-        ?string $redirectSuccessUrl = null,
-        ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
+        string $redirectSuccessUrl,
+        string $merchantOrderId,
+        string $merchantOrderDescription,
         string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {

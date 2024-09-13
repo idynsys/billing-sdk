@@ -14,6 +14,8 @@ class PaymentMethod
 
     public const SBP_NAME = 'SBP';
 
+    public const SBP_QR_NAME = 'SBP-QR';
+
     public const E_MANAT = 'eManat';
 
     public const SMART_CARD = 'SmartCard';

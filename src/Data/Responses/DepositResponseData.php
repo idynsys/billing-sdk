@@ -31,6 +31,8 @@ class DepositResponseData
     // Описание ошибки, если была при создании транзакции
     public $error;
 
+    public ?string $paymentType;
+
     public function __construct(
         string $transactionId,
         string $paymentStatus,
@@ -39,9 +41,9 @@ class DepositResponseData
         ?string $redirectUrl = null,
         ?BankCardData $card = null,
         ?array $destinationCard = null,
+        ?string $paymentType = null,
         $error = null
-    )
-    {
+    ) {
         $this->transactionId = $transactionId;
         $this->paymentStatus = $paymentStatus;
         $this->amount = $amount;
@@ -49,6 +51,7 @@ class DepositResponseData
         $this->redirectUrl = $redirectUrl;
         $this->card = $card;
         $this->destinationCard = $destinationCard;
+        $this->paymentType = $paymentType;
         $this->error = $error;
     }
 
@@ -66,8 +69,11 @@ class DepositResponseData
             $responseData['amount'] ?? 0,
             $responseData['currency'] ?? 'n/a',
             $responseData['redirect_url'] ?? null,
-            array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData($responseData['card']) : null,
+            array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData(
+                $responseData['card']
+            ) : null,
             $responseData['destination_card'] ?? null,
+            $getResult['paymentType'] ?? null,
             $responseData['error'] ?? null
         );
     }

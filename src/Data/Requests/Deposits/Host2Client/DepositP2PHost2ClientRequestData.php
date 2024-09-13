@@ -34,8 +34,8 @@ class DepositP2PHost2ClientRequestData extends DepositRequestData
         string $acceptLanguage,
         string $fingerprint,
         string $callbackUrl,
-        ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
+        string $merchantOrderId,
+        string $merchantOrderDescription,
         string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {
