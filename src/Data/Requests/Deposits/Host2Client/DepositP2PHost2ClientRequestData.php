@@ -28,6 +28,7 @@ class DepositP2PHost2ClientRequestData extends DepositRequestData
     public function __construct(
         float $paymentAmount,
         string $paymentCurrencyCode,
+        string $cardNumber,
         string $customerId,
         string $userIpAddress,
         string $userAgent,
@@ -51,6 +52,7 @@ class DepositP2PHost2ClientRequestData extends DepositRequestData
         $this->userAgent = $userAgent;
         $this->acceptLanguage = $acceptLanguage;
         $this->fingerprint = $fingerprint;
+        $this->cardNumber = $cardNumber;
     }
 
     /**
@@ -74,6 +76,9 @@ class DepositP2PHost2ClientRequestData extends DepositRequestData
                     'acceptLanguage' => $this->acceptLanguage,
                     'userAgent' => $this->userAgent,
                     'fingerprint' => $this->fingerprint,
+                ],
+                'card' => [
+                    'pan' => $this->cardNumber,
                 ],
                 'payment_data' => [
                     'amount' => $this->roundAmount($this->paymentAmount),
