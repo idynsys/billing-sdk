@@ -313,6 +313,7 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPayHost2Cli
 $requestParams = new DepositSberPayHost2ClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
+    $cardNumber,                // Номер банковской карты пользователя
     $customerId,                // ID пользователя, совершающего операцию
     $userIpAddress              // IP адрес пользователя
     $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
