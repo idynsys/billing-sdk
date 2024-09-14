@@ -160,7 +160,7 @@ I. Реализованные методы для пополнения счет�
 
 | №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                                      |
 |----|-------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData [см.](#deposit-h2h-p2p)                                    |
+| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData [см.]( #deposit-h2h-p2p )                                  |
 | 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData [см.](#deposit-h2с-p2p)                |
 | 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData [см.](#deposit-h2h-bankcard)                          |
 | 4  | Host2Host               | Mobile Commerce | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData [см.](#deposit-h2h-m-commerce)                       |
@@ -178,7 +178,7 @@ I. Реализованные методы для пополнения счет�
 | 16 | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData [см.](#deposit-h2c-smart-card)  |
 | 17 | Host2Client             | SBP-QR          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpQRHost2ClientRequestData [см.](#deposit-h2c-sbp)              |
 
-<a id="deposit-h2h-p2p">_Создание транзакции депозита через платежный метод P2P Host2Host_</a>
+<a id="deposit-h2h-p2p">1. _Создание транзакции депозита через платежный метод P2P Host2Host_</a>
 1. _Создание транзакции депозита через платежный метод P2P Host2Host_
 
 ```php
