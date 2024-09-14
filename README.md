@@ -178,7 +178,7 @@ I. Реализованные методы для пополнения счет�
 | 16 | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData [см.](#deposit-h2c-smart-card)  |
 | 17 | Host2Client             | SBP-QR          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpQRHost2ClientRequestData [см.](#deposit-h2c-sbp)              |
 
-<a id="deposit-h2h-p2p"></a>
+<a id="deposit-h2h-p2p" style="display:block;height:0;width:0;"></a>
 1. _Создание транзакции депозита через платежный метод P2P Host2Host_
 
 ```php
