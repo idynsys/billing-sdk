@@ -215,7 +215,6 @@ use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientR
 $requestParams = new DepositP2PHost2ClientRequestData(
     $amount,                    // сумма пополнения
     $currencyCode,              // валюта суммы пополнения
-    $cardNumber,                // Номер банковской карты пользователя
     $customerId,                // ID пользователя, совершающего операцию
     $userIpAddress              // IP адрес пользователя
     $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
