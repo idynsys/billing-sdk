@@ -160,7 +160,7 @@ I. Реализованные методы для пополнения счет�
 
 | №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                                      |
 |----|-------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData [см.](#deposit-h2h-p2p)                                    |
+| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData [см.]( #deposit-h2h-p2p )                                  |
 | 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData [см.](#deposit-h2с-p2p)                |
 | 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData [см.](#deposit-h2h-bankcard)                          |
 | 4  | Host2Host               | Mobile Commerce | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData [см.](#deposit-h2h-m-commerce)                       |
@@ -176,8 +176,9 @@ I. Реализованные методы для пополнения счет�
 | 14 | Host2Client             | Payfix          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToClientRequestData [см.](#deposit-h2c-pay-fix)        |
 | 15 | Host2Client             | Pep             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClientRequestData [см.](#deposit-h2c-pep)               |
 | 16 | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData [см.](#deposit-h2c-smart-card)  |
+| 17 | Host2Client             | SBP-QR          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpQRHost2ClientRequestData [см.](#deposit-h2c-sbp)              |
 
-<a id="deposit-h2h-p2p"></a>
+<a id="deposit-h2h-p2p">1. _Создание транзакции депозита через платежный метод P2P Host2Host_</a>
 1. _Создание транзакции депозита через платежный метод P2P Host2Host_
 
 ```php
@@ -278,6 +279,8 @@ $requestParams = new DepositMCommerceRequestData(
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
     $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $redirectSuccessUrl,        // URL для перехода после успешного выполнения действия
+    $redirectFailUrl,           // URL для перехода после неуспешного выполнения действия
     $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
 );
 
@@ -635,6 +638,32 @@ $requestParams = new DepositSmartCardHostToClientRequestData(
 $result = $billing->createDeposit($requestParams);
 ```
 
+<a id="deposit-h2c-sbp"></a>
+17. _Создание транзакции депозита через платежный метод SBP-QR Host2Client_
+
+```php
+<?php
+use Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpQRHost2ClientRequestData;
+
+// Создать DTO для запроса на создание транзакции для пополнения счета
+$requestParams = new DepositSbpQRHost2ClientRequestData(
+    $amount,                    // сумма пополнения
+    $currencyCode,              // валюта суммы пополнения
+    $customerId,                // ID пользователя, совершающего операцию
+    $userIpAddress              // IP адрес пользователя
+    $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $fingerprint                // Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
+    $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
+    $merchantOrderId,           // идентификатор внутреннего документа, на основе которого создается транзакция
+    $merchantOrderDescription,  // описание документа, на основе которого создается транзакция
+    $trafficType                // Тип трафика для выполнения транзакции в платёжной системе
+);
+
+// Создать транзакцию и получить результат
+$result = $billing->createDeposit($requestParams);
+```
+
 II. _Response_
 
 Если транзакция депозита была создана успешно, то ответом (response)
@@ -651,9 +680,17 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
     +bankName: "Kaspi"
     +lifetimeInMinutes: 8
   }
-  +destinationCard: null
+  +destinationCard: null,
+  +paymentType: null,
+  +error: null
 }
 ```
+Значение для paymentType и redirectUrl необязательные, paymentType может быть только null или "3DS_PAYMENT_PAGE".
+В redirectUrl будет ссылка, если платежная система затребует подтверждение, иначе придет успешный статус без значений в paymentType и redirectUrl.
+Ссылку на 3ds подтверждение можно получить:
+- в ответе а депозита H2H, если платежная система его передаст сразу,
+- либо при запросе статуса транзакции.
+
 
 Есть 2 возможных ответа, которые могут быть отправлены на указанный в запросе callbackUrl:
 
@@ -1177,6 +1214,29 @@ $requestParams = new TransactionRequestData('50943073-3426-4e00-b147-1d21852c0e2
 $result = $billing->getTransactionData($requestParams);
 
 ```
+В результате успешного запроса придет следующий ответ:
+```
+Idynsys\BillingSdk\Data\Responses\TransactionData {#360
+  +id: "35"
+  +externalId: "156b7acd-a3e4-4732-9b7f-8b3bb9514f76"
+  +paymentMethod: ""
+  +paymentSystem: ""
+  +transactionType: "deposit"
+  +requestedAmount: 2000.0
+  +requestedCurrency: "RUB"
+  +amount: 0.0
+  +currency: "RUB"
+  +status: "IN_PROGRESS"
+  +merchantOrderId: "124-431"
+  +paymentType: null
+  +redirectUrl: null
+}
+```
+Значение для paymentType и redirectUrl необязательные, paymentType может быть только null или "3DS_PAYMENT_PAGE".
+В redirectUrl будет ссылка, если платежная система затребует подтверждение, иначе придет успешный статус без значений в paymentType и redirectUrl.
+Ссылку на 3ds подтверждение можно получить:
+- в ответе а депозита H2H, если платежная система его передаст сразу,
+- либо при запросе статуса транзакции.
 
 #### Обработка исключительных ситуаций
 При запросе к системе могут возникнуть ошибки, связанные с некорректно отправленными данными

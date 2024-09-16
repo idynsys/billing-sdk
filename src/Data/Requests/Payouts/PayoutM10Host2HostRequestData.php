@@ -31,8 +31,8 @@ class PayoutM10Host2HostRequestData extends PayoutHost2HostRequestData
         string $walletUserFullName,
         string $walletAccountNumber,
         string $callbackUrl,
-        ?string $merchantOrderId = null,
-        ?string $merchantOrderDescription = null,
+        string $merchantOrderId,
+        string $merchantOrderDescription,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);

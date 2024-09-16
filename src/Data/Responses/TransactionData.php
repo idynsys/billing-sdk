@@ -39,6 +39,10 @@ class TransactionData
     // ID документа для создания депозита
     public ?string $merchantOrderId;
 
+    public ?string $paymentType;
+
+    public ?string $redirectUrl;
+
     public function __construct(
         string $id,
         ?string $externalId,
@@ -50,7 +54,9 @@ class TransactionData
         ?float $amount,
         ?string $currency,
         string $status,
-        ?string $merchantOrderId
+        ?string $merchantOrderId,
+        ?string $paymentType,
+        ?string $redirectUrl
     ) {
         $this->id = $id;
         $this->externalId = $externalId;
@@ -63,6 +69,8 @@ class TransactionData
         $this->currency = $currency;
         $this->status = $status;
         $this->merchantOrderId = $merchantOrderId;
+        $this->paymentType = $paymentType;
+        $this->redirectUrl = $redirectUrl;
     }
 
     /**
@@ -84,7 +92,9 @@ class TransactionData
             static::getAmountResponseArray($getResult, 'amount'),
             $getResult['currency'] ?? null,
             $getResult['status'] ?? null,
-            $getResult['merchantOrderId'] ?? null
+            $getResult['merchantOrderId'] ?? null,
+            $getResult['paymentType'] ?? null,
+            $getResult['redirectUrl'] ?? null
         );
     }
 
