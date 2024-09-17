@@ -2,10 +2,16 @@
 
 namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
-use Idynsys\BillingSdk\Data\UniversalRequestStructures\Validators\ValidationConfig;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\Traits\SubStructureRequestDataTrait;
+use Idynsys\BillingSdk\Enums\CommunicationType;
+use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\PaymentType;
+use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
-class UrlsRequestData
+class UrlsRequestData implements RequestDataValidationContract
 {
+    use SubStructureRequestDataTrait;
+
     private string $callback;
 
     private ?string $return;
@@ -24,40 +30,68 @@ class UrlsRequestData
         $this->return = $return;
         $this->redirectSuccess = $redirectSuccess;
         $this->redirectFail = $redirectFail;
+
+        $this->responseProperties = ['callback', 'return', 'redirectSuccess', 'redirectFail'];
     }
 
-    public function getRequestData(string $paymentType, string $communicationType, string $paymentMethod): array
+    protected function setConfig(): void
     {
-        $config = ValidationConfig::getUrlsConfig($paymentType, $communicationType, $paymentMethod);
-
-        if (!$config) {
-            return [];
-        }
-
-        $resultData = [
-            "callback" => $this->callback,
+        $this->config = [
+            PaymentType::DEPOSIT => [
+                CommunicationType::HOST_2_CLIENT => [
+                    PaymentMethod::P2P_NAME => [
+                        'ignore' => ['redirectSuccess', 'redirectFail'],
+                        'required' => ['callback']
+                    ],
+                    PaymentMethod::SBP_NAME => [
+                        'ignore' => ['redirectSuccess', 'redirectFail'],
+                    ],
+                    PaymentMethod::SBER_PAY_NAME => [
+                        'ignore' => ['redirectSuccess', 'redirectFail'],
+                    ],
+                ],
+                CommunicationType::HOST_2_HOST => [
+                    PaymentMethod::BANKCARD_NAME => [
+                        'ignore' => ['redirectSuccess', 'redirectFail'],
+                    ],
+                    PaymentMethod::P2P_NAME => [
+                        'ignore' => ['redirectSuccess', 'redirectFail'],
+                    ],
+                ]
+            ],
         ];
-
-        if (
-            (!array_key_exists('ignore', $config) || !in_array('return', $config['ignore']))
-            && $this->return !== null
-        ) {
-            $resultData['return'] = $this->return;
-        }
-
-        if (
-            (!array_key_exists('ignore', $config) || !in_array('redirectSuccess', $config['ignore']))
-            && $this->redirectSuccess
-        ) {
-            $resultData["redirectSuccess"] = $this->redirectSuccess;
-        }
-
-        if ((!array_key_exists('ignore', $config) || !in_array('redirectFail', $config['ignore']))
-            && $this->redirectFail
-        ) {
-            $resultData["redirectFail"] = $this->redirectFail;
-        }
-
-        return $resultData;
     }
+
+    public function validate(string $paymentType, string $communicationType, string $paymentMethod): void
+    {
+        $this->setCurrentConfig($paymentType, $communicationType, $paymentMethod);
+
+        if (empty($this->callback) || !$this->isUrl($this->callback)) {
+            throw new BillingSdkException('Callback url must not be correct url address', 422);
+        }
+
+        $this->validateUrlProperty('return');
+        $this->validateUrlProperty('redirectSuccess');
+        $this->validateUrlProperty('redirectFail');
+    }
+
+    private function validateUrlProperty(string $propertyName): void
+    {
+        if (!$this->inIgnore($propertyName) && $this->inOnly($propertyName)) {
+            if ($this->required($propertyName)) {
+                $error = empty($this->{$propertyName}) || !$this->isUrl($this->{$propertyName});
+            } else {
+                $error = !empty($this->{$propertyName}) && !$this->isUrl($this->{$propertyName});
+            }
+            if ($error) {
+                throw new BillingSdkException(ucfirst($propertyName) . ' url must not be correct url address', 422);
+            }
+        }
+    }
+
+    private function isUrl(string $url): bool
+    {
+        return filter_var($url, FILTER_VALIDATE_URL) !== false;
+    }
+
 }

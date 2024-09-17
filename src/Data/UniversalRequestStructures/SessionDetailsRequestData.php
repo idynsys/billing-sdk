@@ -2,7 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
-class SessionDetailsRequestData
+class SessionDetailsRequestData implements RequestDataValidationContract
 {
     private string $acceptLanguage;
 
@@ -41,5 +41,10 @@ class SessionDetailsRequestData
         }
 
         return $resultData;
+    }
+
+    public function validate(string $paymentType, string $communicationType, string $paymentMethod): void
+    {
+        dump(__METHOD__);
     }
 }

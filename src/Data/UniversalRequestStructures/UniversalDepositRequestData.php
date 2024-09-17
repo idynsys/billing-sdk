@@ -22,7 +22,7 @@ class UniversalDepositRequestData extends RequestData
 
     private CustomerRequestData $customerRequestData;
 
-    private BankCardRequestData $bankCardRequestData;
+    private ?BankCardRequestData $bankCardRequestData;
 
     private UrlsRequestData $urlsRequestData;
 
@@ -59,9 +59,17 @@ class UniversalDepositRequestData extends RequestData
 
     private function validate(): void
     {
-        $validator = ValidatorFactory::getValidator($this->paymentMethodName, $this->communicationType);;
+        $validator = ValidatorFactory::make(PaymentType::DEPOSIT, $this->paymentMethodName, $this->communicationType);;
 
-        $validator->validate();
+        $validator->validate(
+            $this->paymentRequestData,
+            $this->merchantOrderRequestData,
+            $this->urlsRequestData,
+            $this->sessionDetailsRequestData,
+            $this->customerRequestData,
+            $this->bankCardRequestData,
+            $this->trafficType
+        );
     }
 
     protected function getRequestData(): array
