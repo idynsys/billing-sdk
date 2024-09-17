@@ -12,10 +12,10 @@ class ValidatorFactory
     private static $validators = [
         PaymentType::DEPOSIT => [
             'h2c|P2P' => ValidatorDepositHost2ClientP2P::class,
-            'h2c|SBP' => ValidatorHost2ClientSBP::class,
-            'h2c|SberPay' => ValidatorHost2ClientSberPay::class,
-            'h2h|Bankcard' => ValidatorHost2HostBankcard::class,
-            'h2h|P2P' => ValidatorHost2HostP2P::class,
+            'h2c|SBP' => ValidatorDepositHost2ClientSbp::class,
+            'h2c|SberPay' => ValidatorDepositHost2ClientSberPay::class,
+            'h2h|Bankcard' => ValidatorDepositHost2HostBankcard::class,
+            'h2h|P2P' => ValidatorDepositHost2HostP2P::class,
         ],
         PaymentType::WITHDRAWAL => []
     ];

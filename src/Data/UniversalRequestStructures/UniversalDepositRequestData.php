@@ -12,6 +12,8 @@ class UniversalDepositRequestData extends RequestData
 {
     protected string $requestMethod = RequestMethod::METHOD_POST;
 
+    protected string $urlConfigKeyForRequest = 'UNIVERSAL_DEPOSIT_URL';
+
     private string $paymentMethodName;
 
     private string $communicationType;

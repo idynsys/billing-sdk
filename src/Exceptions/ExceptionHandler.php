@@ -17,7 +17,8 @@ class ExceptionHandler
 
     public function handle(): BillingSdkException
     {
-        return new BillingSdkException($this->getMessage(), $this->getCode(), $this->throwable);
+        $code = $this->getCode() ?: 500;
+        return new BillingSdkException($this->getMessage(), $code, $this->throwable);
     }
 
     protected function getMessage(): string

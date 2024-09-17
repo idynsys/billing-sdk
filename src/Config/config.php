@@ -27,6 +27,7 @@ return[
 
     // url для создания депозита
     'DEPOSIT_URL' => '/accounts/api/payments',
+    'UNIVERSAL_DEPOSIT_URL' => '/accounts/deposit',
 
     // url для создания запроса на вывод средств
     'PAYOUT_URL' => '/accounts/api/payouts',

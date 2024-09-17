@@ -69,21 +69,21 @@ class CustomerRequestData implements RequestDataValidationContract
     {
         $this->setCurrentConfig($paymentType, $communicationType, $paymentMethod);
 
-        if (empty($this->email) || $this->validateEmail()) {
-            throw new BillingSdkException('Email must be a valid email address and can not be empty');
+        if (empty($this->email) || !$this->validateEmail()) {
+            throw new BillingSdkException('Email must be a valid email address and can not be empty', 422);
         }
 
-        if (empty($this->phoneNumber) || $this->validatePhoneNumber()) {
-            throw new BillingSdkException('Phone number must be valid and can not be empty');
+        if (empty($this->phoneNumber) || !$this->validatePhoneNumber()) {
+            throw new BillingSdkException('Phone number must be valid and can not be empty', 422);
         }
 
 
         if (!$this->inIgnore('bankName') && $this->required('bankName') && empty($this->bankName)) {
-            throw new BillingSdkException('Bank name is required and cannot be empty.');
+            throw new BillingSdkException('Bank name is required and cannot be empty.', 422);
         }
 
         if (!$this->inIgnore('docId') && $this->required('docId') && empty($this->bankName)) {
-            throw new BillingSdkException('Document ID is required and cannot be empty.');
+            throw new BillingSdkException('Document ID is required and cannot be empty.', 422);
         }
     }
 
