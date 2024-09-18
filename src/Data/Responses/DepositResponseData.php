@@ -8,10 +8,10 @@ namespace Idynsys\BillingSdk\Data\Responses;
 class DepositResponseData
 {
     // Статус операции
-    public string $paymentStatus;
+    public string $status;
 
-    // ID созданной транзакции
-    public string $transactionId;
+    // ID ордера
+    public string $id;
 
     // Сумма транзакции
     public float $amount;
@@ -28,35 +28,30 @@ class DepositResponseData
     // Данные банковской карты
     public ?BankCardData $card;
 
-    // Пока всегда null
-    public ?array $destinationCard;
-
     // Описание ошибки, если была при создании транзакции
     public $error;
 
     public ?string $paymentType;
 
     public function __construct(
-        string $transactionId,
-        string $paymentStatus,
+        string $id,
+        string $status,
         float $amount,
         string $currency,
+        ?string $paymentType = null,
         ?string $redirectUrl = null,
         ?string $confirmationType = null,
         ?BankCardData $card = null,
-        ?array $destinationCard = null,
-        ?string $paymentType = null,
         $error = null
     ) {
-        $this->transactionId = $transactionId;
-        $this->paymentStatus = $paymentStatus;
+        $this->id = $id;
+        $this->status = $status;
         $this->amount = $amount;
         $this->currency = $currency;
+        $this->paymentType = $paymentType;
         $this->redirectUrl = $redirectUrl;
         $this->confirmationType = $confirmationType;
         $this->card = $card;
-        $this->destinationCard = $destinationCard;
-        $this->paymentType = $paymentType;
         $this->error = $error;
     }
 
@@ -69,8 +64,8 @@ class DepositResponseData
     public static function from(array $responseData): self
     {
         return new self(
-            $responseData['transaction_id'] ?? 'n/a',
-            $responseData['payment_status'] ?? 'n/a',
+            $responseData['id'] ?? 'n/a',
+            $responseData['status'] ?? 'n/a',
             $responseData['amount'] ?? 0,
             $responseData['currency'] ?? 'n/a',
             $responseData['redirectUrl'] ?? ($responseData['redirect_url'] ?? null),
@@ -78,8 +73,6 @@ class DepositResponseData
             array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData(
                 $responseData['card']
             ) : null,
-            $responseData['destination_card'] ?? null,
-            $getResult['paymentType'] ?? null,
             $responseData['error'] ?? null
         );
     }

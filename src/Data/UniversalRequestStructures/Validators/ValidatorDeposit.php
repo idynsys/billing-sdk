@@ -47,7 +47,7 @@ abstract class ValidatorDeposit implements ValidatorContract
         if ($bankCardRequestData !== null) {
             $this->validateRequestDataStructure($bankCardRequestData);
         } else {
-            BankCardRequestData::checkIfShouldBe($this->paymentMethodName, $this->communicationType);
+            BankCardRequestData::checkIfShouldBe(PaymentType::DEPOSIT, $this->communicationType, $this->paymentMethodName);
         }
     }
 

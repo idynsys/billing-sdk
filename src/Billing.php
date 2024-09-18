@@ -21,6 +21,7 @@ use Idynsys\BillingSdk\Data\Responses\DepositMCommerceConfirmedResponseData;
 use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositRequestData;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 /**
@@ -186,5 +187,12 @@ final class Billing implements BillingContract
         $this->sendRequest($requestParams);
 
         return DepositMCommerceConfirmedResponseData::from($this->client->getResult());
+    }
+
+    public function createUniversalDeposit(UniversalDepositRequestData $data): DepositResponseData
+    {
+        $this->sendRequest($data);
+
+        return DepositResponseData::from($this->client->getResult());
     }
 }

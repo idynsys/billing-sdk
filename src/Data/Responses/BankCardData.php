@@ -19,7 +19,7 @@ class BankCardData
     public function __construct(array $info)
     {
         $this->cardNumber = $info['number'] ?? 'n/a';
-        $this->bankName = $info['bank_name'] ?? 'n/a';
-        $this->lifetimeInMinutes = $info['lifetime_in_minutes'] ?? 0;
+        $this->bankName = $info['bankName'] ?? 'n/a';
+        $this->lifetimeInMinutes = $info['lifetimeInMinutes'] ?? 0;
     }
 }
