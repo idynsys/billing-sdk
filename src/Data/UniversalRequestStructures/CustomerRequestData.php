@@ -36,33 +36,7 @@ class CustomerRequestData implements RequestDataValidationContract
         $this->docId = $docId;
 
         $this->responseProperties = ['id', 'email', 'phoneNumber', 'bankName', 'docId'];
-    }
-
-    protected function setConfig(): void
-    {
-        $this->config = [
-            PaymentType::DEPOSIT => [
-                CommunicationType::HOST_2_CLIENT => [
-                    PaymentMethod::P2P_NAME => [
-                        'ignore' => ['bankName', 'docId'],
-                    ],
-                    PaymentMethod::SBP_NAME => [
-                        'ignore' => ['bankName', 'docId'],
-                    ],
-                    PaymentMethod::SBER_PAY_NAME => [
-                        'ignore' => ['bankName', 'docId'],
-                    ]
-                ],
-                CommunicationType::HOST_2_HOST => [
-                    PaymentMethod::BANKCARD_NAME => [
-                        'ignore' => ['bankName', 'docId']
-                    ],
-                    PaymentMethod::P2P_NAME => [
-                        'ignore' => ['bankName', 'docId']
-                    ],
-                ]
-            ],
-        ];
+        self::$validationConfigKey = 'validations.customers';
     }
 
     public function validate(string $paymentType, string $communicationType, string $paymentMethod): void

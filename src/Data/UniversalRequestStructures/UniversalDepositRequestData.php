@@ -86,11 +86,13 @@ class UniversalDepositRequestData extends RequestData
             'customer' => $this->customerRequestData->getRequestData(
                 PaymentType::DEPOSIT,
                 $this->communicationType,
-                $this->paymentMethodName),
+                $this->paymentMethodName
+            ),
             'urls' => $this->urlsRequestData->getRequestData(
                 PaymentType::DEPOSIT,
                 $this->communicationType,
-                $this->paymentMethodName)
+                $this->paymentMethodName
+            )
         ];
 
         if ($this->bankCardRequestData !== null) {

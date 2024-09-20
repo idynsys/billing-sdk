@@ -1,6 +1,10 @@
 <?php
 
-return[
+use Idynsys\BillingSdk\Enums\CommunicationType;
+use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\PaymentType;
+
+return [
     // Идентификатор клиента
     'clientId' => getenv('BILLING_SDK_CLIENT_ID') ?: '',
 
@@ -40,4 +44,73 @@ return[
 
     // подтверждение платежа через мобильную коммерцию
     'DEPOSIT_M_COMMERCE_CONFIRM_URL' => '/accounts/api/payments/{transaction}/confirmMobilePayment',
+
+    'validations' => [
+        'map' => [
+            'Idynsys\BillingSdk\Data\UniversalRequestStructures\BankCardRequestData' => 'bankcards',
+            'Idynsys\BillingSdk\Data\UniversalRequestStructures\UrlsRequestData' => 'urls',
+            'Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerRequestData' => 'customers',
+        ],
+        'bankcards' => [
+            PaymentType::DEPOSIT => [
+                CommunicationType::HOST_2_CLIENT => [
+                    PaymentMethod::P2P_NAME => false,
+                    PaymentMethod::SBP_NAME => false,
+                    PaymentMethod::SBER_PAY_NAME => false,
+                ],
+                CommunicationType::HOST_2_HOST => [
+                    PaymentMethod::BANKCARD_NAME => [
+                        'required' => ['cvv']
+                    ],
+                    PaymentMethod::P2P_NAME => false,
+                ]
+            ],
+        ],
+        'urls' => [
+            PaymentType::DEPOSIT => [
+                CommunicationType::HOST_2_CLIENT => [
+                    PaymentMethod::P2P_NAME => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
+                    PaymentMethod::SBP_NAME => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
+                    PaymentMethod::SBER_PAY_NAME => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
+                ],
+                CommunicationType::HOST_2_HOST => [
+                    PaymentMethod::BANKCARD_NAME => [
+                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                    ],
+                    PaymentMethod::P2P_NAME => [
+                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                    ],
+                ]
+            ],
+        ],
+        'customers' => [
+            PaymentType::DEPOSIT => [
+                CommunicationType::HOST_2_CLIENT => [
+                    PaymentMethod::P2P_NAME => [
+                        'ignore' => ['bankName', 'docId'],
+                    ],
+                    PaymentMethod::SBP_NAME => [
+                        'ignore' => ['bankName', 'docId'],
+                    ],
+                    PaymentMethod::SBER_PAY_NAME => [
+                        'ignore' => ['bankName', 'docId'],
+                    ]
+                ],
+                CommunicationType::HOST_2_HOST => [
+                    PaymentMethod::BANKCARD_NAME => [
+                        'ignore' => ['bankName', 'docId']
+                    ],
+                    PaymentMethod::P2P_NAME => [
+                        'ignore' => ['bankName', 'docId']
+                    ],
+                ]
+            ],
+        ]
+    ]
 ];

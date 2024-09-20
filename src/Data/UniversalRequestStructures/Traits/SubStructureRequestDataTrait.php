@@ -2,6 +2,8 @@
 
 namespace Idynsys\BillingSdk\Data\UniversalRequestStructures\Traits;
 
+use Idynsys\BillingSdk\Config;
+
 trait SubStructureRequestDataTrait
 {
     private array $config = [];
@@ -11,14 +13,41 @@ trait SubStructureRequestDataTrait
      */
     private $currentConfig = false;
 
+    static protected string $validationConfigKey = 'validations.subKey';
+
     /**
      * @var array
      */
     private array $resultData = [];
 
-    abstract protected function setConfig(): void;
+    protected function setConfig(): void
+    {
+        $this->currentConfig = self::getValidationConfig();
+    }
+
+    static public function setValidationConfigKey(): void
+    {
+        $subKey = Config::getInstance()->get('validations.map.' . __CLASS__, 'subKey');
+
+        self::$validationConfigKey = 'validations.'.$subKey;
+    }
 
     private array $responseProperties = [];
+
+    public static function getValidationConfig()
+    {
+        return Config::getInstance()->get(self::$validationConfigKey);
+    }
+
+    public static function getSpecificConfig(string $paymentType, string $communicationType, string $paymentMethod)
+    {
+        $config = self::getValidationConfig();
+        if (!isset($config[$paymentType][$communicationType][$paymentMethod])) {
+            return false;
+        }
+
+        return $config[$paymentType][$communicationType][$paymentMethod];
+    }
 
     public function setCurrentConfig(string $paymentType, string $communicationType, string $paymentMethod): void
     {
@@ -27,14 +56,7 @@ trait SubStructureRequestDataTrait
         }
 
         $this->setConfig();
-
-        if (key_exists($paymentType, $this->config)) {
-            if (key_exists($communicationType, $this->config[$paymentType])) {
-                if (key_exists($paymentMethod, $this->config[$paymentType][$communicationType])) {
-                    $this->currentConfig = $this->config[$paymentType][$communicationType][$paymentMethod];
-                }
-            }
-        }
+        $this->currentConfig = self::getSpecificConfig($paymentType, $communicationType, $paymentMethod);
     }
 
     private function inIgnore(string $propertyName): bool

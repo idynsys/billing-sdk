@@ -9,7 +9,7 @@ interface ConfigContract
      * @param mixed $default
      * @return string|null
      */
-    public function get(string $key, $default = null): ?string;
+    public function get(string $key, $default = null);
 
     /**
      * @param string $key

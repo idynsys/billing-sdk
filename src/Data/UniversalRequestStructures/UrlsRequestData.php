@@ -32,33 +32,7 @@ class UrlsRequestData implements RequestDataValidationContract
         $this->redirectFail = $redirectFail;
 
         $this->responseProperties = ['callback', 'return', 'redirectSuccess', 'redirectFail'];
-    }
-
-    protected function setConfig(): void
-    {
-        $this->config = [
-            PaymentType::DEPOSIT => [
-                CommunicationType::HOST_2_CLIENT => [
-                    PaymentMethod::P2P_NAME => [
-                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
-                    ],
-                    PaymentMethod::SBP_NAME => [
-                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
-                    ],
-                    PaymentMethod::SBER_PAY_NAME => [
-                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
-                    ],
-                ],
-                CommunicationType::HOST_2_HOST => [
-                    PaymentMethod::BANKCARD_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
-                    ],
-                    PaymentMethod::P2P_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
-                    ],
-                ]
-            ],
-        ];
+        self::$validationConfigKey = 'validations.urls';
     }
 
     public function validate(string $paymentType, string $communicationType, string $paymentMethod): void

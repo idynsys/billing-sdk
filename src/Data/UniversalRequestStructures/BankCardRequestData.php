@@ -3,9 +3,6 @@
 namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\Traits\SubStructureRequestDataTrait;
-use Idynsys\BillingSdk\Enums\CommunicationType;
-use Idynsys\BillingSdk\Enums\PaymentMethod;
-use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 class BankCardRequestData implements RequestDataValidationContract
@@ -32,37 +29,14 @@ class BankCardRequestData implements RequestDataValidationContract
         $this->cvv = $cvv;
 
         $this->responseProperties = ['pan', 'holderName', 'expiration', 'cvv'];
+        self::$validationConfigKey = 'validations.bankcards';
     }
 
     public static function checkIfShouldBe(string $paymentType, string $communicationType, string $paymentMethod): void
     {
-        $instance = new self('', '', '');
-        $instance->setCurrentConfig($paymentType, $communicationType, $paymentMethod);
-
-        if ($instance->currentConfig !== false) {
-            throw new BillingSdkException('Bankcard info must be presented for this deposit', 422);
+        if (self::getSpecificConfig($paymentType, $communicationType, $paymentMethod) !== false) {
+            throw new BillingSdkException('Bankcard info must be presented for this deposit and must not be empty', 422);
         }
-    }
-
-    protected function setConfig(): void
-    {
-        $this->config = [
-            PaymentType::DEPOSIT => [
-                CommunicationType::HOST_2_CLIENT => [
-                    PaymentMethod::P2P_NAME => false,
-                    PaymentMethod::SBP_NAME => [
-                        'ignore' => ['cvv']
-                    ],
-                    PaymentMethod::SBER_PAY_NAME => [
-                        'ignore' => ['cvv']
-                    ],
-                ],
-                CommunicationType::HOST_2_HOST => [
-                    PaymentMethod::BANKCARD_NAME => false,
-                    PaymentMethod::P2P_NAME => false,
-                ]
-            ],
-        ];;
     }
 
     public function validate(string $paymentType, string $communicationType, string $paymentMethod): void
@@ -87,9 +61,9 @@ class BankCardRequestData implements RequestDataValidationContract
 
         if (!$this->inIgnore('cvv') && $this->inOnly('cvv')) {
             if ($this->required('cvv')) {
-                $error = empty($this->cvv) || $this->validateCvv();
+                $error = !empty($this->cvv) && !$this->validateCvv();
             } else {
-                $error = !empty($this->cvv) && $this->validateCvv();
+                $error = empty($this->cvv) || !$this->validateCvv();
             }
             if ($error) {
                 throw new BillingSdkException('CVV-code has incorrect value', 422);

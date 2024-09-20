@@ -247,7 +247,9 @@ $createdResult = $billing->createUniversalDeposit($depositDTO);
 ```
 
 В следующей таблице показаны методы, реализованные при помощи DTO универсального депозита, а также о требовании к обязательности атрибутов для DTO из п.1.
-<table style="border-collapse: collapse; border: 0 solid grey;">
+![image](table-universal-deposit.png "table-universal-deposit.png")
+
+<table style="border-collapse: collapse; border: 0 solid grey; display: none">
   <tr>
     <th style="border: 1px solid grey;" rowspan="2">Тип<br>соединения</th>
     <th style="border: 1px solid grey;" rowspan="2">Метод</th>
@@ -325,7 +327,10 @@ $createdResult = $billing->createUniversalDeposit($depositDTO);
     <td style="border: 1px solid grey;">R</td>
     <td style="border: 1px solid grey;">I</td>
     <td style="border: 1px solid grey;">I</td>
-    <td style="border: 1px solid grey;" colspan="4">-</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
   </tr>
   <tr>
     <td style="border: 1px solid grey;" rowspan="3">Host2Client</td>

@@ -36,6 +36,8 @@ abstract class ValidatorDeposit implements ValidatorContract
         ?BankCardRequestData $bankCardRequestData,
         string $trafficType
     ): void {
+        $this->initValidationConfig();
+
         $this->validatePaymentMethod();
         $this->validateCommunicationType();
         $this->validateTrafficType($trafficType);
@@ -47,8 +49,19 @@ abstract class ValidatorDeposit implements ValidatorContract
         if ($bankCardRequestData !== null) {
             $this->validateRequestDataStructure($bankCardRequestData);
         } else {
-            BankCardRequestData::checkIfShouldBe(PaymentType::DEPOSIT, $this->communicationType, $this->paymentMethodName);
+            BankCardRequestData::checkIfShouldBe(
+                PaymentType::DEPOSIT,
+                $this->communicationType,
+                $this->paymentMethodName
+            );
         }
+    }
+
+    private function initValidationConfig(): void
+    {
+        BankCardRequestData::setValidationConfigKey();
+        UrlsRequestData::setValidationConfigKey();
+        CustomerRequestData::setValidationConfigKey();
     }
 
     private function validatePaymentMethod(): void

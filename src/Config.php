@@ -29,11 +29,23 @@ class Config implements ConfigContract
         return self::$instance;
     }
 
-    public function get(string $key, $default = null): ?string
+    public function get(string $key, $default = null)
     {
         $instance = self::getInstance();
+        $array = $instance->config;
 
-        return array_key_exists($key, $instance->config) ? $instance->config[$key] : $default;
+        $keys = explode('.', $key);
+
+        foreach ($keys as $k) {
+            if (is_array($array) && array_key_exists($k, $array)) {
+                $array = $array[$k];
+            } else {
+                return $default;
+            }
+        }
+
+        return $array;
+        //return array_key_exists($key, $instance->config) ? $instance->config[$key] : $default;
     }
 
     public function set(string $key, $value): void
