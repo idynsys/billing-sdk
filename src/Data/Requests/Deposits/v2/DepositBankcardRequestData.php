@@ -94,7 +94,7 @@ class DepositBankcardRequestData extends DepositRequestData
                     'pan' => $this->pan,
                     'cvv' => $this->cvv,
                     'expiration' => $this->expiration,
-                    'holderName' => $this->holderName,
+                    'cardholder' => $this->holderName,
                 ],
                 'callback_url' => $this->callbackUrl
             ] + $this->addTrafficTypeToRequestData();
