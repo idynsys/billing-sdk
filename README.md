@@ -548,6 +548,10 @@ $requestParams = new DepositBankcardRequestData(
     $currencyCode,              // валюта суммы пополнения
     $callbackUrl,               // URL для передачи результата создания транзакции в B2B backoffice
     $customerEmail,             // email пользователя, совершающего операцию
+    $cardNumber,                // номер банковской карты
+    $expiration,                // дата окончания срока действия карты
+    $cardHolder,                // Имя и Фамилия держателя карты (как написано на карте)
+    $cvv,                       // CVV код карты
     $userIpAddress              // IP адрес пользователя
     $userAgent                  // информацию о браузере, операционной системе и устройстве пользователя
     $acceptLanguage             // HTTP-заголовок, используемый для указания предпочтений клиента по языкам
@@ -1765,12 +1769,12 @@ Idynsys\BillingSdk\Data\Responses\TransactionData {#360
   +currency: "RUB"
   +status: "IN_PROGRESS"
   +merchantOrderId: "124-431"
-  +paymentType: null
+  +confirmationType: null
   +redirectUrl: null
 }
 ```
-Значение для paymentType и redirectUrl необязательные, paymentType может быть только null или "3DS_PAYMENT_PAGE".
-В redirectUrl будет ссылка, если платежная система затребует подтверждение, иначе придет успешный статус без значений в paymentType и redirectUrl.
+Значение для confirmationType и redirectUrl необязательные, confirmationType может быть только null, "" или "3DS_PAYMENT_PAGE".
+В redirectUrl будет ссылка, если платежная система затребует подтверждение, иначе придет успешный статус без значений в confirmationType и redirectUrl.
 Ссылку на 3ds подтверждение можно получить:
 - в ответе а депозита H2H, если платежная система его передаст сразу,
 - либо при запросе статуса транзакции.
