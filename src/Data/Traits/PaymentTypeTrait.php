@@ -10,12 +10,12 @@ trait PaymentTypeTrait
     // Тип платежа
     protected ?string $paymentType;
 
-    protected function setPaymentType(?string $paymentType)
+    protected function setPaymentType(?string $paymentType): void
     {
         $this->paymentType = $paymentType;
     }
 
-    protected function validatePaymentType()
+    protected function validatePaymentType(): void
     {
         if ($this->paymentType !== null && !in_array($this->paymentType, PaymentType::getValues())) {
             throw new BillingSdkException(

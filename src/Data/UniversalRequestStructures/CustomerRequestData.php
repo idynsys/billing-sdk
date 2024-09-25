@@ -66,7 +66,7 @@ class CustomerRequestData implements RequestDataValidationContract
         return filter_var($this->email, FILTER_VALIDATE_EMAIL) !== false;
     }
 
-    function validatePhoneNumber(): bool
+    private function validatePhoneNumber(): bool
     {
         $cleanedPhoneNumber = str_replace([' ', '-'], '', $this->phoneNumber);
         $pattern = '/^\+?[1-9]\d{1,14}$/';

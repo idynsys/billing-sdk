@@ -13,7 +13,7 @@ trait SubStructureRequestDataTrait
      */
     private $currentConfig = false;
 
-    static protected string $validationConfigKey = 'validations.subKey';
+    protected static string $validationConfigKey = 'validations.subKey';
 
     /**
      * @var array
@@ -29,7 +29,7 @@ trait SubStructureRequestDataTrait
     {
         $subKey = Config::getInstance()->get('validations.map.' . __CLASS__, 'subKey');
 
-        self::$validationConfigKey = 'validations.'.$subKey;
+        self::$validationConfigKey = 'validations.' . $subKey;
     }
 
     private array $responseProperties = [];
@@ -42,7 +42,8 @@ trait SubStructureRequestDataTrait
     public static function getSpecificConfig(string $paymentType, string $communicationType, string $paymentMethod)
     {
         $config = self::getValidationConfig();
-        if (!isset($config[$paymentType][$communicationType][$paymentMethod])) {
+
+        if (!is_array($config) || !isset($config[$paymentType][$communicationType][$paymentMethod])) {
             return false;
         }
 

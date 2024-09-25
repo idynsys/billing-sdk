@@ -5,6 +5,7 @@ namespace Idynsys\BillingSdk\Data\Requests\PaymentMethods\v2;
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\PaymentMethods\PaymentMethodListRequestDataContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
+use Idynsys\BillingSdk\Data\Traits\CommunicationTypeTrait;
 use Idynsys\BillingSdk\Data\Traits\PaymentTypeTrait;
 use Idynsys\BillingSdk\Data\Traits\TrafficTypeTrait;
 use Idynsys\BillingSdk\Enums\RequestMethod;
@@ -14,6 +15,7 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
 {
     use TrafficTypeTrait;
     use PaymentTypeTrait;
+    use CommunicationTypeTrait;
 
     // Метод запроса
     protected string $requestMethod = RequestMethod::METHOD_GET;
@@ -28,6 +30,7 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
     protected ?string $paymentCurrencyCode;
 
     public function __construct(
+        string $communicationType,
         ?float $paymentAmount = null,
         ?string $paymentCurrencyCode = null,
         ?string $paymentType = null,
@@ -40,8 +43,10 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
         $this->paymentCurrencyCode = $paymentCurrencyCode;
         $this->setPaymentType($paymentType);
         $this->setTrafficType($trafficType);
+        $this->setCommunicationType($communicationType);
 
         $this->validatePaymentType();
+        $this->validateCommunicationType();
 
         if ($this->trafficType !== null) {
             $this->validateTrafficType();
@@ -50,7 +55,7 @@ final class PaymentMethodListRequestData extends RequestData implements PaymentM
 
     public function getRequestData(): array
     {
-        $data = [];
+        $data = ['communicationType' => $this->communicationType];
 
         if ($this->paymentAmount !== null) {
             $data['amount'] = $this->roundAmount($this->paymentAmount);
