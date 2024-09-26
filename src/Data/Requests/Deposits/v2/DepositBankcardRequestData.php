@@ -2,13 +2,101 @@
 
 namespace Idynsys\BillingSdk\Data\Requests\Deposits\v2;
 
+use Idynsys\BillingSdk\Config\ConfigContract;
+use Idynsys\BillingSdk\Data\Requests\Deposits\DepositRequestData;
+use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
+use Idynsys\BillingSdk\Enums\TrafficType;
 
 /**
  * DTO запроса для создания депозита через платежный метод Bankcard
  */
-class DepositBankcardRequestData extends DepositP2PRequestData
+class DepositBankcardRequestData extends DepositRequestData
 {
     // Параметр наименования платежного метода
     protected string $paymentMethodName = PaymentMethod::BANKCARD_NAME;
+
+    private string $pan;
+    private string $cvv;
+    private string $expiration;
+    private string $holderName;
+
+    /**
+     * @param string|null $merchantOrderId
+     * @param string|null $merchantOrderDescription
+     * @param string $customerEmail
+     * @param float $paymentAmount
+     * @param string $paymentCurrencyCode
+     * @param string $callbackUrl
+     */
+    public function __construct(
+        float $paymentAmount,
+        string $paymentCurrencyCode,
+        string $callbackUrl,
+        string $customerEmail,
+        string $cardNumber,
+        string $expiration,
+        string $holderName,
+        string $cvv,
+        string $userIpAddress,
+        string $userAgent,
+        string $acceptLanguage,
+        string $fingerprint,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
+        string $trafficType = TrafficType::FTD,
+        ?ConfigContract $config = null
+    ) {
+        parent::__construct($trafficType, $config);
+
+        $this->merchantOrderId = $merchantOrderId;
+        $this->merchantOrderDescription = $merchantOrderDescription;
+        $this->customerEmail = $customerEmail;
+        $this->pan = $cardNumber;
+        $this->cvv = $cvv;
+        $this->expiration = $expiration;
+        $this->holderName = $holderName;
+        $this->paymentAmount = $paymentAmount;
+        $this->paymentCurrencyCode = $paymentCurrencyCode;
+        $this->callbackUrl = $callbackUrl;
+        $this->userIpAddress = $userIpAddress;
+        $this->userAgent = $userAgent;
+        $this->acceptLanguage = $acceptLanguage;
+        $this->fingerprint = $fingerprint;
+    }
+
+    /**
+     * Получить массив передаваемых данных в запрос
+     *
+     * @return array
+     */
+    protected function getRequestData(): array
+    {
+        return [
+                'payment_method_name' => $this->paymentMethodName,
+                'communicationType' => CommunicationType::HOST_2_HOST,
+                'merchant_order' => [
+                    'id' => $this->merchantOrderId,
+                    'description' => $this->merchantOrderDescription
+                ],
+                'customer_data' => [
+                    'email' => $this->customerEmail,
+                    'ipAddress' => $this->userIpAddress,
+                    'acceptLanguage' => $this->acceptLanguage,
+                    'userAgent' => $this->userAgent,
+                    'fingerprint' => $this->fingerprint,
+                ],
+                'payment_data' => [
+                    'amount' => $this->roundAmount($this->paymentAmount),
+                    'currency' => $this->paymentCurrencyCode
+                ],
+                'card' => [
+                    'pan' => $this->pan,
+                    'cvv' => $this->cvv,
+                    'expiration' => $this->expiration,
+                    'cardholder' => $this->holderName,
+                ],
+                'callback_url' => $this->callbackUrl
+            ] + $this->addTrafficTypeToRequestData();
+    }
 }

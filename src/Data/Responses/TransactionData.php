@@ -39,7 +39,7 @@ class TransactionData
     // ID документа для создания депозита
     public ?string $merchantOrderId;
 
-    public ?string $paymentType;
+    public ?string $confirmationType;
 
     public ?string $redirectUrl;
 
@@ -55,7 +55,7 @@ class TransactionData
         ?string $currency,
         string $status,
         ?string $merchantOrderId,
-        ?string $paymentType,
+        ?string $confirmationType,
         ?string $redirectUrl
     ) {
         $this->id = $id;
@@ -69,7 +69,7 @@ class TransactionData
         $this->currency = $currency;
         $this->status = $status;
         $this->merchantOrderId = $merchantOrderId;
-        $this->paymentType = $paymentType;
+        $this->confirmationType = $confirmationType;
         $this->redirectUrl = $redirectUrl;
     }
 
@@ -93,7 +93,7 @@ class TransactionData
             $getResult['currency'] ?? null,
             $getResult['status'] ?? null,
             $getResult['merchantOrderId'] ?? null,
-            $getResult['paymentType'] ?? null,
+            $getResult['confirmationType'] ?? null,
             $getResult['redirectUrl'] ?? null
         );
     }
@@ -108,6 +108,6 @@ class TransactionData
      */
     private static function getAmountResponseArray(array &$data, string $key, ?float $default = null): ?float
     {
-        return (array_key_exists($key, $data) && is_numeric($data[$key])) ? (float) $data[$key] : $default;
+        return (array_key_exists($key, $data) && is_numeric($data[$key])) ? (float)$data[$key] : $default;
     }
 }

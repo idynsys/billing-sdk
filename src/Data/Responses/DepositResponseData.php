@@ -22,6 +22,9 @@ class DepositResponseData
     // URL для проведения транзакции при работе через H2C
     public ?string $redirectUrl;
 
+    // Тип подтверждения транзакции
+    public ?string $confirmationType;
+
     // Данные банковской карты
     public ?BankCardData $card;
 
@@ -39,6 +42,7 @@ class DepositResponseData
         float $amount,
         string $currency,
         ?string $redirectUrl = null,
+        ?string $confirmationType = null,
         ?BankCardData $card = null,
         ?array $destinationCard = null,
         ?string $paymentType = null,
@@ -49,6 +53,7 @@ class DepositResponseData
         $this->amount = $amount;
         $this->currency = $currency;
         $this->redirectUrl = $redirectUrl;
+        $this->confirmationType = $confirmationType;
         $this->card = $card;
         $this->destinationCard = $destinationCard;
         $this->paymentType = $paymentType;
@@ -68,7 +73,8 @@ class DepositResponseData
             $responseData['payment_status'] ?? 'n/a',
             $responseData['amount'] ?? 0,
             $responseData['currency'] ?? 'n/a',
-            $responseData['redirect_url'] ?? null,
+            $responseData['redirectUrl'] ?? ($responseData['redirect_url'] ?? null),
+            $responseData['confirmationType'] ?? ($responseData['confirmation_type'] ?? null),
             array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData(
                 $responseData['card']
             ) : null,
