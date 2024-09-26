@@ -991,6 +991,7 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
     +holderName: "Marina Marinina"
     +lifetimeInMinutes: 3
   }
+  +destinationCard: null,
   +error: null
 }
 ```
