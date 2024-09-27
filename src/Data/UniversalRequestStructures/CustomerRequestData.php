@@ -41,6 +41,10 @@ class CustomerRequestData implements RequestDataValidationContract
     {
         $this->setCurrentConfig($paymentType, $communicationType, $paymentMethod);
 
+        if (empty($this->id)) {
+            throw new BillingSdkException('Customer Id value can not be empty', 422);
+        }
+
         if (empty($this->email) || !$this->validateEmail()) {
             throw new BillingSdkException('Email must be a valid email address and can not be empty', 422);
         }

@@ -9,6 +9,13 @@ use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 class ValidatorFactory
 {
+    /**
+     * @param string $paymentType
+     * @param string $paymentMethodName
+     * @param string $communicationType
+     * @return ValidatorContract
+     * @throws BillingSdkException
+     */
     public static function make(
         string $paymentType,
         string $paymentMethodName,
@@ -29,6 +36,12 @@ class ValidatorFactory
             throw new BillingSdkException("Class $validatorClass is not found.", 500);
         }
 
-        return new $validatorClass($paymentType, $paymentMethodName, $communicationType);
+        $validatorInstance = new $validatorClass($paymentType, $paymentMethodName, $communicationType);
+
+        if (!$validatorInstance instanceof ValidatorContract) {
+            throw new BillingSdkException("Class $validatorClass does not implement ValidatorContract.", 500);
+        }
+
+        return $validatorInstance;
     }
 }

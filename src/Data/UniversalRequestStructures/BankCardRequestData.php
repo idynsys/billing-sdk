@@ -55,7 +55,10 @@ class BankCardRequestData implements RequestDataValidationContract
         }
 
         if (empty($this->holderName) || !$this->validateCardHolderName()) {
-            throw new BillingSdkException('Card holder name must not be empty and must be correct cardholder name', 422);
+            throw new BillingSdkException(
+                'Card holder name must not be empty and must be correct cardholder name',
+                422
+            );
         }
 
         if (empty($this->expiration) || !$this->validateExpiration()) {
@@ -91,7 +94,7 @@ class BankCardRequestData implements RequestDataValidationContract
         return $this->luhnCheck($number);
     }
 
-    private function luhnCheck(string $number)
+    private function luhnCheck(string $number): bool
     {
         $sum = 0;
         $shouldDouble = false;

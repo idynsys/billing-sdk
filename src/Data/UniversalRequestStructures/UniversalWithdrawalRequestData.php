@@ -61,7 +61,7 @@ class UniversalWithdrawalRequestData extends RequestData
             PaymentType::WITHDRAWAL,
             $this->paymentMethodName,
             $this->communicationType
-        );;
+        );
 
         $validator->validate(
             $this->paymentRequestData,

@@ -114,7 +114,7 @@ final class Billing implements BillingContract
     /**
      * Создать транзакцию для вывода средств со счета через Billing в B2B Backoffice
      *
-     * @param PayoutRequestData $data
+     * @param PayoutHost2HostRequestData $data
      * @return PayoutResponseData
      * @throws BillingSdkException
      * @throws \JsonException

@@ -61,7 +61,7 @@ class UniversalDepositRequestData extends RequestData
 
     private function validate(): void
     {
-        $validator = ValidatorFactory::make(PaymentType::DEPOSIT, $this->paymentMethodName, $this->communicationType);;
+        $validator = ValidatorFactory::make(PaymentType::DEPOSIT, $this->paymentMethodName, $this->communicationType);
 
         $validator->validate(
             $this->paymentRequestData,

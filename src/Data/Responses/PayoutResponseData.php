@@ -14,9 +14,15 @@ class PayoutResponseData
     public string $transactionId;
 
     // Описание ошибки, если была при создании транзакции
+    /** @var mixed|null */
     public $error;
 
-    public function __construct(
+    /**
+     * @param string $status
+     * @param string $transactionId
+     * @param null|mixed $error
+     */
+    final public function __construct(
         string $status,
         string $transactionId,
         $error = null
