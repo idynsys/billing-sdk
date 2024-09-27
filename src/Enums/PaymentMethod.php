@@ -68,6 +68,7 @@ class PaymentMethod
             self::BANKCARD_NAME,
             self::M_COMMERCE_NAME,
             self::SBP_NAME,
+            self::SBP_QR_NAME,
             self::SBER_PAY_NAME,
             self::E_MANAT,
             self::SMART_CARD,

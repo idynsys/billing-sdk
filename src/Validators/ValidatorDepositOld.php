@@ -1,6 +1,6 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\UniversalRequestStructures\Validators;
+namespace Idynsys\BillingSdk\Validators;
 
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\BankCardRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerRequestData;
@@ -15,7 +15,7 @@ use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Enums\TrafficType;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
-abstract class ValidatorDeposit implements ValidatorContract
+class ValidatorDepositOld implements ValidatorContract
 {
     protected string $paymentMethodName;
 
@@ -34,7 +34,7 @@ abstract class ValidatorDeposit implements ValidatorContract
         SessionDetailsRequestData $sessionDetailsRequestData,
         CustomerRequestData $customerRequestData,
         ?BankCardRequestData $bankCardRequestData,
-        string $trafficType
+        ?string $trafficType = null
     ): void {
         $this->initValidationConfig();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\UniversalRequestStructures\Validators;
+namespace Idynsys\BillingSdk\Validators;
 
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\BankCardRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerRequestData;
@@ -18,6 +18,6 @@ interface ValidatorContract
         SessionDetailsRequestData $sessionDetailsRequestData,
         CustomerRequestData $customerRequestData,
         ?BankCardRequestData $bankCardRequestData,
-        string $trafficType
+        ?string $trafficType = null
     ): void;
 }

@@ -3,9 +3,7 @@
 namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\Traits\SubStructureRequestDataTrait;
-use Idynsys\BillingSdk\Enums\CommunicationType;
-use Idynsys\BillingSdk\Enums\PaymentMethod;
-use Idynsys\BillingSdk\Enums\PaymentType;
+use Idynsys\BillingSdk\Enums\BankName;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 class CustomerRequestData implements RequestDataValidationContract
@@ -52,11 +50,11 @@ class CustomerRequestData implements RequestDataValidationContract
         }
 
 
-        if (!$this->inIgnore('bankName') && $this->required('bankName') && empty($this->bankName)) {
-            throw new BillingSdkException('Bank name is required and cannot be empty.', 422);
+        if (!$this->inIgnore('bankName') && !$this->validateBankName()) {
+            throw new BillingSdkException('Bank name is required, cannot be empty and must be in Bank List.', 422);
         }
 
-        if (!$this->inIgnore('docId') && $this->required('docId') && empty($this->bankName)) {
+        if (!$this->inIgnore('docId') && $this->required('docId') && empty($this->docId)) {
             throw new BillingSdkException('Document ID is required and cannot be empty.', 422);
         }
     }
@@ -72,5 +70,16 @@ class CustomerRequestData implements RequestDataValidationContract
         $pattern = '/^\+?[1-9]\d{1,14}$/';
 
         return preg_match($pattern, $cleanedPhoneNumber) === 1;
+    }
+
+    private function validateBankName(): bool
+    {
+        if ($this->required('bankName')) {
+            if (empty($this->bankName) || !in_array($this->bankName, BankName::values())) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

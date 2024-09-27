@@ -62,19 +62,19 @@ trait SubStructureRequestDataTrait
 
     private function inIgnore(string $propertyName): bool
     {
-        return array_key_exists('ignore', $this->currentConfig) &&
+        return is_array($this->currentConfig) && array_key_exists('ignore', $this->currentConfig) &&
             in_array($propertyName, $this->currentConfig['ignore']);
     }
 
     private function inOnly(string $propertyName): bool
     {
-        return !array_key_exists('only', $this->currentConfig) ||
+        return !is_array($this->currentConfig) || !array_key_exists('only', $this->currentConfig) ||
             in_array($propertyName, $this->currentConfig['only']);
     }
 
     private function required(string $propertyName): bool
     {
-        return array_key_exists('required', $this->currentConfig) &&
+        return is_array($this->currentConfig) && array_key_exists('required', $this->currentConfig) &&
             in_array($propertyName, $this->currentConfig['required']);
     }
 

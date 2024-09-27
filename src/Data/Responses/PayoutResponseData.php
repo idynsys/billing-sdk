@@ -36,7 +36,7 @@ class PayoutResponseData
     {
         return new static(
             $responseData['status'] ?? 'SUCCESS',
-            $responseData['transactionId'] ?? '',
+            $responseData['id'] ?? '',
             $responseData['error'] ?? null
         );
     }

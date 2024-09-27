@@ -22,6 +22,7 @@ use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalWithdrawalRequestData;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 /**
@@ -194,5 +195,12 @@ final class Billing implements BillingContract
         $this->sendRequest($data);
 
         return DepositResponseData::from($this->client->getResult());
+    }
+
+    public function createUniversalWithdrawal(UniversalWithdrawalRequestData $data): PayoutResponseData
+    {
+        $this->sendRequest($data);
+
+        return PayoutResponseData::from($this->client->getResult());
     }
 }

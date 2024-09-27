@@ -4,9 +4,9 @@ namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
 use Idynsys\BillingSdk\Config\ConfigContract;
 use Idynsys\BillingSdk\Data\Requests\RequestData;
-use Idynsys\BillingSdk\Data\UniversalRequestStructures\Validators\ValidatorFactory;
 use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Enums\RequestMethod;
+use Idynsys\BillingSdk\Validators\ValidatorFactory;
 
 class UniversalDepositRequestData extends RequestData
 {

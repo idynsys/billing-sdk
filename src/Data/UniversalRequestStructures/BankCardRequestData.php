@@ -35,7 +35,10 @@ class BankCardRequestData implements RequestDataValidationContract
     public static function checkIfShouldBe(string $paymentType, string $communicationType, string $paymentMethod): void
     {
         if (self::getSpecificConfig($paymentType, $communicationType, $paymentMethod) !== false) {
-            throw new BillingSdkException('Bankcard info must be presented for this deposit and must not be empty', 422);
+            throw new BillingSdkException(
+                'Bankcard info must be presented for this ' . $paymentType . ' and must not be empty',
+                422
+            );
         }
     }
 
@@ -47,15 +50,15 @@ class BankCardRequestData implements RequestDataValidationContract
             return;
         }
 
-        if (empty($this->pan) || $this->validatePan()) {
-            throw new BillingSdkException('Bankcard info must not be empty and must be correct bankcard number', 422);
+        if (empty($this->pan) || !$this->validatePan()) {
+            throw new BillingSdkException('Bankcard number must not be empty and must be correct bankcard number', 422);
         }
 
-        if (empty($this->holderName) || $this->validateCardHolderName()) {
-            throw new BillingSdkException('Cardholder name must not be empty and must be correct cardholder name', 422);
+        if (empty($this->holderName) || !$this->validateCardHolderName()) {
+            throw new BillingSdkException('Card holder name must not be empty and must be correct cardholder name', 422);
         }
 
-        if (empty($this->expiration) || $this->validateExpiration()) {
+        if (empty($this->expiration) || !$this->validateExpiration()) {
             throw new BillingSdkException('Expiration date must not be empty and must be correct format', 422);
         }
 
