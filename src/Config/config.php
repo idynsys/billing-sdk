@@ -99,12 +99,13 @@ return [
                     PaymentMethod::BANKCARD_NAME => [
                         'required' => ['cvv']
                     ],
-                    PaymentMethod::P2P_NAME => [
-                        'ignore' => ['cvv']
-                    ],
+                    PaymentMethod::P2P_NAME => false,
                 ]
             ],
             PaymentType::WITHDRAWAL => [
+                CommunicationType::HOST_2_CLIENT => [
+                    //
+                ],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::SBER_PAY_NAME => [
                         'ignore' => ['cvv']
@@ -112,6 +113,7 @@ return [
                     PaymentMethod::P2P_NAME => [
                         'ignore' => ['cvv']
                     ],
+                    PaymentMethod::SBP_NAME => false,
                 ]
             ]
         ],

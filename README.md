@@ -154,8 +154,8 @@ $result->all();
 
 ##### Универсальный метод создания депозитов
 
-Некоторые депозиты реализуются через универсальный метод создания депозитов. Для создания универсального депозита используется следующий подход:
-1. Создать все DTO суб-объекты, необходимые для описания депозита:
+Некоторые депозиты создаются через универсальный метод создания депозитов. Для создания депозита при помощи универсального метода необходимо:
+1. Создать все DTO подобъекты, необходимые для описания депозита:
    - PaymentRequestData - обязательно для любого депозита, информация о сумме и валюте депозита
    - MerchantOrderRequestData - обязательно для любого депозита, информация об исходном документе, на основании которого формируется депозит
    - UrlsRequestData - обязательно для любого депозита, все необходимые ссылки для отправки ответов при создании депозита
@@ -246,7 +246,13 @@ $billing = new Billing();
 $createdResult = $billing->createUniversalDeposit($depositDTO);
 ```
 
-В следующей таблице показаны методы, реализованные при помощи DTO универсального депозита, а также о требовании к обязательности атрибутов для DTO из п.1.
+В следующей таблице показаны платежные методы, реализованные при помощи универсального DTO депозита, а также информация об обязательности атрибутов для DTO из п.1.
+
+Значения в ячейках:
+- "R" - обязательное
+- "I" - игнорируется
+- "-" - не используется
+
 ![image](table-universal-deposit.png "table-universal-deposit.png")
 
 <table style="border-collapse: collapse; border: 0 solid grey; display: none">
@@ -333,7 +339,7 @@ $createdResult = $billing->createUniversalDeposit($depositDTO);
     <td style="border: 1px solid grey;">R</td>
   </tr>
   <tr>
-    <td style="border: 1px solid grey;" rowspan="3">Host2Client</td>
+    <td style="border: 1px solid grey;" rowspan="4">Host2Client</td>
     <td style="border: 1px solid grey;">P2P</td>
     <td style="border: 1px solid grey;">R</td>
     <td style="border: 1px solid grey;">R</td>
@@ -378,6 +384,28 @@ $createdResult = $billing->createUniversalDeposit($depositDTO);
     <td style="border: 1px solid grey;" colspan="4">-</td>
   </tr>
   <tr>
+    <td style="border: 1px solid grey;">SBP-QR</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;" colspan="4">-</td>
+  </tr>
+  <tr>
     <td style="border: 1px solid grey;">SberPay</td>
     <td style="border: 1px solid grey;">R</td>
     <td style="border: 1px solid grey;">R</td>
@@ -398,7 +426,6 @@ $createdResult = $billing->createUniversalDeposit($depositDTO);
     <td style="border: 1px solid grey;">I</td>
     <td style="border: 1px solid grey;">I</td>
     <td style="border: 1px solid grey;" colspan="4">-</td>
-
   </tr>
   <tr>
     <td style="border: 1px solid grey;"></td>
@@ -428,7 +455,7 @@ $createdResult = $billing->createUniversalDeposit($depositDTO);
   </tr>
 </table>
 
-##### Персонализированный метод создания депозитов
+##### Персонализированные методы создания депозитов
 
 В каждом классе DTO есть параметр "trafficType". Этот параметр необязательный и может принимать следующие значения:
 - ftd - первичный трафик (для непроверенных пользователей делающих оплату первый раз), значение по умолчанию
@@ -436,25 +463,25 @@ $createdResult = $billing->createUniversalDeposit($depositDTO);
 
 I. Реализованные методы для пополнения счета (Deposits)
 
-| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                                                        |
-|----|-------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1  | Host2Host               | ~~p2p~~         | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData~~ , использовать Универсальный метод для депозита                          |
-| 2  | Host2Client             | ~~p2p~~         | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData~~  , использовать Универсальный метод для депозита     |
-| 3  | Host2Host               | ~~Bankcard~~    | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData~~  , использовать Универсальный метод для депозита                    |
-| 4  | Host2Host               | Mobile Commerce | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData [см.](#deposit-h2h-m-commerce)                                         |
-| 5  | Host2Client             | ~~SberPay~~     | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPay2PHostClientRequestData~~ , использовать Универсальный метод для депозита |
-| 6  | Host2Client             | ~~SBP~~         | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpHost2ClientRequestData~~ , использовать Универсальный метод для депозита      |
-| 7  | Host2Client             | Havale          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHavaleHostToClientRequestData                                                      |
-| 8  | Host2Client             | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHayHayHostToClientRequestData [см.](#deposit-h2c-hay-hay)                          |
-| 9  | Host2Client             | eManat          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHostEManat2ClientRequestData [см.](#deposit-h2c-emanat)                            |
-| 10 | Host2Client             | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositInCardP2PHostToClientRequestData [см.](#deposit-h2c-in-card-p2p)                   |
-| 11 | Host2Client             | M10             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositM10HostToClientRequestData [см.](#deposit-h2c-m10)                                 |
-| 12 | Host2Client             | Papara          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPaparaHostToClientRequestData [см.](#deposit-h2c-papara)                           |
-| 13 | Host2Client             | PayCo           | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayCoHostToClientRequestData [см.](#deposit-h2c-pey-co)                            |
-| 14 | Host2Client             | Payfix          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToClientRequestData [см.](#deposit-h2c-pay-fix)                          |
-| 15 | Host2Client             | Pep             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClientRequestData [см.](#deposit-h2c-pep)                                 |
-| 16 | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData [см.](#deposit-h2c-smart-card)                    |
-| 17 | Host2Client             | SBP-QR          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpQRHost2ClientRequestData [см.](#deposit-h2c-sbp)                                |
+| №№     | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                                                        |
+|--------|-------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| ~~1~~  | ~~Host2Host~~           | ~~p2p~~         | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositP2PRequestData~~ , использовать Универсальный метод для депозита                          |
+| ~~2~~  | ~~Host2Client~~         | ~~p2p~~         | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositP2PHost2ClientRequestData~~ , использовать Универсальный метод для депозита      |
+| ~~3~~  | ~~Host2Host~~           | ~~Bankcard~~    | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositBankcardRequestData~~  , использовать Универсальный метод для депозита                    |
+| 4      | Host2Host               | Mobile Commerce | \Idynsys\BillingSdk\Data\Requests\Deposits\v2\DepositMCommerceRequestData [см.](#deposit-h2h-m-commerce)                                         |
+| ~~5~~  | ~~Host2Client~~         | ~~SberPay~~     | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSberPay2PHostClientRequestData~~ , использовать Универсальный метод для депозита |
+| ~~6~~  | ~~Host2Client~~         | ~~SBP~~         | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpHost2ClientRequestData~~ , использовать Универсальный метод для депозита      |
+| 7      | Host2Client             | Havale          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHavaleHostToClientRequestData                                                      |
+| 8      | Host2Client             | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHayHayHostToClientRequestData [см.](#deposit-h2c-hay-hay)                          |
+| 9      | Host2Client             | eManat          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositHostEManat2ClientRequestData [см.](#deposit-h2c-emanat)                            |
+| 10     | Host2Client             | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositInCardP2PHostToClientRequestData [см.](#deposit-h2c-in-card-p2p)                   |
+| 11     | Host2Client             | M10             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositM10HostToClientRequestData [см.](#deposit-h2c-m10)                                 |
+| 12     | Host2Client             | Papara          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPaparaHostToClientRequestData [см.](#deposit-h2c-papara)                           |
+| 13     | Host2Client             | PayCo           | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayCoHostToClientRequestData [см.](#deposit-h2c-pey-co)                            |
+| 14     | Host2Client             | Payfix          | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPayfixHostToClientRequestData [см.](#deposit-h2c-pay-fix)                          |
+| 15     | Host2Client             | Pep             | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositPepHostToClientRequestData [см.](#deposit-h2c-pep)                                 |
+| 16     | Host2Client             | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSmartCardHostToClientRequestData [см.](#deposit-h2c-smart-card)                    |
+| ~~17~~ | ~~Host2Client~~         | ~~SBP-QR~~      | ~~\Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client\DepositSbpQRHost2ClientRequestData~~, использовать Универсальный метод для депозита     |
 
 <a id="deposit-h2h-p2p">1. _Создание транзакции депозита через платежный метод P2P Host2Host_</a>
 1. _Создание транзакции депозита через платежный метод P2P Host2Host_
@@ -983,29 +1010,270 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
 | errorCode       | string | Код ошибки при выполнении операции депозита                                                                                         |
 | errorMessage    | string | Сообщение об ошибке                                                                                                                 |
 
-
 #### Создать транзакцию для вывода денежных средств со счета
+
+##### Универсальный метод создания транзакции для вывода денежных средств со счета
+
+Некоторые транзакции для вывода денежных средств создаются через универсальный метод.
+Для создания транзакции при помощи универсального метода необходимо:
+1. Создать все DTO подобъекты, необходимые для структуры DTO, которая используется при создании транзакции для вывода средств:
+    - PaymentRequestData - обязательно для любого вывода средств, информация о сумме и валюте
+    - MerchantOrderRequestData - обязательно для любого вывода средств, информация об исходном документе, на основании которого формируется ордер и транзакция
+    - UrlsRequestData - обязательно для любого вывода средств, все необходимые ссылки для отправки ответов при создании ордера и транзакции
+    - SessionDetailsRequestData - обязательно для любого вывода средств, информация о сессии пользователя, браузере и др.
+    - CustomerRequestData - обязательно для любого вывода средств, информация о пользователе и его контакты, который выполняет вывод средств
+    - BankCardRequestData - необязательно, используется только для вывода средств, которые выполняются через данные банковской карты.
+      Детальное описание свойств DTO-классов находится в этом же разделе.
+2. Создать объект с данными универсального DTO вывода средств UniversalWithdrawalRequestData, использую объекты классов из п.1.
+3. Отправить запрос на создание ордера и транзакции для вывода средств.
+4. Обработать ответ.
+
+Пример создания транзакции для вывода средств при помощи DTO для универсального метода:
+```php
+
+use Idynsys\BillingSdk\Billing;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\BankCardRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\MerchantOrderRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\PaymentRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\SessionDetailsRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalWithdrawalRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\UrlsRequestData;
+
+// Объект нужен для всех транзакций выводов средств
+$paymentData = new PaymentRequestData(
+     $amount,       // (обязательное) сумма депозита
+     $currency      // (обязательное) валюта депозита
+);
+
+// Объект нужен для всех транзакций выводов средств
+$merchantData = new MerchantOrderRequestData(
+     $id,           // (обязательное) идентификатор внутреннего документа, на основе которого создается депозит
+     $description   // (обязательное) описание документа, на основе которого создается депозит
+);
+
+// Объект нужен для всех транзакций выводов средств
+$urlsData = new UrlsRequestData(
+    $callbackUrl,           // (обязательное) URL для уведомления о результате депозита или выплаты (успех/неудача). Используется для асинхронного уведомления сервера.
+    $returnUrl,             // (необязательное, зависит от метода) URL для перенаправления пользователя после завершения депозита (независимо от результата).  
+    $redirectSuccessUrl,    // (необязательное, зависит от метода) URL для перенаправления в случае успешного депозита.
+    $redirectFailUrl,       // (необязательное, зависит от метода) URL для перенаправления в случае неудачного депозита.  
+)
+
+
+// Объект нужен для всех транзакций выводов средств
+$sessionData = new SessionDetailsRequestData(
+    $fingerprint,       // (обязательное) Подпись данных пользователя в запросе. см. https://github.com/fingerprintjs/fingerprintjs
+    $ipAddress,         // (обязательное) IP адрес пользователя
+    $userAgent,         // (обязательное) информацию о браузере, операционной системе и устройстве пользователя
+    $acceptLanguage,    // (обязательное) HTTP-заголовок, используемый для указания предпочтений клиента по языкам
+    $userLanguage       // (обязательное) Предпочтительный язык для пользователя
+);
+
+// Объект нужен для всех транзакций выводов средств
+$customerData = new CustomerRequestData(
+    $id,            // (обязательное) ID пользователя, совершающего операцию
+    $email,         // (обязательное) e-mail пользователя, совершающего операцию
+    $phoneNumber,   // (обязательное) телефонный номер пользователя
+    $bankName,      // (необязательное, зависит от метода) имя банка-получателя
+    $docId          // (необязательное, зависит от метода) номер документа (паспорт, Card ID владельца счета в банке)
+);
+
+// Объект нужен для транзакций выводов средств, где требуется предоставить информацию о банковской карте
+$bankCardData = new BankCardRequestData(
+    $pan,           // (обязательное) Номер банковской карты, на которую выводятся деньги
+    $holderName,    // (обязательное) Данные владельца карты (Имя Фамилия, как написано на карте)
+    $expiration,    // (обязательное) Месяц и год окончания действия карты (как написано на карте)
+    $cvv            // (необязательное, зависит от метода)  CVV (Card Verification Value) или CVC (Card Verification Code) 
+);
+
+$withdrawalDTO = new UniversalWithdrawalRequestData(
+    $paymentMethod,     // (обязательное) Наименование метода для вывода средств, все доступные значения можно получить из функции \Idynsys\BillingSdk\Enums\PaymentMethod::getValues()
+    $communicationType, // (обязательное) Тип соединения, все доступные значения можно получить из функции \Idynsys\BillingSdk\Enums\CommunicationType::getValues() 
+    $trafficType,       // (обязательное) Тип трафика, все доступные значения можно получить из функции \Idynsys\BillingSdk\Enums\TrafficType::getValues()
+    $paymentData,       // (обязательное) Объект класса PaymentRequestData, см. выше 
+    $merchantData,      // (обязательное) Объект класса MerchantOrderRequestData, см. выше
+    $urlsData,          // (обязательное) Объект класса UrlsRequestData, см. выше
+    $sessionData,       // (обязательное) Объект класса SessionDetailsRequestData, см. выше
+    $customerData,      // (обязательное) Объект класса CustomerRequestData, см. выше
+    $bankCardData       // (необязательное) Объект класса BankCardRequestData, см. выше
+)
+
+
+$billing = new Billing();
+
+// Создать транзакцию и получить результат
+/** @var PayoutResponseData $createdResult */
+$createdResult = $billing->createUniversalWithdrawal($withdrawalDTO);
+````
+
+В следующей таблице показаны платежные методы, реализованные при помощи универсального DTO вывода средств, а также информация об обязательности атрибутов для DTO из п.1.
+
+Значения в ячейках:
+- "R" - обязательное
+- "I" - игнорируется
+- "-" - не используется
+
+![Таблица универсальных объектов](table-universal-withdrawal.png "table-universal-deposit.png")
+
+<table style="border-collapse: collapse; border: 0 solid grey; display: none">
+  <tr>
+    <th style="border: 1px solid grey;" rowspan="2">Тип<br>соединения</th>
+    <th style="border: 1px solid grey;" rowspan="2">Метод</th>
+    <th style="border: 1px solid grey;" colspan="2"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 200px">PaymentRequestData</div></th>
+    <th style="border: 1px solid grey;" colspan="2"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 200px">MerchantOrderRequestData</div></th>
+    <th style="border: 1px solid grey;" colspan="4"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 200px">UrlsRequestData</div></th>
+    <th style="border: 1px solid grey;" colspan="5"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 200px">SessionDetailsRequestData</div></th>
+    <th style="border: 1px solid grey;" colspan="5"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 200px">CustomerRequestData</div></th>
+    <th style="border: 1px solid grey;" colspan="4"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 200px">BankCardRequestData</div></th>
+  </tr>
+  <tr>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">Amount</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">Currency</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">id</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">description</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">callback</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">return</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">redirectSuccess</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">redirectFail</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">fingerprint</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">ipAddress</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">userAgent</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">acceptLanguage</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">userLanguage</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">id</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">email</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">phoneNumber</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">bankName</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">docId</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">pan</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">holderName</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">expiration</div></th>
+    <th style="border: 1px solid grey;"><div style="writing-mode: vertical-rl; transform: rotate(180deg); display: flex; align-items: center; width: 100%; justify-content: start; height: 110px">cvv</div></th>
+  </tr>
+  <tr>
+    <td style="border: 1px solid grey;" rowspan="3">Host2Host</td>
+    <td style="border: 1px solid grey;">P2P</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+  </tr>
+<tr>
+    <td style="border: 1px solid grey;">SberPay</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid grey;">SBP</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">R</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;">I</td>
+    <td style="border: 1px solid grey;" colspan="4">-</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid grey;" rowspan="1">Host2Client</td>
+    <td style="border: 1px solid grey;">-</td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+    <td style="border: 1px solid grey;"></td>
+  </tr>
+</table>
+
+##### Персонализированные методы создания транзакции для вывода денежных
 
 I. Методы, позволяющие создать транзакцию для вывода средства со счета
 
-| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                             |
-|----|-------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------|
-| 1  | Host2Host               | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutP2PRequestData [см.](#payout-h2h-p2p)                                 |
-| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData [см.](#payout-h2c-p2p)          |
-| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutBankcardRequestData [см.](#payout-h2h-bankcad)                        |
-| 4  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutSberPayHost2ClientRequestData [см.](#payout-h2c-sber-pay) |
-| 5  | Host2Host               | Havale          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHavaleHost2HostRequestData [см.](#payout-h2h-havale)                  |
-| 6  | Host2Host               | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\PayoutHayHayHost2HostRequestData [см.](#payout-h2h-hay-hay)                |
-| 7  | Host2Host               | eManat          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutEManatHost2HostRequestData [см.](#payout-h2h-emanat)                  |
-| 8  | Host2Host               | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutInCardP2PHost2HostRequestData [см.](#payout-h2h-in-card-p2p)          |
-| 9  | Host2Host               | M10             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutM10Host2HostRequestData [см.](#payout-h2h-m10)                        |
-| 10 | Host2Host               | Papara          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPaparaHost2HostRequestData [см.](#payout-h2h-papara)                  |
-| 11 | Host2Host               | PayCo           | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayCoHost2HostRequestData [см.](#payout-h2h-pay-co)                   |
-| 12 | Host2Host               | Payfix          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayfixHost2HostRequestData [см.](#payout-h2h-payfix)                  |
-| 13 | Host2Host               | Pep             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData [см.](#payout-h2h-pep)                        |
-| 14 | Host2Host               | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData [см.](#payout-h2h-smart-card)           |
-| 15 | Host2Host               | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSberPayHost2HostRequestData [см.](#payout-h2h-sber-pay)               |
-| 16 | Host2Host               | SBP             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSbpHost2HostRequestData [см.](#payout-h2h-sbp)                        |
+| №№ | Вид <br/>взаимодействия | Платежный метод | Класс DTO                                                                                                                        |
+|----|-------------------------|-----------------|----------------------------------------------------------------------------------------------------------------------------------|
+| ~~1~~  | ~~Host2Host~~           | ~~p2p~~         | ~~\Idynsys\BillingSdk\Data\Requests\Payouts\PayoutP2PRequestData~~ , использовать Универсальный метод для депозита               |
+| 2  | Host2Client             | p2p             | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutP2PHost2ClientRequestData [см.](#payout-h2c-p2p)                     |
+| 3  | Host2Host               | Bankcard        | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutBankcardRequestData [см.](#payout-h2h-bankcad)                                   |
+| 4  | Host2Client             | SberPay         | \Idynsys\BillingSdk\Data\Requests\Payouts\Host2Client\PayoutSberPayHost2ClientRequestData [см.](#payout-h2c-sber-pay)            |
+| 5  | Host2Host               | Havale          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutHavaleHost2HostRequestData [см.](#payout-h2h-havale)                             |
+| 6  | Host2Host               | HayHay          | \Idynsys\BillingSdk\Data\Requests\Deposits\PayoutHayHayHost2HostRequestData [см.](#payout-h2h-hay-hay)                           |
+| 7  | Host2Host               | eManat          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutEManatHost2HostRequestData [см.](#payout-h2h-emanat)                             |
+| 8  | Host2Host               | InCardP2P       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutInCardP2PHost2HostRequestData [см.](#payout-h2h-in-card-p2p)                     |
+| 9  | Host2Host               | M10             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutM10Host2HostRequestData [см.](#payout-h2h-m10)                                   |
+| 10 | Host2Host               | Papara          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPaparaHost2HostRequestData [см.](#payout-h2h-papara)                             |
+| 11 | Host2Host               | PayCo           | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayCoHost2HostRequestData [см.](#payout-h2h-pay-co)                              |
+| 12 | Host2Host               | Payfix          | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPayfixHost2HostRequestData [см.](#payout-h2h-payfix)                             |
+| 13 | Host2Host               | Pep             | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutPepHost2HostRequestData [см.](#payout-h2h-pep)                                   |
+| 14 | Host2Host               | SmartCard       | \Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSmartCardHost2HostRequestData [см.](#payout-h2h-smart-card)                      |
+| ~~15~~ | ~~Host2Host~~           | ~~SberPay~~     | ~~\Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSberPayHost2HostRequestData~~ , использовать Универсальный метод для депозита |
+| ~~16~~ | ~~Host2Host~~           | ~~SBP~~         | ~~\Idynsys\BillingSdk\Data\Requests\Payouts\PayoutSbpHost2HostRequestData~~ , использовать Универсальный метод для депозита      |
 
 Некоторые транзакции для вывода средств имеют параметр BankName. Значения для этого параметра можно найти в enum-классе Idynsys\BillingSdk\Enums\BankName
 Список возможных значений для наименования банка-получателя:
