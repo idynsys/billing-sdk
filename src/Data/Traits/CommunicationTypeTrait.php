@@ -3,6 +3,7 @@
 namespace Idynsys\BillingSdk\Data\Traits;
 
 use Idynsys\BillingSdk\Enums\CommunicationType;
+use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 trait CommunicationTypeTrait
@@ -16,10 +17,10 @@ trait CommunicationTypeTrait
 
     public function validateCommunicationType(): void
     {
-        if (in_array($this->communicationType, CommunicationType::getValues())) {
+        if (in_array($this->communicationType, PaymentType::getValues())) {
             throw new BillingSdkException(
                 'The Payment type ' . $this->communicationType . ' does not exist in '
-                . implode(', ', CommunicationType::getValues()),
+                . implode(', ', PaymentType::getValues()),
                 422
             );
         }
