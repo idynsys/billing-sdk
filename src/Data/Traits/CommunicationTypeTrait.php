@@ -17,10 +17,10 @@ trait CommunicationTypeTrait
 
     public function validateCommunicationType(): void
     {
-        if (in_array($this->communicationType, PaymentType::getValues())) {
+        if (in_array($this->communicationType, CommunicationType::getValues())) {
             throw new BillingSdkException(
-                'The Payment type ' . $this->communicationType . ' does not exist in '
-                . implode(', ', PaymentType::getValues()),
+                'The Communication type ' . $this->communicationType . ' does not exist in '
+                . implode(', ', CommunicationType::getValues()),
                 422
             );
         }
