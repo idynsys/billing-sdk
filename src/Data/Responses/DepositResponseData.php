@@ -38,7 +38,6 @@ class DepositResponseData
         string $currency,
         ?string $confirmationType = null,
         ?string $redirectUrl = null,
-        ?string $confirmationType = null,
         ?BankCardData $card = null,
         $error = null
     ) {
@@ -48,7 +47,6 @@ class DepositResponseData
         $this->currency = $currency;
         $this->confirmationType = $confirmationType;
         $this->redirectUrl = $redirectUrl;
-        $this->confirmationType = $confirmationType;
         $this->card = $card;
         $this->error = $error;
     }
@@ -66,8 +64,8 @@ class DepositResponseData
             $responseData['status'] ?? 'n/a',
             $responseData['amount'] ?? 0,
             $responseData['currency'] ?? 'n/a',
-            $responseData['redirectUrl'] ?? ($responseData['redirect_url'] ?? null),
-            $responseData['confirmationType'] ?? ($responseData['confirmation_type'] ?? null),
+            $getResult['confirmationType'] ?? null,
+            $responseData['redirectUrl'] ?? null,
             array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData(
                 $responseData['card']
             ) : null,
