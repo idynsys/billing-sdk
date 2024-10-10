@@ -3,7 +3,6 @@
 namespace Idynsys\BillingSdk\Data\Traits;
 
 use Idynsys\BillingSdk\Enums\CommunicationType;
-use Idynsys\BillingSdk\Enums\PaymentType;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
 trait CommunicationTypeTrait
