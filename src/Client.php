@@ -4,6 +4,7 @@ namespace Idynsys\BillingSdk;
 
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\RequestException;
 use Idynsys\BillingSdk\Data\Requests\RequestDataContract;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 use Idynsys\BillingSdk\Exceptions\ExceptionHandler;
@@ -23,6 +24,8 @@ class Client
 
     private GuzzleClient $requestClient;
 
+    private ?string $traceId = null;
+
     public function __construct(array $config = [])
     {
         $this->requestClient = new GuzzleClient($config);
@@ -37,12 +40,21 @@ class Client
     public function sendRequestToSystem(RequestDataContract $data, bool $throwException = true): self
     {
         $this->error = null;
+        $this->traceId = null; // Сбрасываем TraceId перед новым запросом
 
         try {
             $res = $this->requestClient->request($data->getMethod(), $data->getUrl(), $data->getData());
 
             $this->content = $res->getBody()->getContents();
+            $this->traceId = $res->getHeaderLine('X-Trace-Id');
         } catch (Throwable $exception) {
+            if ($exception instanceof RequestException) {
+                $response = $exception->getResponse();
+                if ($response !== null) {
+                    $this->traceId = $response->getHeaderLine('X-Trace-Id');
+                }
+            }
+
             $handler = new ExceptionHandler($exception);
             $this->error = $handler->handle();
         }
@@ -97,5 +109,10 @@ class Client
     public function hasError(): bool
     {
         return $this->error !== null;
+    }
+
+    public function getTraceId(): ?string
+    {
+        return $this->traceId;
     }
 }
