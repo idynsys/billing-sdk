@@ -203,4 +203,9 @@ final class Billing implements BillingContract
 
         return PayoutResponseData::from($this->client->getResult());
     }
+
+    public function getTraceId(): ?string
+    {
+        return $this->client->getTraceId();
+    }
 }
