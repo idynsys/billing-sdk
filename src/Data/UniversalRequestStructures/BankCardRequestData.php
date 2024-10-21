@@ -29,7 +29,6 @@ class BankCardRequestData implements RequestDataValidationContract
         $this->cvv = $cvv;
 
         $this->responseProperties = ['pan', 'holderName', 'expiration', 'cvv'];
-        self::$validationConfigKey = 'validations.bankcards';
     }
 
     public static function checkIfShouldBe(string $paymentType, string $communicationType, string $paymentMethod): void

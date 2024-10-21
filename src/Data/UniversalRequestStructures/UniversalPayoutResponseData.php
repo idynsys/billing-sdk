@@ -8,7 +8,7 @@ class UniversalPayoutResponseData
     public string $status;
 
     // ID транзакции
-    public string $transactionId;
+    public string $id;
 
     // Описание ошибки, если была при создании транзакции
     /** @var mixed|null */
@@ -16,15 +16,15 @@ class UniversalPayoutResponseData
 
     /**
      * @param string $status
-     * @param string $transactionId
+     * @param string $id
      * @param null|mixed $error
      */
     final public function __construct(
         string $status,
-        string $transactionId,
-               $error = null
+        string $id,
+        $error = null
     ) {
-        $this->transactionId = $transactionId;
+        $this->id = $id;
         $this->status = $status;
         $this->error = $error;
     }

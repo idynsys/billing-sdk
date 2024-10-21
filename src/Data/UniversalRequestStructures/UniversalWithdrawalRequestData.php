@@ -14,6 +14,8 @@ class UniversalWithdrawalRequestData extends RequestData
 
     protected string $urlConfigKeyForRequest = 'UNIVERSAL_WITHDRAWAL_URL';
 
+    protected array $requestData;
+
     private string $paymentMethodName;
 
     private string $communicationType;
@@ -76,45 +78,48 @@ class UniversalWithdrawalRequestData extends RequestData
 
     protected function getRequestData(): array
     {
-        $dataToRequest = [
-            'paymentMethodName' => $this->paymentMethodName,
-            'communicationType' => $this->communicationType,
-            'payment' => $this->paymentRequestData->getRequestData(),
-            'merchantOrder' => $this->merchantOrderRequestData->getRequestData(),
-            'sessionDetails' => $this->sessionDetailsRequestData->getRequestData(),
-        ];
+        if (!isset($this->requestData)) {
+            $this->requestData = [
+                'paymentMethodName' => $this->paymentMethodName,
+                'communicationType' => $this->communicationType,
+                'payment' => $this->paymentRequestData->getRequestData(),
+                'merchantOrder' => $this->merchantOrderRequestData->getRequestData(),
+                'sessionDetails' => $this->sessionDetailsRequestData->getRequestData(),
+            ];
 
-        $customerData = $this->customerRequestData->getRequestData(
-            PaymentType::WITHDRAWAL,
-            $this->communicationType,
-            $this->paymentMethodName
-        );
-
-        if ($customerData) {
-            $dataToRequest['customer'] = $customerData;
-        }
-
-        if ($this->bankCardRequestData !== null) {
-            $bankCardData = $this->bankCardRequestData->getRequestData(
+            $customerData = $this->customerRequestData->getRequestData(
                 PaymentType::WITHDRAWAL,
                 $this->communicationType,
                 $this->paymentMethodName
             );
 
-            if ($bankCardData) {
-                $dataToRequest['card'] = $bankCardData;
+            if ($customerData) {
+                $this->requestData['customer'] = $customerData;
+            }
+
+            if ($this->bankCardRequestData !== null) {
+                $bankCardData = $this->bankCardRequestData->getRequestData(
+                    PaymentType::WITHDRAWAL,
+                    $this->communicationType,
+                    $this->paymentMethodName
+                );
+
+                if ($bankCardData) {
+                    $this->requestData['card'] = $bankCardData;
+                }
+            }
+
+            $urlsData = $this->urlsRequestData->getRequestData(
+                PaymentType::WITHDRAWAL,
+                $this->communicationType,
+                $this->paymentMethodName
+            );
+
+            if ($urlsData) {
+                $this->requestData['urls'] = $urlsData;
             }
         }
 
-        $urlsData = $this->urlsRequestData->getRequestData(
-            PaymentType::WITHDRAWAL,
-            $this->communicationType,
-            $this->paymentMethodName
-        );
-
-        if ($urlsData) {
-            $dataToRequest['urls'] = $urlsData;
-        }
-        return $dataToRequest;
+        return $this->requestData;
     }
 }

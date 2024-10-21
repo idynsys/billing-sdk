@@ -21,6 +21,10 @@ abstract class RequestData implements RequestDataContract
 
     protected ConfigContract $config;
 
+    protected array $headers;
+
+    protected array $data;
+
     protected string $clientId = '';
 
     protected string $clientSecret = '';
@@ -120,12 +124,16 @@ abstract class RequestData implements RequestDataContract
      */
     public function getData(): array
     {
-        $paramsType = $this->getMethod() === RequestMethod::METHOD_POST ? 'json' : 'query';
+        if (!isset($this->data)) {
+            $paramsType = $this->getMethod() === RequestMethod::METHOD_POST ? 'json' : 'query';
 
-        return [
-            'headers'   => $this->getHeadersData(),
-            $paramsType => $this->getRequestData()
-        ];
+            $this->data = [
+                'headers'   => $this->getHeadersData(),
+                $paramsType => $this->getRequestData()
+            ];
+        }
+
+        return $this->data;
     }
 
     /**
@@ -159,10 +167,14 @@ abstract class RequestData implements RequestDataContract
      */
     protected function getHeadersData(): array
     {
-        return [
-            'X-Client-Id'          => $this->clientId,
-            'X-Authorization-Sign' => $this->getSignature(),
-        ];
+        if (!isset($this->headers)) {
+            $this->headers = [
+                'X-Client-Id'          => $this->clientId,
+                'X-Authorization-Sign' => $this->getSignature(),
+            ];
+        }
+
+        return $this->headers;
     }
 
     /**

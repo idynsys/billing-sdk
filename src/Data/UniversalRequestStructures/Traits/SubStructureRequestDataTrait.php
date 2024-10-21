@@ -80,7 +80,7 @@ trait SubStructureRequestDataTrait
 
     private function addPropertyInRequestDataByConfig(string $propertyName): void
     {
-        if ((!($this->inIgnore($propertyName)) && $this->inOnly($propertyName)) && $this->{$propertyName}) {
+        if (!($this->inIgnore($propertyName)) && $this->inOnly($propertyName) && $this->{$propertyName}) {
             $this->resultData[$propertyName] = $this->{$propertyName};
         }
     }

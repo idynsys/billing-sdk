@@ -14,7 +14,7 @@ class CustomerRequestData implements RequestDataValidationContract
 
     private string $email;
 
-    private string $phoneNumber;
+    private ?string $phoneNumber;
 
     private ?string $bankName;
 
@@ -23,7 +23,7 @@ class CustomerRequestData implements RequestDataValidationContract
     public function __construct(
         string $id,
         string $email,
-        string $phoneNumber,
+        ?string $phoneNumber = null,
         ?string $bankName = null,
         ?string $docId = null
     ) {
@@ -34,7 +34,6 @@ class CustomerRequestData implements RequestDataValidationContract
         $this->docId = $docId;
 
         $this->responseProperties = ['id', 'email', 'phoneNumber', 'bankName', 'docId'];
-        self::$validationConfigKey = 'validations.customers';
     }
 
     public function validate(string $paymentType, string $communicationType, string $paymentMethod): void
@@ -49,7 +48,7 @@ class CustomerRequestData implements RequestDataValidationContract
             throw new BillingSdkException('Email must be a valid email address and can not be empty', 422);
         }
 
-        if (empty($this->phoneNumber) || !$this->validatePhoneNumber()) {
+        if (!$this->inIgnore('phoneNumber') && !$this->validatePhoneNumber()) {
             throw new BillingSdkException('Phone number must be valid and can not be empty', 422);
         }
 
@@ -70,10 +69,18 @@ class CustomerRequestData implements RequestDataValidationContract
 
     private function validatePhoneNumber(): bool
     {
-        $cleanedPhoneNumber = str_replace([' ', '-'], '', $this->phoneNumber);
-        $pattern = '/^\+?[1-9]\d{1,14}$/';
+        if ($this->required('phoneNumber') || $this->phoneNumber !== null) {
+            if ($this->phoneNumber === null || empty($this->phoneNumber)) {
+                return false;
+            }
 
-        return preg_match($pattern, $cleanedPhoneNumber) === 1;
+            $cleanedPhoneNumber = str_replace([' ', '-'], '', $this->phoneNumber);
+            $pattern = '/^\+?[1-9]\d{1,14}$/';
+
+            return preg_match($pattern, $cleanedPhoneNumber) === 1;
+        }
+
+        return true;
     }
 
     private function validateBankName(): bool
