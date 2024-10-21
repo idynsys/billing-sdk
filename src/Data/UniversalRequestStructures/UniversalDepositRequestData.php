@@ -20,6 +20,8 @@ class UniversalDepositRequestData extends RequestData
 
     private string $trafficType;
 
+    protected array $requestData;
+
     private PaymentRequestData $paymentRequestData;
 
     private CustomerRequestData $customerRequestData;
@@ -76,37 +78,39 @@ class UniversalDepositRequestData extends RequestData
 
     protected function getRequestData(): array
     {
-        $dataToRequest = [
-            'paymentMethodName' => $this->paymentMethodName,
-            'communicationType' => $this->communicationType,
-            'trafficType' => $this->trafficType,
-            'payment' => $this->paymentRequestData->getRequestData(),
-            'merchantOrder' => $this->merchantOrderRequestData->getRequestData(),
-            'sessionDetails' => $this->sessionDetailsRequestData->getRequestData(),
-            'customer' => $this->customerRequestData->getRequestData(
-                PaymentType::DEPOSIT,
-                $this->communicationType,
-                $this->paymentMethodName
-            ),
-            'urls' => $this->urlsRequestData->getRequestData(
-                PaymentType::DEPOSIT,
-                $this->communicationType,
-                $this->paymentMethodName
-            )
-        ];
+        if (!isset($this->requestData)) {
+            $this->requestData = [
+                'paymentMethodName' => $this->paymentMethodName,
+                'communicationType' => $this->communicationType,
+                'trafficType' => $this->trafficType,
+                'payment' => $this->paymentRequestData->getRequestData(),
+                'merchantOrder' => $this->merchantOrderRequestData->getRequestData(),
+                'sessionDetails' => $this->sessionDetailsRequestData->getRequestData(),
+                'customer' => $this->customerRequestData->getRequestData(
+                    PaymentType::DEPOSIT,
+                    $this->communicationType,
+                    $this->paymentMethodName
+                ),
+                'urls' => $this->urlsRequestData->getRequestData(
+                    PaymentType::DEPOSIT,
+                    $this->communicationType,
+                    $this->paymentMethodName
+                )
+            ];
 
-        if ($this->bankCardRequestData !== null) {
-            $bankCardData = $this->bankCardRequestData->getRequestData(
-                PaymentType::DEPOSIT,
-                $this->communicationType,
-                $this->paymentMethodName
-            );
+            if ($this->bankCardRequestData !== null) {
+                $bankCardData = $this->bankCardRequestData->getRequestData(
+                    PaymentType::DEPOSIT,
+                    $this->communicationType,
+                    $this->paymentMethodName
+                );
 
-            if ($bankCardData) {
-                $dataToRequest['card'] = $bankCardData;
+                if ($bankCardData) {
+                    $this->requestData['card'] = $bankCardData;
+                }
             }
         }
 
-        return $dataToRequest;
+        return $this->requestData;
     }
 }

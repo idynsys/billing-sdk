@@ -165,24 +165,26 @@ return [
             PaymentType::DEPOSIT => [
                 CommunicationType::HOST_2_CLIENT => [
                     PaymentMethod::P2P_NAME => [
-                        'ignore' => ['bankName', 'docId'],
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
                     ],
                     PaymentMethod::SBP_NAME => [
-                        'ignore' => ['bankName', 'docId'],
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
                     ],
                     PaymentMethod::SBP_QR_NAME => [
                         'ignore' => ['bankName', 'docId'],
+                        'required' => ['phoneNumber']
                     ],
                     PaymentMethod::SBER_PAY_NAME => [
-                        'ignore' => ['bankName', 'docId'],
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
                     ]
                 ],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::BANKCARD_NAME => [
-                        'ignore' => ['bankName', 'docId']
+                        'ignore' => ['bankName', 'docId'],
+                        'required' => ['phoneNumber']
                     ],
                     PaymentMethod::P2P_NAME => [
-                        'ignore' => ['bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId']
                     ],
                 ]
             ],
@@ -190,13 +192,14 @@ return [
                 CommunicationType::HOST_2_CLIENT => [],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::SBER_PAY_NAME => [
-                        'ignore' => ['bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId']
                     ],
                     PaymentMethod::P2P_NAME => [
-                        'ignore' => ['bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId']
                     ],
                     PaymentMethod::SBP_NAME => [
-                        'required' => ['bankName', 'docId']
+                        'required' => ['phoneNumber', 'bankName'],
+                        'ignore' => ['docId']
                     ],
                 ]
             ]

@@ -48,6 +48,7 @@ abstract class Validator
         $this->validateRequestDataStructure($paymentRequestData);
         $this->validateRequestDataStructure($merchantOrderRequestData);
         $this->validateRequestDataStructure($urlsRequestData);
+        $this->validateRequestDataStructure($sessionDetailsRequestData);
         $this->validateRequestDataStructure($customerRequestData);
 
         if ($bankCardRequestData !== null) {

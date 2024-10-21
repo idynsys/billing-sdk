@@ -32,7 +32,6 @@ class UrlsRequestData implements RequestDataValidationContract
         $this->redirectFail = $redirectFail;
 
         $this->responseProperties = ['callback', 'return', 'redirectSuccess', 'redirectFail'];
-        self::$validationConfigKey = 'validations.urls';
     }
 
     public function validate(string $paymentType, string $communicationType, string $paymentMethod): void
@@ -40,7 +39,7 @@ class UrlsRequestData implements RequestDataValidationContract
         $this->setCurrentConfig($paymentType, $communicationType, $paymentMethod);
 
         if (empty($this->callback) || !$this->isUrl($this->callback)) {
-            throw new BillingSdkException('Callback url must not be correct url address', 422);
+            throw new BillingSdkException('Callback url must be correct url address', 422);
         }
 
         $this->validateUrlProperty('return');
@@ -57,7 +56,7 @@ class UrlsRequestData implements RequestDataValidationContract
                 $error = !empty($this->{$propertyName}) && !$this->isUrl($this->{$propertyName});
             }
             if ($error) {
-                throw new BillingSdkException(ucfirst($propertyName) . ' url must not be correct url address', 422);
+                throw new BillingSdkException(ucfirst($propertyName) . ' url must be correct url address', 422);
             }
         }
     }

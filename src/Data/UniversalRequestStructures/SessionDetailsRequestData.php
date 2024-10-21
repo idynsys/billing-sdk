@@ -2,6 +2,8 @@
 
 namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
+use Idynsys\BillingSdk\Exceptions\BillingSdkException;
+
 class SessionDetailsRequestData implements RequestDataValidationContract
 {
     private string $acceptLanguage;
@@ -45,6 +47,24 @@ class SessionDetailsRequestData implements RequestDataValidationContract
 
     public function validate(string $paymentType, string $communicationType, string $paymentMethod): void
     {
-        dump(__METHOD__);
+        if (empty($this->fingerprint)) {
+            throw new BillingSdkException('Fingerprint value can not be empty', 422);
+        }
+
+        if (filter_var($this->ipAddress, FILTER_VALIDATE_IP) === false) {
+            throw new BillingSdkException('Invalid IP address', 422);
+        }
+
+        if (empty($this->acceptLanguage)) {
+            throw new BillingSdkException('Invalid acceptLanguage format', 422);
+        }
+
+        if (empty($this->userAgent)) {
+            throw new BillingSdkException('User-Agent cannot be empty', 422);
+        }
+
+        if ($this->userLanguage !== null && !preg_match('/^[a-z]{3}$/', $this->userLanguage)) {
+            throw new BillingSdkException('Invalid userLanguage format, must be 3-letter code', 422);
+        }
     }
 }
