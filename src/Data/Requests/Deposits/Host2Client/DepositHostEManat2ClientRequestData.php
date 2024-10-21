@@ -29,9 +29,9 @@ class DepositHostEManat2ClientRequestData extends DepositRequestData
         string $walletLogin,
         string $walletUserFullName,
         string $callbackUrl,
-        string $redirectSuccessUrl,
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $redirectSuccessUrl = null,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
         string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {

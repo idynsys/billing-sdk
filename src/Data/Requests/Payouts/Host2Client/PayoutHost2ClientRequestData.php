@@ -39,8 +39,8 @@ abstract class PayoutHost2ClientRequestData extends RequestData
         string $payoutCurrency,
         string $recipient,
         string $callbackUrl,
-        string $merchantOrderId,
-        string $merchantOrderDescription
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null
     ) {
         parent::__construct();
 

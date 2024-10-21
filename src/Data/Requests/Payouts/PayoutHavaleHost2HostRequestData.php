@@ -38,8 +38,6 @@ class PayoutHavaleHost2HostRequestData extends PayoutHost2HostRequestData
     public function __construct(
         float $payoutAmount,
         string $payoutCurrency,
-        string $merchantOrderId,
-        string $merchantOrderDescription,
         string $walletUserId,
         string $walletLogin,
         string $walletUserFullName,
@@ -50,6 +48,8 @@ class PayoutHavaleHost2HostRequestData extends PayoutHost2HostRequestData
         ?int $cardId = null,
         ?int $bankId = null,
         ?string $userBirthday = null,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);

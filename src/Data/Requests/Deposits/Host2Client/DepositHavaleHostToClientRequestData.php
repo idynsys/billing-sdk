@@ -33,8 +33,8 @@ class DepositHavaleHostToClientRequestData extends DepositRequestData
         string $fingerprint,
         string $callbackUrl,
         ?string $redirectSuccessUrl = null,
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
         string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {
