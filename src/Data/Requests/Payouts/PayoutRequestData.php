@@ -55,8 +55,8 @@ abstract class PayoutRequestData extends RequestData
         string $cardRecipientInfo,
         string $userId,
         string $callbackUrl,
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);

@@ -33,8 +33,8 @@ class DepositP2PRequestData extends DepositRequestData
         string $userAgent,
         string $acceptLanguage,
         string $fingerprint,
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
         string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {

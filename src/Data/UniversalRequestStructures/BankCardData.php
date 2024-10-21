@@ -1,10 +1,7 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\Responses;
+namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
-/**
- * DTO структура банковской карты, используется как подструктура в других ответах
- */
 class BankCardData
 {
     // Номер карты
@@ -19,7 +16,7 @@ class BankCardData
     public function __construct(array $info)
     {
         $this->cardNumber = $info['number'] ?? 'n/a';
-        $this->bankName = $info['bank_name'] ?? 'n/a';
-        $this->lifetimeInMinutes = $info['lifetime_in_minutes'] ?? 0;
+        $this->bankName = $info['bankName'] ?? 'n/a';
+        $this->lifetimeInMinutes = $info['lifetimeInMinutes'] ?? 0;
     }
 }

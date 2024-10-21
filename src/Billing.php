@@ -22,6 +22,8 @@ use Idynsys\BillingSdk\Data\Responses\DepositResponseData;
 use Idynsys\BillingSdk\Data\Responses\PayoutResponseData;
 use Idynsys\BillingSdk\Data\Responses\TransactionData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositResponseData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalPayoutResponseData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalWithdrawalRequestData;
 use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 
@@ -190,18 +192,18 @@ final class Billing implements BillingContract
         return DepositMCommerceConfirmedResponseData::from($this->client->getResult());
     }
 
-    public function createUniversalDeposit(UniversalDepositRequestData $data): DepositResponseData
+    public function createUniversalDeposit(UniversalDepositRequestData $data): UniversalDepositResponseData
     {
         $this->sendRequest($data);
 
-        return DepositResponseData::from($this->client->getResult());
+        return UniversalDepositResponseData::from($this->client->getResult());
     }
 
-    public function createUniversalWithdrawal(UniversalWithdrawalRequestData $data): PayoutResponseData
+    public function createUniversalWithdrawal(UniversalWithdrawalRequestData $data): UniversalPayoutResponseData
     {
         $this->sendRequest($data);
 
-        return PayoutResponseData::from($this->client->getResult());
+        return UniversalPayoutResponseData::from($this->client->getResult());
     }
 
     public function getTraceId(): ?string

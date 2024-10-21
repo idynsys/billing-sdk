@@ -1,11 +1,8 @@
 <?php
 
-namespace Idynsys\BillingSdk\Data\Responses;
+namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
-/**
- * DTO класс ответ после оформления транзакции на вывод средств
- */
-class PayoutResponseData
+class UniversalPayoutResponseData
 {
     // Статус создания транзакции
     public string $status;
@@ -25,7 +22,7 @@ class PayoutResponseData
     final public function __construct(
         string $status,
         string $transactionId,
-        $error = null
+               $error = null
     ) {
         $this->transactionId = $transactionId;
         $this->status = $status;
@@ -42,7 +39,7 @@ class PayoutResponseData
     {
         return new static(
             $responseData['status'] ?? '',
-            $responseData['transactionId'] ?? '',
+            $responseData['id'] ?? '',
             $responseData['error'] ?? null
         );
     }

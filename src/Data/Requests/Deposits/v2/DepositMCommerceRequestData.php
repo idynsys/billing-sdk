@@ -40,10 +40,10 @@ class DepositMCommerceRequestData extends DepositRequestData
         string $acceptLanguage,
         string $fingerprint,
         string $callbackUrl,
-        string $merchantOrderId,
-        string $merchantOrderDescription,
         string $redirectSuccessUrl,
         string $redirectFailUrl,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
         string $trafficType = TrafficType::FTD,
         ?ConfigContract $config = null
     ) {

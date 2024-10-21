@@ -26,8 +26,8 @@ class PayoutSbpHost2HostRequestData extends PayoutHost2HostRequestData
         string $phoneNumber,
         string $userId,
         string $callbackUrl,
-        string $merchantOrderId,
-        string $merchantOrderDescription,
+        ?string $merchantOrderId = null,
+        ?string $merchantOrderDescription = null,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);
