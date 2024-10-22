@@ -9,7 +9,10 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
 use Idynsys\BillingSdk\Enums\TrafficType;
 
 /**
- * DTO запроса для создания депозита через платежный метод Bankcard
+ * @deprecated
+ * Не поддерживается с выходом версии 5.0. Нужно пользоваться универсальным методом создания транзакции
+ *
+ * DTO запроса для создания депозита через платежный метод Bankcard Host2Host
  */
 class DepositBankcardRequestData extends DepositRequestData
 {

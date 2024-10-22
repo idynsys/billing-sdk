@@ -7,6 +7,12 @@ use Idynsys\BillingSdk\Data\Traits\BankNameTrait;
 use Idynsys\BillingSdk\Enums\CommunicationType;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
+/**
+ * @deprecated
+ * Не поддерживается с выходом версии 5.0. Нужно пользоваться универсальным методом создания транзакции
+ *
+ * DTO запроса для создания транзакции на вывод средств через платежный метод SBO
+ */
 class PayoutSbpHost2HostRequestData extends PayoutHost2HostRequestData
 {
     use BankNameTrait;
