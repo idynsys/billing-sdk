@@ -9,7 +9,10 @@ use Idynsys\BillingSdk\Enums\PaymentMethod;
 use Idynsys\BillingSdk\Enums\TrafficType;
 
 /**
- * DTO запроса для создания депозита через платежный метод P2P
+ * @deprecated
+ * Не поддерживается с выходом версии 5.0. Нужно пользоваться универсальным методом создания транзакции
+ *
+ * DTO запроса для создания депозита через платежный метод P2P Host2Host
  */
 class DepositP2PRequestData extends DepositRequestData
 {

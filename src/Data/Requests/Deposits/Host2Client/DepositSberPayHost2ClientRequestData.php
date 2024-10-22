@@ -6,7 +6,10 @@ namespace Idynsys\BillingSdk\Data\Requests\Deposits\Host2Client;
 use Idynsys\BillingSdk\Enums\PaymentMethod;
 
 /**
- * DTO запроса для создания депозита Host2Client через платежный метод P2P
+ * @deprecated
+ * Не поддерживается с выходом версии 5.0. Нужно пользоваться универсальным методом создания транзакции
+ *
+ * DTO запроса для создания депозита через платежный метод SberPayHost2Client
  */
 class DepositSberPayHost2ClientRequestData extends DepositP2PHost2ClientRequestData
 {

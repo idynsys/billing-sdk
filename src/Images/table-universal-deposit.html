@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table th, table td {
+            padding: 5px;
+            border: 1px solid grey;
+        }
+
+        .structure-name {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: start;
+            height: 200px
+        }
+
+        .structure-attribute-name {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: start;
+            height: 110px
+        }
+        table td.value{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<table style="border-collapse: collapse; border: 1px solid grey;">
+    <tr>
+        <th rowspan="2">Тип<br>соединения</th>
+        <th rowspan="2">Метод</th>
+        <th colspan="2">
+            <div
+                class="structure-name">
+                PaymentRequestData
+            </div>
+        </th>
+        <th colspan="2">
+            <div
+                class="structure-name">
+                MerchantOrderRequestData
+            </div>
+        </th>
+        <th colspan="4">
+            <div
+                class="structure-name">
+                UrlsRequestData
+            </div>
+        </th>
+        <th colspan="5">
+            <div
+                class="structure-name">
+                SessionDetailsRequestData
+            </div>
+        </th>
+        <th colspan="5">
+            <div
+                class="structure-name">
+                CustomerRequestData
+            </div>
+        </th>
+        <th colspan="4">
+            <div
+                class="structure-name">
+                BankCardRequestData
+            </div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div
+                class="structure-attribute-name">
+                amount
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                currency
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                id
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                description
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                callback
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                return
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                redirectSuccess
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                redirectFail
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                fingerprint
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                ipAddress
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                userAgent
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                acceptLanguage
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                userLanguage
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                id
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                email
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                phoneNumber
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                bankName
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                docId
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                pan
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                holderName
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                expiration
+            </div>
+        </th>
+        <th>
+            <div
+                class="structure-attribute-name">
+                cvv
+            </div>
+        </th>
+    </tr>
+    <tr>
+        <td rowspan="2">Host2Host</td>
+        <td>P2P</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value" colspan="4">-</td>
+    </tr>
+    <tr>
+        <td>Bankcard</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+    </tr>
+    <tr>
+        <td rowspan="4">Host2Client</td>
+        <td>P2P</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value" colspan="4">-</td>
+    </tr>
+    <tr>
+        <td>SBP</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value" colspan="4">-</td>
+    </tr>
+    <tr>
+        <td>SBP-QR</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value" colspan="4">-</td>
+    </tr>
+    <tr>
+        <td>SberPay</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">R</td>
+        <td class="value">R</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value">I</td>
+        <td class="value" colspan="4">-</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+</body>
+</html>
