@@ -177,6 +177,7 @@ use Idynsys\BillingSdk\Data\UniversalRequestStructures\MerchantOrderRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\PaymentRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\SessionDetailsRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositResponseData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\UrlsRequestData;
 
 // Объект нужен всегда для всех депозитов
@@ -242,8 +243,32 @@ $depositDTO = new UniversalDepositRequestData(
 $billing = new Billing();
 
 // Создать транзакцию и получить результат
-/** @var DepositResponseData $createdResult */
+/** @var UniversalDepositResponseData $createdResult */
 $createdResult = $billing->createUniversalDeposit($depositDTO);
+```
+
+Ответ при создании депозита
+
+Если транзакция депозита была отправлена и зарегистрирована успешно, то ответом (response) будет объект
+класса \Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositResponseData:
+```
+Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositResponseData {
+  +id: "45"
+  +status: "IN_PROGRESS"
+  +amount: 3000.0
+  +currency: "RUB"
+  +confirmationType: null
+  +redirectUrl: null
+  +paymentDetails: Idynsys\BillingSdk\Data\Responses\PaymentDetails
+    +bankAccount: "46523674576234724874312"
+    +phoneNumber: "799963425362"
+    +bankName: "sberbank"
+    +holderName: "User Test"
+    +lifetimeInMinutes: 10
+    +pan: "9999999999999999"
+  }
+  +error: null
+}
 ```
 
 В следующей таблице показаны платежные методы, реализованные при помощи универсального DTO депозита, а также информация об обязательности атрибутов для DTO из п.1.
@@ -496,6 +521,7 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
   +error: null
 }
 ```
+
 Значение для confirmationType и redirectUrl необязательные, confirmationType может быть только null, "" или "3DS_PAYMENT_PAGE".
 В redirectUrl будет ссылка, если платежная система затребует подтверждение, иначе придет успешный статус без значений в confirmationType и redirectUrl.
 Ссылку на 3ds подтверждение можно получить:
@@ -540,6 +566,7 @@ Idynsys\BillingSdk\Data\Responses\DepositResponseData {
 use Idynsys\BillingSdk\Billing;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\BankCardRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerAccountRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\MerchantOrderRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\PaymentRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\SessionDetailsRequestData;
@@ -593,6 +620,12 @@ $bankCardData = new BankCardRequestData(
     $cvv            // (необязательное, зависит от метода)  CVV (Card Verification Value) или CVC (Card Verification Code) 
 );
 
+// Объект нужен для транзакций выводов средств, где требуется предоставить информацию о счете клиента
+$customerAccountData = new CustomerAccountRequestData(
+    $pan,         // (необязательное) Номер банковской карты, на которую выводятся деньги
+    $bankName,    // (необязательное, зависит от метода) имя банка-получателя
+);
+
 $withdrawalDTO = new UniversalWithdrawalRequestData(
     $paymentMethod,     // (обязательное) Наименование метода для вывода средств, все доступные значения можно получить из функции \Idynsys\BillingSdk\Enums\PaymentMethod::getValues()
     $communicationType, // (обязательное) Тип соединения, все доступные значения можно получить из функции \Idynsys\BillingSdk\Enums\CommunicationType::getValues() 
@@ -602,7 +635,8 @@ $withdrawalDTO = new UniversalWithdrawalRequestData(
     $urlsData,          // (обязательное) Объект класса UrlsRequestData, см. выше
     $sessionData,       // (обязательное) Объект класса SessionDetailsRequestData, см. выше
     $customerData,      // (обязательное) Объект класса CustomerRequestData, см. выше
-    $bankCardData       // (необязательное) Объект класса BankCardRequestData, см. выше
+    $bankCardData,      // (необязательное) Объект класса BankCardRequestData, см. выше
+    $customerAccountData
 )
 
 

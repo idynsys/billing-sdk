@@ -3,6 +3,7 @@
 namespace Idynsys\BillingSdk\Validators;
 
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\BankCardRequestData;
+use Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerAccountRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\MerchantOrderRequestData;
 use Idynsys\BillingSdk\Data\UniversalRequestStructures\PaymentRequestData;
@@ -38,7 +39,8 @@ abstract class Validator
         SessionDetailsRequestData $sessionDetailsRequestData,
         CustomerRequestData $customerRequestData,
         ?BankCardRequestData $bankCardRequestData,
-        ?string $trafficType = null
+        ?string $trafficType = null,
+        ?CustomerAccountRequestData $customerAccountData = null
     ): void {
         $this->initValidationConfig();
 
@@ -55,6 +57,16 @@ abstract class Validator
             $this->validateRequestDataStructure($bankCardRequestData);
         } else {
             BankCardRequestData::checkIfShouldBe(
+                $this->paymentType,
+                $this->communicationType,
+                $this->paymentMethodName
+            );
+        }
+
+        if ($customerAccountData !== null) {
+            $this->validateRequestDataStructure($customerAccountData);
+        } else {
+            CustomerAccountRequestData::checkIfShouldBe(
                 $this->paymentType,
                 $this->communicationType,
                 $this->paymentMethodName

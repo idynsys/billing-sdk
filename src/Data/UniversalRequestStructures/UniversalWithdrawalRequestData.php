@@ -23,6 +23,7 @@ class UniversalWithdrawalRequestData extends RequestData
     private PaymentRequestData $paymentRequestData;
 
     private CustomerRequestData $customerRequestData;
+    private ?CustomerAccountRequestData $customerAccountData;
 
     private ?BankCardRequestData $bankCardRequestData;
 
@@ -40,7 +41,8 @@ class UniversalWithdrawalRequestData extends RequestData
         UrlsRequestData $urlsRequestData,
         SessionDetailsRequestData $sessionDetailsRequestData,
         CustomerRequestData $customerRequestData,
-        ?BankCardRequestData $bankCardRequestData,
+        ?BankCardRequestData $bankCardRequestData = null,
+        ?CustomerAccountRequestData $customerAccountData = null,
         ?ConfigContract $config = null
     ) {
         parent::__construct($config);
@@ -49,6 +51,7 @@ class UniversalWithdrawalRequestData extends RequestData
         $this->communicationType = $communicationType;
         $this->paymentRequestData = $paymentRequestData;
         $this->customerRequestData = $customerRequestData;
+        $this->customerAccountData = $customerAccountData;
         $this->bankCardRequestData = $bankCardRequestData;
         $this->urlsRequestData = $urlsRequestData;
         $this->merchantOrderRequestData = $merchantOrderRequestData;
@@ -71,7 +74,9 @@ class UniversalWithdrawalRequestData extends RequestData
             $this->urlsRequestData,
             $this->sessionDetailsRequestData,
             $this->customerRequestData,
-            $this->bankCardRequestData
+            $this->bankCardRequestData,
+            null,
+            $this->customerAccountData,
         );
     }
 
@@ -117,6 +122,22 @@ class UniversalWithdrawalRequestData extends RequestData
 
             if ($urlsData) {
                 $this->requestData['urls'] = $urlsData;
+            }
+
+            if ($this->customerAccountData !== null) {
+                $customerAccountData = $this->customerAccountData->getRequestData(
+                    PaymentType::DEPOSIT,
+                    $this->communicationType,
+                    $this->paymentMethodName
+                );
+
+                if ($customerAccountData) {
+                    $this->requestData['customerAccount'] = $customerAccountData;
+                    $bankName = $customerData['bankName'] ?? null;
+                    if ($bankName !== null) {
+                        $this->requestData['customerAccount']['bankName'] = $bankName;
+                    }
+                }
             }
         }
 

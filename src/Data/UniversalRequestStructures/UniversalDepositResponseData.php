@@ -2,7 +2,7 @@
 
 namespace Idynsys\BillingSdk\Data\UniversalRequestStructures;
 
-use Idynsys\BillingSdk\Data\Responses\BankCardData;
+use Idynsys\BillingSdk\Data\Responses\PaymentDetails;
 
 class UniversalDepositResponseData
 {
@@ -24,8 +24,7 @@ class UniversalDepositResponseData
     // Тип подтверждения транзакции
     public ?string $confirmationType;
 
-    // Данные банковской карты
-    public ?BankCardData $card;
+    public ?PaymentDetails $paymentDetails = null;
 
     // Описание ошибки, если была при создании транзакции
     public $error;
@@ -37,7 +36,7 @@ class UniversalDepositResponseData
         string $currency,
         ?string $confirmationType = null,
         ?string $redirectUrl = null,
-        ?BankCardData $card = null,
+        ?PaymentDetails $paymentDetails = null,
         $error = null
     ) {
         $this->id = $id;
@@ -46,7 +45,7 @@ class UniversalDepositResponseData
         $this->currency = $currency;
         $this->confirmationType = $confirmationType;
         $this->redirectUrl = $redirectUrl;
-        $this->card = $card;
+        $this->paymentDetails = $paymentDetails;
         $this->error = $error;
     }
 
@@ -65,9 +64,7 @@ class UniversalDepositResponseData
             $responseData['currency'] ?? 'n/a',
             $getResult['confirmationType'] ?? null,
             $responseData['redirectUrl'] ?? null,
-            array_key_exists('card', $responseData) && $responseData['card'] ? new BankCardData(
-                $responseData['card']
-            ) : null,
+            isset($responseData['paymentDetails']) ? new PaymentDetails($responseData['paymentDetails']) : null,
             $responseData['error'] ?? null
         );
     }

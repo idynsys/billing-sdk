@@ -35,6 +35,7 @@ class PaymentMethod
     public const PAYCO = 'PayCo';
 
     public const PAPARA = 'Papara';
+    public const BANK_ACCOUNT = 'BankAccount';
 
     /**
      * Получить список имен доступных платежных методов
@@ -57,7 +58,8 @@ class PaymentMethod
             self::HAYHAY,
             self::PEP,
             self::PAYCO,
-            self::PAPARA
+            self::PAPARA,
+            self::BANK_ACCOUNT
         ];
     }
 
@@ -79,7 +81,8 @@ class PaymentMethod
             self::HAYHAY,
             self::PEP,
             self::PAYCO,
-            self::PAPARA
+            self::PAPARA,
+            self::BANK_ACCOUNT
         ];
     }
 }
