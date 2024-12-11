@@ -56,6 +56,8 @@ return [
             CommunicationType::HOST_2_HOST => [
                 PaymentMethod::P2P_NAME => ValidatorDeposit::class,
                 PaymentMethod::BANKCARD_NAME => ValidatorDeposit::class,
+                PaymentMethod::BANK_ACCOUNT => ValidatorDeposit::class,
+                PaymentMethod::SBP_NAME => ValidatorDeposit::class,
             ],
             CommunicationType::HOST_2_CLIENT => [
                 PaymentMethod::P2P_NAME => ValidatorDeposit::class,
@@ -71,6 +73,7 @@ return [
                 PaymentMethod::SBER_PAY_NAME => ValidatorWithdrawal::class,
                 PaymentMethod::P2P_NAME => ValidatorWithdrawal::class,
                 PaymentMethod::SBP_NAME => ValidatorWithdrawal::class,
+                PaymentMethod::BANK_ACCOUNT => ValidatorWithdrawal::class,
             ],
             CommunicationType::HOST_2_CLIENT => [],
         ],
@@ -84,6 +87,7 @@ return [
             'Idynsys\BillingSdk\Data\UniversalRequestStructures\BankCardRequestData' => 'bankcards',
             'Idynsys\BillingSdk\Data\UniversalRequestStructures\UrlsRequestData' => 'urls',
             'Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerRequestData' => 'customers',
+            'Idynsys\BillingSdk\Data\UniversalRequestStructures\CustomerAccountRequestData' => 'customerAccounts',
         ],
 
         // Конфигурация для данных банковской карты
@@ -100,6 +104,8 @@ return [
                         'required' => ['cvv']
                     ],
                     PaymentMethod::P2P_NAME => false,
+                    PaymentMethod::BANK_ACCOUNT => false,
+                    PaymentMethod::SBP_NAME => false,
                 ]
             ],
             PaymentType::WITHDRAWAL => [
@@ -114,6 +120,7 @@ return [
                         'ignore' => ['cvv']
                     ],
                     PaymentMethod::SBP_NAME => false,
+                    PaymentMethod::BANK_ACCOUNT => false,
                 ]
             ]
         ],
@@ -142,6 +149,12 @@ return [
                     PaymentMethod::P2P_NAME => [
                         'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
                     ],
+                    PaymentMethod::BANK_ACCOUNT => [
+                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                    ],
+                    PaymentMethod::SBP_NAME => [
+                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                    ],
                 ]
             ],
             PaymentType::WITHDRAWAL => [
@@ -154,6 +167,9 @@ return [
                         'ignore' => ['return', 'redirectSuccess', 'redirectFail']
                     ],
                     PaymentMethod::SBP_NAME => [
+                        'ignore' => ['return', 'redirectSuccess', 'redirectFail']
+                    ],
+                    PaymentMethod::BANK_ACCOUNT => [
                         'ignore' => ['return', 'redirectSuccess', 'redirectFail']
                     ],
                 ]
@@ -186,6 +202,12 @@ return [
                     PaymentMethod::P2P_NAME => [
                         'ignore' => ['phoneNumber', 'bankName', 'docId']
                     ],
+                    PaymentMethod::BANK_ACCOUNT => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                    ],
+                    PaymentMethod::SBP_NAME => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                    ],
                 ]
             ],
             PaymentType::WITHDRAWAL => [
@@ -201,8 +223,22 @@ return [
                         'required' => ['phoneNumber', 'bankName'],
                         'ignore' => ['docId']
                     ],
+                    PaymentMethod::BANK_ACCOUNT => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                    ],
                 ]
             ]
-        ]
-    ]
+        ],
+
+        'customerAccounts' => [
+            PaymentType::WITHDRAWAL => [
+                CommunicationType::HOST_2_HOST => [
+                    PaymentMethod::BANK_ACCOUNT => [
+                        'required' => ['pan'],
+                        'ignore' => ['bankName'],
+                    ],
+                ]
+            ],
+        ],
+    ],
 ];
