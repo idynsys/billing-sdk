@@ -144,34 +144,26 @@ return [
                 ],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::BANKCARD_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
                     ],
                     PaymentMethod::P2P_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
                     ],
                     PaymentMethod::BANK_ACCOUNT => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
                     ],
                     PaymentMethod::SBP_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail'],
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
                     ],
                 ]
             ],
             PaymentType::WITHDRAWAL => [
                 CommunicationType::HOST_2_CLIENT => [],
                 CommunicationType::HOST_2_HOST => [
-                    PaymentMethod::SBER_PAY_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail']
-                    ],
-                    PaymentMethod::P2P_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail']
-                    ],
-                    PaymentMethod::SBP_NAME => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail']
-                    ],
-                    PaymentMethod::BANK_ACCOUNT => [
-                        'ignore' => ['return', 'redirectSuccess', 'redirectFail']
-                    ],
+                    PaymentMethod::SBER_PAY_NAME => [],
+                    PaymentMethod::P2P_NAME => [],
+                    PaymentMethod::SBP_NAME => [],
+                    PaymentMethod::BANK_ACCOUNT => [],
                 ]
             ]
         ],
