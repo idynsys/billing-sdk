@@ -276,6 +276,7 @@ Idynsys\BillingSdk\Data\UniversalRequestStructures\UniversalDepositResponseData 
 Значения в ячейках:
 - "R" - обязательное
 - "I" - игнорируется
+- "O" - необязательное, может быть null
 - "-" - не используется
 
 ![image](src/Images/table-universal-deposit.png "table-universal-deposit.png")
@@ -652,6 +653,7 @@ $createdResult = $billing->createUniversalWithdrawal($withdrawalDTO);
 Значения в ячейках:
 - "R" - обязательное
 - "I" - игнорируется
+- "O" - необязательное, может быть null
 - "-" - не используется
 
 ![Таблица универсальных объектов](src/Images/table-universal-withdrawal.png "table-universal-deposit.png")
