@@ -64,6 +64,10 @@ return [
                 PaymentMethod::SBP_NAME => ValidatorDeposit::class,
                 PaymentMethod::SBP_QR_NAME => ValidatorDeposit::class,
                 PaymentMethod::SBER_PAY_NAME => ValidatorDeposit::class,
+                PaymentMethod::E_MANAT => ValidatorDeposit::class,
+                PaymentMethod::IN_CARD_P2P => ValidatorDeposit::class,
+                PaymentMethod::M10 => ValidatorDeposit::class,
+                PaymentMethod::SMART_CARD => ValidatorDeposit::class,
             ],
         ],
 
@@ -74,6 +78,10 @@ return [
                 PaymentMethod::P2P_NAME => ValidatorWithdrawal::class,
                 PaymentMethod::SBP_NAME => ValidatorWithdrawal::class,
                 PaymentMethod::BANK_ACCOUNT => ValidatorWithdrawal::class,
+                PaymentMethod::E_MANAT => ValidatorWithdrawal::class,
+                PaymentMethod::IN_CARD_P2P => ValidatorWithdrawal::class,
+                PaymentMethod::M10 => ValidatorWithdrawal::class,
+                PaymentMethod::SMART_CARD => ValidatorWithdrawal::class,
             ],
             CommunicationType::HOST_2_CLIENT => [],
         ],
@@ -98,6 +106,10 @@ return [
                     PaymentMethod::SBP_NAME => false,
                     PaymentMethod::SBP_QR_NAME => false,
                     PaymentMethod::SBER_PAY_NAME => false,
+                    PaymentMethod::E_MANAT => false,
+                    PaymentMethod::IN_CARD_P2P => false,
+                    PaymentMethod::M10 => false,
+                    PaymentMethod::SMART_CARD => false,
                 ],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::BANKCARD_NAME => [
@@ -121,6 +133,14 @@ return [
                     ],
                     PaymentMethod::SBP_NAME => false,
                     PaymentMethod::BANK_ACCOUNT => false,
+                    PaymentMethod::E_MANAT => false,
+                    PaymentMethod::IN_CARD_P2P => [
+                        'ignore' => ['holderName', 'cvv'],
+                    ],
+                    PaymentMethod::M10 => false,
+                    PaymentMethod::SMART_CARD => [
+                        'ignore' => ['holderName', 'cvv'],
+                    ],
                 ]
             ]
         ],
@@ -139,6 +159,18 @@ return [
                         'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
                     ],
                     PaymentMethod::SBER_PAY_NAME => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
+                    PaymentMethod::E_MANAT => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
+                    PaymentMethod::IN_CARD_P2P => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
+                    PaymentMethod::M10 => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
+                    PaymentMethod::SMART_CARD => [
                         'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
                     ],
                 ],
@@ -164,6 +196,10 @@ return [
                     PaymentMethod::P2P_NAME => [],
                     PaymentMethod::SBP_NAME => [],
                     PaymentMethod::BANK_ACCOUNT => [],
+                    PaymentMethod::E_MANAT => [],
+                    PaymentMethod::IN_CARD_P2P => [],
+                    PaymentMethod::M10 => [],
+                    PaymentMethod::SMART_CARD => [],
                 ]
             ]
         ],
@@ -173,32 +209,48 @@ return [
             PaymentType::DEPOSIT => [
                 CommunicationType::HOST_2_CLIENT => [
                     PaymentMethod::P2P_NAME => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName'],
                     ],
                     PaymentMethod::SBP_NAME => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName'],
                     ],
                     PaymentMethod::SBP_QR_NAME => [
-                        'ignore' => ['bankName', 'docId'],
+                        'ignore' => ['bankName', 'docId', 'fullName'],
                         'required' => ['phoneNumber']
                     ],
                     PaymentMethod::SBER_PAY_NAME => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName'],
+                    ],
+                    PaymentMethod::E_MANAT => [
                         'ignore' => ['phoneNumber', 'bankName', 'docId'],
-                    ]
+                        'required' => ['fullName']
+                    ],
+                    PaymentMethod::IN_CARD_P2P => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'required' => ['fullName']
+                    ],
+                    PaymentMethod::M10 => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'required' => ['fullName']
+                    ],
+                    PaymentMethod::SMART_CARD => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'required' => ['fullName']
+                    ],
                 ],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::BANKCARD_NAME => [
-                        'ignore' => ['bankName', 'docId'],
+                        'ignore' => ['bankName', 'docId', 'fullName'],
                         'required' => ['phoneNumber']
                     ],
                     PaymentMethod::P2P_NAME => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
                     ],
                     PaymentMethod::BANK_ACCOUNT => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
                     ],
                     PaymentMethod::SBP_NAME => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
                     ],
                 ]
             ],
@@ -206,17 +258,33 @@ return [
                 CommunicationType::HOST_2_CLIENT => [],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::SBER_PAY_NAME => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
                     ],
                     PaymentMethod::P2P_NAME => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
                     ],
                     PaymentMethod::SBP_NAME => [
-                        'required' => ['phoneNumber', 'bankName'],
+                        'required' => ['phoneNumber', 'bankName', 'fullName'],
                         'ignore' => ['docId']
                     ],
                     PaymentMethod::BANK_ACCOUNT => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId']
+                        'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
+                    ],
+                    PaymentMethod::E_MANAT => [
+                        'ignore' => ['bankName', 'docId'],
+                        'required' => ['phoneNumber', 'fullName']
+                    ],
+                    PaymentMethod::IN_CARD_P2P => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'required' => ['fullName']
+                    ],
+                    PaymentMethod::M10 => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'required' => ['fullName']
+                    ],
+                    PaymentMethod::SMART_CARD => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'required' => ['fullName']
                     ],
                 ]
             ]
@@ -226,6 +294,10 @@ return [
             PaymentType::WITHDRAWAL => [
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::BANK_ACCOUNT => [
+                        'required' => ['pan'],
+                        'ignore' => ['bankName'],
+                    ],
+                    PaymentMethod::M10 => [
                         'required' => ['pan'],
                         'ignore' => ['bankName'],
                     ],

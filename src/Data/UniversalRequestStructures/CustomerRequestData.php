@@ -20,20 +20,24 @@ class CustomerRequestData implements RequestDataValidationContract
 
     private ?string $docId;
 
+    private ?string $fullName;
+
     public function __construct(
         string $id,
         string $email,
         ?string $phoneNumber = null,
         ?string $bankName = null,
-        ?string $docId = null
+        ?string $docId = null,
+        ?string $fullName = null
     ) {
         $this->id = $id;
         $this->email = $email;
         $this->phoneNumber = $phoneNumber;
         $this->bankName = $bankName;
         $this->docId = $docId;
+        $this->fullName = $fullName;
 
-        $this->responseProperties = ['id', 'email', 'phoneNumber', 'bankName', 'docId'];
+        $this->responseProperties = ['id', 'email', 'phoneNumber', 'bankName', 'docId', 'fullName'];
     }
 
     public function validate(string $paymentType, string $communicationType, string $paymentMethod): void
@@ -59,6 +63,10 @@ class CustomerRequestData implements RequestDataValidationContract
 
         if (!$this->inIgnore('docId') && $this->required('docId') && empty($this->docId)) {
             throw new BillingSdkException('Document ID is required and cannot be empty.', 422);
+        }
+
+        if (!$this->inIgnore('fullName') && $this->required('fullName') && empty($this->fullName)) {
+            throw new BillingSdkException('Customer fullName is required and cannot be empty.', 422);
         }
     }
 
