@@ -11,7 +11,7 @@ class BankCardRequestData implements RequestDataValidationContract
 
     private string $pan;
 
-    private string $holderName;
+    private ?string $holderName;
 
     private string $expiration;
 
@@ -19,7 +19,7 @@ class BankCardRequestData implements RequestDataValidationContract
 
     public function __construct(
         string $pan,
-        string $holderName,
+        ?string $holderName = null,
         string $expiration,
         ?string $cvv = null
     ) {
@@ -53,7 +53,7 @@ class BankCardRequestData implements RequestDataValidationContract
             throw new BillingSdkException('Bankcard number must not be empty and must be correct bankcard number', 422);
         }
 
-        if (empty($this->holderName) || !$this->validateCardHolderName()) {
+        if (!empty($this->holderName) && !$this->validateCardHolderName()) {
             throw new BillingSdkException(
                 'Card holder name must not be empty and must be correct cardholder name',
                 422
