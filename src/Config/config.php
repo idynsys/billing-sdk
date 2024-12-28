@@ -264,7 +264,7 @@ return [
                         'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
                     ],
                     PaymentMethod::SBP_NAME => [
-                        'required' => ['phoneNumber', 'bankName', 'fullName'],
+                        'required' => ['phoneNumber', 'bankName'],
                         'ignore' => ['docId']
                     ],
                     PaymentMethod::BANK_ACCOUNT => [
