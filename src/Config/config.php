@@ -275,15 +275,15 @@ return [
                         'required' => ['phoneNumber', 'fullName']
                     ],
                     PaymentMethod::IN_CARD_P2P => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'ignore' => ['phoneNumber', 'docId'],
                         'required' => ['fullName']
                     ],
                     PaymentMethod::M10 => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
-                        'required' => ['fullName']
+                        'ignore' => ['bankName', 'docId'],
+                        'required' => ['phoneNumber', 'fullName']
                     ],
                     PaymentMethod::SMART_CARD => [
-                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'ignore' => ['phoneNumber', 'docId'],
                         'required' => ['fullName']
                     ],
                 ]
@@ -294,10 +294,6 @@ return [
             PaymentType::WITHDRAWAL => [
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::BANK_ACCOUNT => [
-                        'required' => ['pan'],
-                        'ignore' => ['bankName'],
-                    ],
-                    PaymentMethod::M10 => [
                         'required' => ['pan'],
                         'ignore' => ['bankName'],
                     ],
