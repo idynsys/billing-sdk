@@ -8,9 +8,9 @@ use Idynsys\BillingSdk\Exceptions\BillingSdkException;
 trait TrafficTypeTrait
 {
     // Тип трафика
-    protected string $trafficType;
+    protected ?string $trafficType;
 
-    protected function setTrafficType(string $trafficType): void
+    protected function setTrafficType(?string $trafficType): void
     {
         $this->trafficType = $trafficType;
     }
