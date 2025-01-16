@@ -276,7 +276,7 @@ return [
                     ],
                     PaymentMethod::IN_CARD_P2P => [
                         'ignore' => ['phoneNumber', 'docId'],
-                        'required' => ['fullName']
+                        'required' => ['bankName', 'fullName']
                     ],
                     PaymentMethod::M10 => [
                         'ignore' => ['bankName', 'docId'],
