@@ -674,35 +674,59 @@ I. Методы, позволяющие создать транзакцию дл
 Некоторые транзакции для вывода средств имеют параметр BankName. Значения для этого параметра можно найти в enum-классе Idynsys\BillingSdk\Enums\BankName
 Список возможных значений для наименования банка-получателя:
 
-| Значение       | Наименование банка |
-|----------------|-------------------|
-| sberbank       | Сбербанк          |
-| alfabank       | Альфа-банк        |
-| raiffeisen     | Райфайзен-банк    |
-| vtb            | ВТБ               |
-| gazprombank    | Газпромбанк       |
-| tinkoff        | Тинькофф (Т-Банк) |
-| rshb           | РСХБ              |
-| openbank       | Банк Открытие     |
-| sovcombank     | Совкомбанк        |
-| rosbank        | Росбанк           |
-| postbank       | Почта-банк        |
-| ozonbank       | Озон-банк         |
-| yandexbank     | Яндекс-банк       |
-| tochkabank     | Точка банк        |
-| centrinvest    | ЦентрИнвестБанк   |
-| mkb            | МКБ               |
-| unicreditbank  | ЮникредитБанк     |
-| elitebank      | Элитбанк          |
-| avangard       | Банк Авангард     |
-| psb            | ПСБ               |
-| akbars         | Акбарс Банк       |
-| homecredit     | ХоумКредитБанк    |
-| rnkb           | РНКБ              |
-| otpbank        | ОТП Банк          |
-| mtsbank        | МТС Банк          |
-| rsb            | РСБ               |
-| uralsibbank    | Банк Уралсиб      |
+| Значение         | Наименование банка  |
+|------------------|---------------------|
+| sberbank         | Сбербанк            |
+| alfabank         | Альфа-банк          |
+| raiffeisen       | Райфайзен-банк      |
+| vtb              | ВТБ                 |
+| gazprombank      | Газпромбанк         |
+| tinkoff          | Тинькофф (Т-Банк)   |
+| rshb             | РСХБ                |
+| openbank         | Банк Открытие       |
+| sovcombank       | Совкомбанк          |
+| rosbank          | Росбанк             |
+| postbank         | Почта-банк          |
+| ozonbank         | Озон-банк           |
+| yandexbank       | Яндекс-банк         |
+| tochkabank       | Точка банк          |
+| centrinvest      | ЦентрИнвестБанк     |
+| mkb              | МКБ                 |
+| unicreditbank    | ЮникредитБанк       |
+| elitebank        | Элитбанк            |
+| avangard         | Банк Авангард       |
+| psb              | ПСБ                 |
+| akbars           | Акбарс Банк         |
+| homecredit       | ХоумКредитБанк      |
+| rnkb             | РНКБ                |
+| otpbank          | ОТП Банк            |
+| mtsbank          | МТС Банк            |
+| rsb              | РСБ                 |
+| uralsibbank      | Банк Уралсиб        |
+| kapitalbank      | Kapital Bank        |
+| unibank          | Unibank             |
+| azerturkbank     | Azər Türk Bank      |
+| pasabank         | PAŞA Bank           |
+| expressbank      | Expressbank         |
+| bankrespublika   | Bank Respublika     |
+| bankofbaku       | Bank of Baku        |
+| yelobank         | YeloBank            |
+| gunaybank        | Gunay Bank          |
+| turanbank        | Turanbank           |
+| rabitabank       | Rabitəbank          |
+| accessbank       | AccessBank          |
+| xalqbank         | Xalq Bank           |
+| muganbank        | Muğanbank           |
+| abb              | ABB                 |
+| afbbank          | AFB Bank            |
+| asbbank          | ASB Bank            |
+| ziraatbankaze    | Ziraat Bank Aze     |
+| yapikredibankaze | Yapı Kredi Bank Aze |
+| bankavrasia      | Bank Avrasiya       |
+| bankbtb          | Bank BTB            |
+| premiumbank      | PREMIUM BANK        |
+| naxcivanbank     | Naxçıvanbank        |
+| leobank          | Leobank             |
 
 1. _Создание транзакции для вывода средств со счета через метод p2p Host2Host_
 ```php
