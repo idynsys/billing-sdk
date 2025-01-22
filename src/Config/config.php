@@ -58,6 +58,7 @@ return [
                 PaymentMethod::BANKCARD_NAME => ValidatorDeposit::class,
                 PaymentMethod::BANK_ACCOUNT => ValidatorDeposit::class,
                 PaymentMethod::SBP_NAME => ValidatorDeposit::class,
+                PaymentMethod::SMART_CARD => ValidatorDeposit::class,
             ],
             CommunicationType::HOST_2_CLIENT => [
                 PaymentMethod::P2P_NAME => ValidatorDeposit::class,
@@ -113,11 +114,14 @@ return [
                 ],
                 CommunicationType::HOST_2_HOST => [
                     PaymentMethod::BANKCARD_NAME => [
-                        'required' => ['cvv']
+                        'required' => ['holderName', 'cvv']
                     ],
                     PaymentMethod::P2P_NAME => false,
                     PaymentMethod::BANK_ACCOUNT => false,
                     PaymentMethod::SBP_NAME => false,
+                    PaymentMethod::SMART_CARD => [
+                        'required' => ['holderName', 'cvv'],
+                    ],
                 ]
             ],
             PaymentType::WITHDRAWAL => [
@@ -187,6 +191,9 @@ return [
                     PaymentMethod::SBP_NAME => [
                         'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
                     ],
+                    PaymentMethod::SMART_CARD => [
+                        'required' => ['callback', 'return', 'redirectSuccess', 'redirectFail']
+                    ],
                 ]
             ],
             PaymentType::WITHDRAWAL => [
@@ -251,6 +258,10 @@ return [
                     ],
                     PaymentMethod::SBP_NAME => [
                         'ignore' => ['phoneNumber', 'bankName', 'docId', 'fullName']
+                    ],
+                    PaymentMethod::SMART_CARD => [
+                        'ignore' => ['phoneNumber', 'bankName', 'docId'],
+                        'required' => ['fullName']
                     ],
                 ]
             ],
